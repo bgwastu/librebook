@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final ThemeData kLightTheme = _buildLightTheme();
-const Color primaryColor = Color(0xFF6D4C41);
+const Color primaryColor = Color(0xFFFFFFFF);
 const Color secondaryColor = Color(0xFF5D4037);
 
 ThemeData _buildLightTheme() {
@@ -16,7 +16,8 @@ ThemeData _buildLightTheme() {
       colorScheme: colorScheme,
       primaryColor: primaryColor,
       buttonColor: primaryColor,
-      indicatorColor: Colors.white,
+      indicatorColor: secondaryColor,
+      tabBarTheme: TabBarTheme(labelColor: secondaryColor),
       toggleableActiveColor: primaryColor,
       splashColor: Colors.white24,
       inputDecorationTheme: InputDecorationTheme(
@@ -29,7 +30,7 @@ ThemeData _buildLightTheme() {
       splashFactory: InkRipple.splashFactory,
       accentColor: secondaryColor,
       canvasColor: Colors.white,
-      scaffoldBackgroundColor: Colors.grey[200],
+      scaffoldBackgroundColor: Colors.white,
       backgroundColor: Colors.white,
       errorColor: const Color(0xFFB00020),
       buttonTheme: ButtonThemeData(
