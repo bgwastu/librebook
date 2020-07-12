@@ -1,28 +1,23 @@
 import 'package:flutter/foundation.dart';
-import 'package:librebook/models/author_model.dart';
 
 class Book {
   final String id;
-  final String isbn;
-  final String cover;
+  final String md5;
   final String title;
-  final String series;
-  final List<Author> authors;
-  final String format;
-  final String fileSize;
-  final String downloadUrl;
   final String description;
+  final String cover;
+  final List<String> authors;
+  final String format;
+  final String mirrorUrl;
 
   Book({
     @required this.id,
-    @required this.isbn,
+    @required this.md5,
     @required this.cover,
     @required this.title,
-    this.series,
+    @required this.mirrorUrl,
     @required this.authors,
     @required this.format,
-    @required this.fileSize,
-    @required this.downloadUrl,
     @required this.description,
   });
 }
