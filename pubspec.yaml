@@ -30,10 +30,8 @@ dependencies:
   injectable:
   
   # api
-  xml:
   http:
   html:
-  web_scraper:
 
 dev_dependencies:
   flutter_test:
