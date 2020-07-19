@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/home/home_viewmodel.dart';
+import 'package:librebook/ui/views/search/book_search.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeView extends StatefulWidget {
@@ -57,6 +59,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                           child: InkWell(
                             onTap: () {
                               // TODO: Implement search
+                              showSearch(context: context, delegate: BookSearch());
                             },
                             child: Container(
                               child: Row(
@@ -71,10 +74,11 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                                         onPressed: () =>
                                             scaffoldKey.currentState.openDrawer(),
                                       ),
+                                      horizontalSpaceTiny,
                                       Text(
                                           'Search for books',
                                           style: TextStyle(
-                                            color: Colors.grey[500],
+                                            color: Colors.grey[600],
                                             
                                             fontSize: 16,
                                           ),
@@ -82,11 +86,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                                         ),
                                     ],
                                   ),
-                                   IconButton(
-                                    icon: Icon(Icons.settings),
-                                    color: Colors.grey[600],
-                                    onPressed: (){},
-                                  )
                                 ],
                               ),
                             ),
