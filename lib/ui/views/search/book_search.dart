@@ -50,34 +50,74 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
   }
 
   @override
-  String get searchFieldLabel => 'Search for books';
+  String get searchFieldLabel => 'Search for title, author, ISBN';
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    return ListView(
+      children: <Widget>[
+
+      ],
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return query.isNotEmpty ? ViewModelBuilder<SearchViewModel>.nonReactive(
-      builder: (context, model, _) => FutureBuilder<List<Map<String, dynamic>>>(
-        future: model.findFantasyBooks(query),
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
-            return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: Icon(Icons.search),
-                title: Text(snapshot.data[index]['title'], overflow: TextOverflow.ellipsis,),
-              );
-            },
-          );
-          }
-          return Container();
-        }
-      ),
+    return ViewModelBuilder<SearchViewModel>.nonReactive(
+      builder: (context, model, _) => query.isNotEmpty
+          ? ListView(
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                    query,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  leading: Icon(Icons.search),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 32),
+                  onTap: () {},
+                ),
+                FutureBuilder<List<Map<String, dynamic>>>(
+                    future: model.suggestionBooks(query),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView(
+                          shrinkWrap: true,
+                          children: snapshot.data
+                              .map(
+                                (e) => ListTile(
+                                  title: Text(
+                                    e['title'],
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                  subtitle: e['authors'] != null
+                                      ? Text(
+                                          e['authors'].join(', '),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 12),
+                                        )
+                                      : null,
+                                  leading: e['authors'] != null
+                                      ? Padding(
+                                    padding: EdgeInsets.only(top: 8),
+                                    child: Icon(Icons.search),
+                                  ) : Icon(Icons.search),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 32),
+                                  onTap: () {},
+                                ),
+                              )
+                              .take(5)
+                              .toList(),
+                        );
+                      }
+                      return Container();
+                    }),
+              ],
+            )
+          : Container(),
       viewModelBuilder: () => SearchViewModel(),
-    ) : Container();
+    );
   }
 }
