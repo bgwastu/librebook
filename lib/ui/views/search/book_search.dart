@@ -55,69 +55,25 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
   @override
   Widget buildResults(BuildContext context) {
     return ListView(
-      children: <Widget>[
-
-      ],
+      children: <Widget>[],
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return ViewModelBuilder<SearchViewModel>.nonReactive(
-      builder: (context, model, _) => query.isNotEmpty
-          ? ListView(
-              children: <Widget>[
-                ListTile(
-                  title: Text(
-                    query,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  leading: Icon(Icons.search),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 32),
-                  onTap: () {},
-                ),
-                FutureBuilder<List<Map<String, dynamic>>>(
-                    future: model.suggestionBooks(query),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView(
-                          shrinkWrap: true,
-                          children: snapshot.data
-                              .map(
-                                (e) => ListTile(
-                                  title: Text(
-                                    e['title'],
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 14),
-                                  ),
-                                  subtitle: e['authors'] != null
-                                      ? Text(
-                                          e['authors'].join(', '),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 12),
-                                        )
-                                      : null,
-                                  leading: e['authors'] != null
-                                      ? Padding(
-                                    padding: EdgeInsets.only(top: 8),
-                                    child: Icon(Icons.search),
-                                  ) : Icon(Icons.search),
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 32),
-                                  onTap: () {},
-                                ),
-                              )
-                              .take(5)
-                              .toList(),
-                        );
-                      }
-                      return Container();
-                    }),
-              ],
+    return query.isNotEmpty
+        ? ListView(children: <Widget>[
+            ListTile(
+              title: Text(
+                query,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 14),
+              ),
+              leading: Icon(Icons.search),
+              contentPadding: EdgeInsets.symmetric(horizontal: 32),
+              onTap: () {},
             )
-          : Container(),
-      viewModelBuilder: () => SearchViewModel(),
-    );
+          ])
+        : Container();
   }
 }
