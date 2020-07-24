@@ -11,7 +11,35 @@ class SearchViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<List<Map<String, dynamic>>> findFantasyBooks(String query) {
-    return _bookService.findFiction(query, '1');
+  Future<List<Map<String, dynamic>>> suggestionFantasyBooks(
+      String query) async {
+    final listBook = await _bookService.findFiction(query, '1');
+    return listBook.toSet().toList();
+  }
+
+  Future<List<Map<String, dynamic>>> suggestionGeneralBooks(
+      String query) async {
+    final listBook = await _bookService.findGeneral(query, '1');
+    return listBook
+        .map((book) => {
+              'title': book.title,
+              'authors': book.authors,
+            })
+        .toSet()
+        .toList();
+  }
+
+  Future<List<Map<String, dynamic>>> suggestionBooks(String query) async {
+    final listFantasyBook = suggestionFantasyBooks(query);
+    final listGeneralBook = suggestionGeneralBooks(query);
+
+    List<Map<String, dynamic>> listBook = [];
+    print('waiting');
+    await Future.wait([listFantasyBook, listGeneralBook])
+        .then((value) => value.forEach((chunkListBook) {
+          listBook.addAll(chunkListBook);
+        }));
+    print('selesai: ' + listBook.length.toString());
+    return listBook;
   }
 }
