@@ -169,6 +169,9 @@ class BookService {
         .map((author) => author.text.replaceAll(',', ''))
         .toList();
 
+    // Author null filter
+    authors.removeWhere((author) => author.isEmpty);
+
     final format = [...document.querySelectorAll('table.record > tbody > tr')]
         .map((e) => e.text.trim())
         .where((text) => text.contains('Format'))
