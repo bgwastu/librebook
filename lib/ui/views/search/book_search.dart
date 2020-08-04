@@ -235,7 +235,7 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                     child: Container(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        'EPUB',
+                        book.format,
                         style: TextStyle(
                             color: secondaryColor, fontWeight: FontWeight.w600),
                       ),
@@ -251,13 +251,13 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
             book.title,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 16,
             ),
           ),
           verticalSpaceTiny,
           Text(
             book.authors.join(', '),
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           )
