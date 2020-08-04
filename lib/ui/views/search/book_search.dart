@@ -7,6 +7,9 @@ import 'package:librebook/ui/views/search/search_viewmodel.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:stacked/stacked.dart';
 
+// TODO:
+// - Split detail widget to another file
+// - Add pull up to refresh
 class BookSearch extends SearchDelegate<Map<String, dynamic>> {
   bool isResultView = false;
   @override
@@ -74,7 +77,7 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                     children: <Widget>[
                       InkWell(
                         onTap: () {
-                          print('halow');
+                          //TODO: On tap go to fiction list book
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(16),
@@ -115,13 +118,30 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                                   itemBuilder: (context, index) {
                                     if (index == snapshot.data.length - 1) {
                                       // Next Widget
-                                      print('triggered');
-                                      return Container(
-                                        color: Colors.greenAccent,
-                                        child: FlatButton(
-                                          child: Text("Load More"),
-                                          onPressed: () {},
-                                        ),
+                                      return InkWell(
+                                        onTap: () {
+                                          //TODO: go to list fiction book
+                                        },
+                                        child: Container(
+                                            color: secondaryColor,
+                                            padding: EdgeInsets.all(16),
+                                            margin: EdgeInsets.only(left: 8),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Text('More',
+                                                    style: TextStyle(
+                                                      color: primaryColor,
+                                                      fontSize: 18,
+                                                    )),
+                                                Icon(
+                                                  Icons.navigate_next,
+                                                  size: 50,
+                                                  color: primaryColor,
+                                                ),
+                                              ],
+                                            )),
                                       );
                                     }
 
@@ -132,7 +152,6 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
-                                            // TODO: waiting shimmering
                                             return _shimmerBookItem(context);
                                           }
 
@@ -171,13 +190,14 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
         viewModelBuilder: () => SearchViewModel());
   }
 
+  // TODO: split this widget
   Widget _shimmerBookItem(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300],
       highlightColor: Colors.grey[100],
       child: Container(
         margin: EdgeInsets.only(left: 8),
-        width: screenWidth(context) / 3,
+        width: screenWidth(context) / 3.2,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -204,28 +224,59 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
     );
   }
 
+  // TODO: split this widget
   Widget _fantasyBookItem(BuildContext context, Book book) {
     return Container(
       margin: EdgeInsets.only(left: 8),
-      width: screenWidth(context) / 3,
+      width: screenWidth(context) / 3.2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
             child: Stack(
+              fit: StackFit.expand,
               children: <Widget>[
-                CachedNetworkImage(
-                  imageUrl: book.cover,
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
-                    child: Container(
-                      width: double.infinity,
-                      color: Colors.white,
+                Container(
+                  color: Colors.red,
+                  child: CachedNetworkImage(
+                    imageUrl: book.cover,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: Container(
+                        width: double.infinity,
+                        color: Colors.white,
+                      ),
                     ),
+                    fit: BoxFit.fill,
+                    errorWidget: (context, _, __) {
+                      // TODO: split this widget
+                      return Container(
+                          width: double.infinity,
+                          color: Colors.grey[200],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.broken_image,
+                                size: 50,
+                                color: Colors.grey[600],
+                              ),
+                              verticalSpaceSmall,
+                              Center(
+                                child: Text(
+                                  'Image not available',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              )
+                            ],
+                          ));
+                    },
+                    width: double.infinity,
                   ),
-                  fit: BoxFit.fill,
-                  width: double.infinity,
                 ),
                 Positioned(
                   right: 4,
