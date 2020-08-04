@@ -6,7 +6,7 @@ class Book {
   final String title;
   final String description;
   final String cover;
-  final List<String> authors;
+  List<String> authors;
   final String format;
   final String mirrorUrl;
 
@@ -19,5 +19,9 @@ class Book {
     @required this.authors,
     @required this.format,
     @required this.description,
-  });
+  }) {
+    if(this.authors.isEmpty){
+      authors = ['No Author'];
+    }
+  }
 }
