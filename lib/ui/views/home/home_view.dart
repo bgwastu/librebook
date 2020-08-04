@@ -45,10 +45,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                       controller: _tabController,
                       indicatorWeight: 3,
                       unselectedLabelColor: Colors.grey[600],
-                      indicator: UnderlineTabIndicator(
-                          borderSide: BorderSide(width: 3),
-                          
-                          insets: EdgeInsets.symmetric(horizontal: 64)),
+                      indicatorPadding: EdgeInsets.symmetric(horizontal: 16),
                       tabs: [
                         Tab(text: "My library"),
                         Tab(text: "Downloads"),
