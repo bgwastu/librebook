@@ -44,9 +44,13 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     bottom: TabBar(
                       controller: _tabController,
                       indicatorWeight: 3,
-                      indicatorPadding: EdgeInsets.symmetric(horizontal: 64),
+                      unselectedLabelColor: Colors.grey[600],
+                      indicator: UnderlineTabIndicator(
+                          borderSide: BorderSide(width: 3),
+                          
+                          insets: EdgeInsets.symmetric(horizontal: 64)),
                       tabs: [
-                        Tab(text: "My Library"),
+                        Tab(text: "My library"),
                         Tab(text: "Downloads"),
                       ],
                     ),
@@ -59,31 +63,34 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                           child: InkWell(
                             onTap: () {
                               // TODO: Implement search
-                              showSearch(context: context, delegate: BookSearch());
+                              showSearch(
+                                  context: context, delegate: BookSearch());
                             },
                             child: Container(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       IconButton(
                                         icon: Icon(Icons.menu),
                                         color: Colors.grey[800],
-                                        onPressed: () =>
-                                            scaffoldKey.currentState.openDrawer(),
+                                        onPressed: () => scaffoldKey
+                                            .currentState
+                                            .openDrawer(),
                                       ),
                                       horizontalSpaceTiny,
                                       Text(
-                                          'Search for books',
-                                          style: TextStyle(
-                                            color: Colors.grey[600],
-                                            
-                                            fontSize: 16,
-                                          ),
-                                          textAlign: TextAlign.start,
+                                        'Search for book',
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 16,
                                         ),
+                                        textAlign: TextAlign.start,
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -100,7 +107,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                       child: TabBarView(
                         controller: _tabController,
                         children: <Widget>[
-                          Center(child: Text('My Library')),
+                          Center(child: Text('My library')),
                           Center(child: Text('Download')),
                         ],
                       ),
