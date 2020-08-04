@@ -100,7 +100,7 @@ class BookService {
 
     // Check if list book was empty
     if (listBookId.isEmpty) {
-      throw Exception('No Data');
+      return [];
     }
 
     // get list book
