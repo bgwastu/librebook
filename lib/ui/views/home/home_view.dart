@@ -74,7 +74,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                                     children: <Widget>[
                                       IconButton(
                                         icon: Icon(Icons.menu),
-                                        color: Colors.grey[800],
                                         onPressed: () => scaffoldKey
                                             .currentState
                                             .openDrawer(),

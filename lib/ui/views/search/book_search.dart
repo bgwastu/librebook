@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/search/search_viewmodel.dart';
+import 'package:librebook/ui/views/search_result/search_result_general_view.dart';
 import 'package:librebook/ui/widgets/book_item_horizontal_widget.dart';
 import 'package:librebook/ui/widgets/shimmer_book_item_horizontal_widget.dart';
 import 'package:stacked/stacked.dart';
@@ -44,7 +45,6 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
       textTheme: TextTheme(
         headline6: TextStyle(
           fontSize: 16,
-          color: Colors.grey[800],
         ),
       ),
     );
@@ -76,8 +76,13 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
             child: Column(
               children: <Widget>[
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     //TODO: On tap go to general list book
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SearchResultGeneralView(
+                        query: query,
+                      ),
+                    ));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -109,35 +114,11 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                           return Center(child: CircularProgressIndicator());
                         }
 
-                        if (snapshot.data.isEmpty) {
-                          // If list book is empty
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.sentiment_dissatisfied,
-                                size: 50,
-                                color: Colors.grey[800],
-                              ),
-                              verticalSpaceSmall,
-                              Text(
-                                'Not Found',
-                                style: TextStyle(
-                                    color: Colors.grey[800],
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Text(
-                                'query was not found in general book',
-                                style: TextStyle(
-                                  color: Colors.grey[800],
-                                ),
-                              )
-                            ],
-                          );
-                        }
-
                         if (snapshot.hasData) {
+                          if (snapshot.data.isEmpty) {
+                            // If list book is empty
+                            return _generalNotFound();
+                          }
                           return ListView.builder(
                             itemCount: snapshot.data.length,
                             scrollDirection: Axis.horizontal,
@@ -210,33 +191,12 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                           return Center(child: CircularProgressIndicator());
                         }
 
-                        if (snapshot.data.isEmpty) {
-                          // If fiction book was not found
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.sentiment_dissatisfied,
-                                size: 50,
-                                color: Colors.grey[800],
-                              ),
-                              verticalSpaceSmall,
-                              Text(
-                                'Not Found',
-                                style: TextStyle(
-                                    color: Colors.grey[800],
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Text(
-                                'query was not found in fiction book',
-                                style: TextStyle(color: Colors.grey[800]),
-                              )
-                            ],
-                          );
-                        }
-
                         if (snapshot.hasData) {
+                          if (snapshot.data.isEmpty) {
+                            // If fiction book was not found
+                            return _fictionNotFound();
+                          }
+
                           return ListView.builder(
                             itemCount: snapshot.data.length,
                             scrollDirection: Axis.horizontal,
@@ -294,10 +254,50 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
     );
   }
 
+  Column _fictionNotFound() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.sentiment_dissatisfied,
+          size: 50,
+        ),
+        verticalSpaceSmall,
+        Text(
+          'Not Found',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+        ),
+        Text(
+          'query was not found in fiction book',
+        )
+      ],
+    );
+  }
+
+  Column _generalNotFound() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.sentiment_dissatisfied,
+          size: 50,
+        ),
+        verticalSpaceSmall,
+        Text(
+          'Not Found',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+        ),
+        Text(
+          'query was not found in general book',
+          style: TextStyle(),
+        )
+      ],
+    );
+  }
+
   Widget _moreWidget(Function onTap) {
     return IconButton(
       icon: Icon(Icons.navigate_next),
-      color: Colors.grey[800],
       iconSize: 40,
       onPressed: () {},
     );
