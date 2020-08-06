@@ -9,48 +9,23 @@ class SearchViewModel extends BaseViewModel {
   int fantasyBookPage = 1;
   List<Map<String, dynamic>> listFantasyBook = [];
 
-
   setFantasySearch(bool value) {
     isFantasySearch = value;
     notifyListeners();
   }
 
-  Future<List<Map<String, dynamic>>> searchFantasyBooks(
-      String query) async {
+  Future<List<Map<String, dynamic>>> searchFantasyBook(String query) async {
     final listBook = await _bookService.findFiction(query, '1');
     return listBook.toSet().toList();
   }
 
-  Future<List<Map<String, dynamic>>> suggestionGeneralBooks(
-      String query) async {
+  Future<List<Book>> searchGeneralBook(String query) async {
     final listBook = await _bookService.findGeneral(query, '1');
-    return listBook
-        .map((book) => {
-              'title': book.title,
-              'authors': book.authors,
-              'type': 'General',
-            })
-        .toSet()
-        .toList();
+    return listBook;
   }
 
   Future<Book> getDetailBookFiction(String url) async {
-    final book = _bookService.getDetailFictionBook(url);
+    final book = await _bookService.getDetailFictionBook(url);
     return book;
   }
-
-  // Future<List<Map<String, dynamic>>> suggestionBooks(String query) async {
-  //   Stopwatch stopwatch = new Stopwatch()..start();
-  //   final listFantasyBook = suggestionFantasyBooks(query);
-  //   final listGeneralBook = suggestionGeneralBooks(query);
-
-  //   List<Map<String, dynamic>> listBook = [];
-  //   await Future.wait([listFantasyBook, listGeneralBook])
-  //       .then((value) => value.forEach((chunkListBook) {
-  //             listBook.addAll(chunkListBook);
-  //           }));
-  //   print('selesai: ' + listBook.length.toString());
-  //   print('getSearchListBook executed in ${stopwatch.elapsed}');
-  //   return listBook;
-  // }
 }
