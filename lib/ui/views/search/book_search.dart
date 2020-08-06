@@ -72,101 +72,227 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
   Widget buildResults(BuildContext context) {
     isResultView = true;
     return ViewModelBuilder<SearchViewModel>.nonReactive(
-        builder: (context, model, _) => ListView(
+      builder: (context, model, _) => ListView(
+        children: <Widget>[
+          Container(
+            height: screenHeight(context) / 2.5,
+            child: Column(
               children: <Widget>[
-                Container(
-                  height: screenHeight(context) / 2.5,
-                  child: Column(
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          //TODO: On tap go to fiction list book
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Fiction Books',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.arrow_forward),
-                                onPressed: null,
-                              )
-                            ],
+                InkWell(
+                  onTap: () {
+                    //TODO: On tap go to fiction list book
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'General Books',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: FutureBuilder<List<Map<String, dynamic>>>(
-                            future: model.searchFantasyBooks(query),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                // Loading Widget
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              }
-
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  itemCount: snapshot.data.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    if (index == snapshot.data.length - 1) {
-                                      // Next Widget
-                                      return _moreWidget(() {
-                                        // TODO: go to list view fiction
-                                      });
-                                    }
-
-                                    // Book Item Widget
-                                    return FutureBuilder<Book>(
-                                        future: model.getDetailBookFiction(
-                                            snapshot.data[index]['url']),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return ShimmerBookItemHorizontalWidget();
-                                          }
-
-                                          if (snapshot.hasData) {
-                                            return BookItemHorizontalWidget(
-                                              book: snapshot.data,
-                                            );
-                                          }
-
-                                          if (snapshot.hasError) {
-                                            return Container();
-                                          }
-
-                                          return Container();
-                                        });
-                                  },
-                                );
-                              }
-
-                              if (snapshot.hasError) {
-                                //TODO: handle error
-                                print(snapshot.error.toString());
-                                return Center(
-                                  child: Text(snapshot.error.toString()),
-                                );
-                              }
-                              return Container();
-                            }),
-                      ),
-                    ],
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward),
+                          onPressed: null,
+                        )
+                      ],
+                    ),
                   ),
+                ),
+                Expanded(
+                  child: FutureBuilder<List<Book>>(
+                      future: model.searchGeneralBook(query),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          // Loading Widget
+                          return Center(child: CircularProgressIndicator());
+                        }
+
+                        if (snapshot.data.isEmpty) {
+                          // If list book is empty
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.sentiment_dissatisfied,
+                                size: 50,
+                                color: Colors.grey[800],
+                              ),
+                              verticalSpaceSmall,
+                              Text(
+                                'Not Found',
+                                style: TextStyle(
+                                    color: Colors.grey[800],
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                'query was not found in general book',
+                                style: TextStyle(
+                                  color: Colors.grey[800],
+                                ),
+                              )
+                            ],
+                          );
+                        }
+
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemCount: snapshot.data.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              if (index == snapshot.data.length - 1) {
+                                // Next Widget
+                                return _moreWidget(() {
+                                  // TODO: go to list view general
+                                });
+                              }
+
+                              // Book Item Widget
+                              return BookItemHorizontalWidget(
+                                book: snapshot.data[index],
+                              );
+                            },
+                          );
+                        }
+
+                        if (snapshot.hasError) {
+                          //TODO: handle error
+                          print(snapshot.error.toString());
+                          return Center(
+                            child: Text(snapshot.error.toString()),
+                          );
+                        }
+                        return Container();
+                      }),
                 ),
               ],
             ),
-        viewModelBuilder: () => SearchViewModel());
+          ),
+          Container(
+            height: screenHeight(context) / 2.5,
+            child: Column(
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    //TODO: On tap go to fiction list book
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Fiction Books',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward),
+                          onPressed: null,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: FutureBuilder<List<Map<String, dynamic>>>(
+                      future: model.searchFantasyBook(query),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          // Loading Widget
+                          return Center(child: CircularProgressIndicator());
+                        }
+
+                        if (snapshot.data.isEmpty) {
+                          // If fiction book was not found
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.sentiment_dissatisfied,
+                                size: 50,
+                                color: Colors.grey[800],
+                              ),
+                              verticalSpaceSmall,
+                              Text(
+                                'Not Found',
+                                style: TextStyle(
+                                    color: Colors.grey[800],
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                'query was not found in fiction book',
+                                style: TextStyle(color: Colors.grey[800]),
+                              )
+                            ],
+                          );
+                        }
+
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemCount: snapshot.data.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              if (index == snapshot.data.length - 1) {
+                                // Next Widget
+                                return _moreWidget(() {
+                                  // TODO: go to list view fiction
+                                });
+                              }
+
+                              // Book Item Widget
+                              return FutureBuilder<Book>(
+                                  future: model.getDetailBookFiction(
+                                      snapshot.data[index]['url']),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return ShimmerBookItemHorizontalWidget();
+                                    }
+
+                                    if (snapshot.hasData) {
+                                      return BookItemHorizontalWidget(
+                                        book: snapshot.data,
+                                      );
+                                    }
+
+                                    if (snapshot.hasError) {
+                                      return Container();
+                                    }
+
+                                    return Container();
+                                  });
+                            },
+                          );
+                        }
+
+                        if (snapshot.hasError) {
+                          //TODO: handle error
+                          print(snapshot.error.toString());
+
+                          return Center(
+                            child: Text(snapshot.error.toString()),
+                          );
+                        }
+                        return Container();
+                      }),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      viewModelBuilder: () => SearchViewModel(),
+    );
   }
 
   Widget _moreWidget(Function onTap) {
@@ -174,7 +300,7 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
       icon: Icon(Icons.navigate_next),
       color: Colors.grey[800],
       iconSize: 40,
-      onPressed: (){},
+      onPressed: () {},
     );
   }
 
