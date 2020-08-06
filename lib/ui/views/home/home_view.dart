@@ -3,6 +3,7 @@ import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/home/home_viewmodel.dart';
 import 'package:librebook/ui/views/search/book_search.dart';
 import 'package:stacked/stacked.dart';
+import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
 
 class HomeView extends StatefulWidget {
   @override
@@ -60,7 +61,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                           child: InkWell(
                             onTap: () {
                               // TODO: Implement search
-                              showSearch(
+                              customSearch.showSearch(
                                   context: context, delegate: BookSearch());
                             },
                             child: Container(
