@@ -4,12 +4,15 @@ import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/search/search_viewmodel.dart';
+import 'package:librebook/ui/widgets/book_item_horizontal_widget.dart';
+import 'package:librebook/ui/widgets/shimmer_book_item_horizontal_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:stacked/stacked.dart';
 
 // TODO:
 // - Split detail widget to another file
 // - Add pull up to refresh
+// - Handle Error
 class BookSearch extends SearchDelegate<Map<String, dynamic>> {
   bool isResultView = false;
   @override
@@ -118,31 +121,9 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                                   itemBuilder: (context, index) {
                                     if (index == snapshot.data.length - 1) {
                                       // Next Widget
-                                      return InkWell(
-                                        onTap: () {
-                                          //TODO: go to list fiction book
-                                        },
-                                        child: Container(
-                                            color: secondaryColor,
-                                            padding: EdgeInsets.all(16),
-                                            margin: EdgeInsets.only(left: 8),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Text('More',
-                                                    style: TextStyle(
-                                                      color: primaryColor,
-                                                      fontSize: 18,
-                                                    )),
-                                                Icon(
-                                                  Icons.navigate_next,
-                                                  size: 50,
-                                                  color: primaryColor,
-                                                ),
-                                              ],
-                                            )),
-                                      );
+                                      return _moreWidget(() {
+                                        // TODO: go to list view fiction
+                                      });
                                     }
 
                                     // Book Item Widget
@@ -152,13 +133,12 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
-                                            return _shimmerBookItem(context);
+                                            return ShimmerBookItemHorizontalWidget();
                                           }
 
                                           if (snapshot.hasData) {
-                                            return _fantasyBookItem(
-                                              context,
-                                              snapshot.data,
+                                            return BookItemHorizontalWidget(
+                                              book: snapshot.data,
                                             );
                                           }
 
@@ -190,130 +170,28 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
         viewModelBuilder: () => SearchViewModel());
   }
 
-  // TODO: split this widget
-  Widget _shimmerBookItem(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300],
-      highlightColor: Colors.grey[100],
+  Widget _moreWidget(Function onTap) {
+    return InkWell(
+      onTap: onTap,
       child: Container(
-        margin: EdgeInsets.only(left: 8),
-        width: screenWidth(context) / 3.2,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                color: Colors.white,
+          color: secondaryColor,
+          padding: EdgeInsets.all(16),
+          margin: EdgeInsets.only(left: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('More',
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontSize: 18,
+                  )),
+              Icon(
+                Icons.navigate_next,
+                size: 50,
+                color: primaryColor,
               ),
-            ),
-            verticalSpaceSmall,
-            Container(
-              height: 25,
-              color: Colors.white,
-            ),
-            verticalSpaceTiny,
-            Container(
-              height: 20,
-              width: screenWidth(context) / 4,
-              color: Colors.white,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // TODO: split this widget
-  Widget _fantasyBookItem(BuildContext context, Book book) {
-    return Container(
-      margin: EdgeInsets.only(left: 8),
-      width: screenWidth(context) / 3.2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                Container(
-                  color: Colors.red,
-                  child: CachedNetworkImage(
-                    imageUrl: book.cover,
-                    placeholder: (context, url) => Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Container(
-                        width: double.infinity,
-                        color: Colors.white,
-                      ),
-                    ),
-                    fit: BoxFit.fill,
-                    errorWidget: (context, _, __) {
-                      // TODO: split this widget
-                      return Container(
-                          width: double.infinity,
-                          color: Colors.grey[200],
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.broken_image,
-                                size: 50,
-                                color: Colors.grey[600],
-                              ),
-                              verticalSpaceSmall,
-                              Center(
-                                child: Text(
-                                  'Image not available',
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )
-                            ],
-                          ));
-                    },
-                    width: double.infinity,
-                  ),
-                ),
-                Positioned(
-                  right: 4,
-                  top: 4,
-                  child: Material(
-                    elevation: 2,
-                    child: Container(
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        book.format,
-                        style: TextStyle(
-                            color: secondaryColor, fontWeight: FontWeight.w600),
-                      ),
-                      color: primaryColor,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          verticalSpaceSmall,
-          Text(
-            book.title,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
-          verticalSpaceTiny,
-          Text(
-            book.authors.join(', '),
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          )
-        ],
-      ),
+            ],
+          )),
     );
   }
 
