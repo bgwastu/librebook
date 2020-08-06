@@ -34,7 +34,7 @@ class BookService {
     // Condition if has no file
     final ifNotFound = response.body.contains('No files were found.');
     if (ifNotFound) {
-      throw Exception('No search Result');
+      return [];
     }
     try {
       final hasil = document
