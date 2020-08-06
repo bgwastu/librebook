@@ -96,7 +96,6 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                               ),
                               IconButton(
                                 icon: Icon(Icons.arrow_forward),
-                                color: secondaryColor,
                                 onPressed: null,
                               )
                             ],
@@ -171,27 +170,11 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
   }
 
   Widget _moreWidget(Function onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-          color: secondaryColor,
-          padding: EdgeInsets.all(16),
-          margin: EdgeInsets.only(left: 8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('More',
-                  style: TextStyle(
-                    color: primaryColor,
-                    fontSize: 18,
-                  )),
-              Icon(
-                Icons.navigate_next,
-                size: 50,
-                color: primaryColor,
-              ),
-            ],
-          )),
+    return IconButton(
+      icon: Icon(Icons.navigate_next),
+      color: Colors.grey[800],
+      iconSize: 40,
+      onPressed: (){},
     );
   }
 
