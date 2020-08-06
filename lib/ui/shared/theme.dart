@@ -19,7 +19,7 @@ ThemeData _buildLightTheme() {
       indicatorColor: secondaryColor,
       tabBarTheme: TabBarTheme(labelColor: secondaryColor),
       appBarTheme: AppBarTheme(
-        iconTheme: IconThemeData(color: Colors.grey[600],),
+        iconTheme: IconThemeData(color: Colors.grey[600]),
       ),
       toggleableActiveColor: primaryColor,
       splashColor: Colors.white24,
@@ -27,6 +27,12 @@ ThemeData _buildLightTheme() {
         hoverColor: secondaryColor,
       ),
       hoverColor: secondaryColor,
+      textTheme: TextTheme(
+        bodyText1: TextStyle(),
+        bodyText2: TextStyle(),
+      ).apply(
+        bodyColor: Colors.grey[800],
+      ),
       cursorColor: secondaryColor,
       textSelectionHandleColor: secondaryColor,
       textSelectionColor: secondaryColor.withOpacity(0.6),
