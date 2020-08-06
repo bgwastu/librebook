@@ -18,6 +18,9 @@ ThemeData _buildLightTheme() {
       buttonColor: primaryColor,
       indicatorColor: secondaryColor,
       tabBarTheme: TabBarTheme(labelColor: secondaryColor),
+      appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: Colors.grey[600],),
+      ),
       toggleableActiveColor: primaryColor,
       splashColor: Colors.white24,
       inputDecorationTheme: InputDecorationTheme(
