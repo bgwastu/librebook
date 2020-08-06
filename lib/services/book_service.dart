@@ -36,37 +36,43 @@ class BookService {
     if (ifNotFound) {
       throw Exception('No search Result');
     }
-    final hasil = document
-        .querySelectorAll('table > tbody > tr')
-        .map((e) {
-          // Get the author(s)
-          final authors = [...e.querySelectorAll('ul.catalog_authors > li')]
-              .map((author) => author.text.replaceAll(',', ''))
-              .where((author) => author.isNotEmpty)
-              .toList();
+    try {
+      final hasil = document
+          .querySelectorAll('table > tbody > tr')
+          .map((e) {
+            // Get the author(s)
+            final authors = [...e.querySelectorAll('ul.catalog_authors > li')]
+                .map((author) => author.text.replaceAll(',', ''))
+                .where((author) => author.isNotEmpty)
+                .toList();
 
-          // Get the title of book
-          final title = e.querySelectorAll('td')[2].text;
+            // Get the title of book
+            final title = e.querySelectorAll('td')[2].text;
 
-          // Get the detail url
-          final url =
-              e.querySelectorAll('td')[2].querySelector('a').attributes['href'];
+            // Get the detail url
+            final url = e
+                .querySelectorAll('td')[2]
+                .querySelector('a')
+                .attributes['href'];
 
-          // Get the format of book
-          final format = RegExp(r'(.*)\s\/')
-              .firstMatch(e.querySelectorAll('td')[4].innerHtml)
-              .group(1)
-              .toLowerCase();
-          return {
-            'title': title,
-            'authors': authors,
-            'url': this.url + url,
-            'format': format,
-          };
-        })
-        .where((book) => formatFileSelection.contains(book['format']))
-        .toList();
-    return hasil;
+            // Get the format of book
+            final format = RegExp(r'(.*)\s\/')
+                .firstMatch(e.querySelectorAll('td')[4].innerHtml)
+                .group(1)
+                .toLowerCase();
+            return {
+              'title': title,
+              'authors': authors,
+              'url': this.url + url,
+              'format': format,
+            };
+          })
+          .where((book) => formatFileSelection.contains(book['format']))
+          .toList();
+      return hasil;
+    } catch (e) {
+      throw Exception('Element not found');
+    }
   }
 
   /// Find general (Sci-Fi) book from libgen
@@ -147,65 +153,70 @@ class BookService {
     final response = await _client.get(url);
     final document = parse(response.body);
 
-    // Get title
-    final title = [...document.querySelectorAll('table.record > tbody > tr')]
-        .map((e) => e.text.trim())
-        .where((text) => text.contains('Title'))
-        .map((text) => text.split(':')[1].trim())
-        .first;
+    try {
+      // Get title
+      final title = [...document.querySelectorAll('table.record > tbody > tr')]
+          .map((e) => e.text.trim())
+          .where((text) => text.contains('Title'))
+          .map((text) => text.split(':')[1].trim())
+          .first;
 
-    // Get genesis id
-    final id = [...document.querySelectorAll('table.record > tbody > tr')]
-        .map((e) => e.text.trim())
-        .where((text) => text.contains('ID'))
-        .map((text) => text.split(':')[1].trim())
-        .first;
+      // Get genesis id
+      final id = [...document.querySelectorAll('table.record > tbody > tr')]
+          .map((e) => e.text.trim())
+          .where((text) => text.contains('ID'))
+          .map((text) => text.split(':')[1].trim())
+          .first;
 
-    // Get file md5
-    final md5 = document.querySelector('table.hashes > tbody > tr > td').text;
+      // Get file md5
+      final md5 = document.querySelector('table.hashes > tbody > tr > td').text;
 
-    // Get author(s)
-    final authors = [...document.querySelectorAll('ul.catalog_authors > li')]
-        .map((author) => author.text.replaceAll(',', ''))
-        .toList();
+      // Get author(s)
+      final authors = [...document.querySelectorAll('ul.catalog_authors > li')]
+          .map((author) => author.text.replaceAll(',', ''))
+          .toList();
 
-    // Author null filter
-    authors.removeWhere((author) => author.isEmpty);
+      // Author null filter
+      authors.removeWhere((author) => author.isEmpty);
 
-    final format = [...document.querySelectorAll('table.record > tbody > tr')]
-        .map((e) => e.text.trim())
-        .where((text) => text.contains('Format'))
-        .map((text) => text.split(':')[1].trim())
-        .first
-        .toLowerCase();
+      final format = [...document.querySelectorAll('table.record > tbody > tr')]
+          .map((e) => e.text.trim())
+          .where((text) => text.contains('Format'))
+          .map((text) => text.split(':')[1].trim())
+          .first
+          .toLowerCase();
 
-    // Get description
-    var descriptionElement =
-        document.querySelector('div#book-description-full');
+      // Get description
+      var descriptionElement =
+          document.querySelector('div#book-description-full');
 
-    // First mirror url
-    String mirrorUrl =
-        document.querySelector('ul.record_mirrors > li > a').attributes['href'];
+      // First mirror url
+      String mirrorUrl = document
+          .querySelector('ul.record_mirrors > li > a')
+          .attributes['href'];
 
-    // If genesis dont provide description
-    String description = '';
-    if (descriptionElement != null) {
-      description = descriptionElement.text.replaceAll('\s{2,}', '').trim();
+      // If genesis dont provide description
+      String description = '';
+      if (descriptionElement != null) {
+        description = descriptionElement.text.replaceAll('\s{2,}', '').trim();
+      }
+
+      // Get cover url
+      final cover = document.querySelector('div > img').attributes['src'];
+
+      final book = Book(
+          id: id,
+          title: title,
+          authors: authors,
+          cover: cover,
+          format: format,
+          description: description,
+          md5: md5,
+          mirrorUrl: mirrorUrl);
+      return book;
+    } catch (e) {
+      throw Exception('Element not found');
     }
-
-    // Get cover url
-    final cover = document.querySelector('div > img').attributes['src'];
-
-    final book = Book(
-        id: id,
-        title: title,
-        authors: authors,
-        cover: cover,
-        format: format,
-        description: description,
-        md5: md5,
-        mirrorUrl: mirrorUrl);
-    return book;
   }
 
   /// Get book cover url.
