@@ -1,17 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:librebook/models/book_model.dart';
-import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/search/search_viewmodel.dart';
 import 'package:librebook/ui/widgets/book_item_horizontal_widget.dart';
 import 'package:librebook/ui/widgets/shimmer_book_item_horizontal_widget.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:stacked/stacked.dart';
 
 // TODO:
-// - Split detail widget to another file
-// - Add pull up to refresh
 // - Handle Error
 class BookSearch extends SearchDelegate<Map<String, dynamic>> {
   bool isResultView = false;
@@ -73,14 +68,16 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
     isResultView = true;
     return ViewModelBuilder<SearchViewModel>.nonReactive(
       builder: (context, model, _) => ListView(
+        physics: ClampingScrollPhysics(),
         children: <Widget>[
+          // General book list Widget
           Container(
             height: screenHeight(context) / 2.5,
             child: Column(
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    //TODO: On tap go to fiction list book
+                    //TODO: On tap go to general list book
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -173,6 +170,8 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
               ],
             ),
           ),
+
+          // Fiction book list Widget
           Container(
             height: screenHeight(context) / 2.5,
             child: Column(
