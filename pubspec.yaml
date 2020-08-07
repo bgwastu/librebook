@@ -32,6 +32,8 @@ dependencies:
   #misc
   shimmer:
   cached_network_image:
+  async:
+  enhanced_future_builder:
 
 dev_dependencies:
   flutter_test:

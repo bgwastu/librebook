@@ -1,3 +1,4 @@
+import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
@@ -6,7 +7,6 @@ import 'package:librebook/ui/views/search_result/search_result_general_view.dart
 import 'package:librebook/ui/widgets/book_item_horizontal_widget.dart';
 import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
 import 'package:librebook/ui/widgets/shimmer_book_item_horizontal_widget.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:stacked/stacked.dart';
 
 // TODO:
@@ -72,187 +72,165 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
       builder: (context, model, _) => ListView(
         physics: ClampingScrollPhysics(),
         children: <Widget>[
-          // General book list Widget
-          Container(
-            height: screenHeight(context) / 2.5,
-            child: Column(
-              children: <Widget>[
-                InkWell(
-                  onTap: () async {
-                    //TODO: On tap go to general list book
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SearchResultGeneralView(
-                        query: query,
-                      ),
-                    ));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'General Books',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.arrow_forward),
-                          onPressed: null,
-                        )
-                      ],
+          _generalBookList(context, model),
+          _fictionBookList(context, model),
+        ],
+      ),
+      viewModelBuilder: () => SearchViewModel(),
+    );
+  }
+
+  Container _fictionBookList(BuildContext context, SearchViewModel model) {
+    return Container(
+      height: screenHeight(context) / 2.5,
+      child: Column(
+        children: <Widget>[
+          InkWell(
+            onTap: () {
+              //TODO: On tap go to fiction list book
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Fiction Books',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
-                Expanded(
-                  child: FutureBuilder<List<Book>>(
-                      future: model.searchGeneralBook(query),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          // Loading Widget
-                          return _shimmerLoading(context);
-                        }
-
-                        if (snapshot.hasData) {
-                          if (snapshot.data.isEmpty) {
-                            // If list book is empty
-                            return _generalNotFound();
-                          }
-                          return ListView.builder(
-                            itemCount: snapshot.data.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              if (index == snapshot.data.length - 1) {
-                                // Next Widget
-                                return _moreWidget(() {
-                                  // TODO: go to list view general
-                                });
-                              }
-
-                              // Book Item Widget
-                              return BookItemHorizontalWidget(
-                                book: snapshot.data[index],
-                              );
-                            },
-                          );
-                        }
-
-                        if (snapshot.hasError) {
-                          //TODO: handle error
-                          print(snapshot.error.toString());
-                          return Center(
-                            child: Text(snapshot.error.toString()),
-                          );
-                        }
-                        return Container();
-                      }),
-                ),
-              ],
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward),
+                    onPressed: null,
+                  )
+                ],
+              ),
             ),
           ),
+          Expanded(
+            child: EnhancedFutureBuilder<List<Map<String, dynamic>>>(
+              future: model.searchFantasyBook(query),
+              whenWaiting: _shimmerLoading(context),
+              whenNotDone: _shimmerLoading(context),
+              whenError: _errorHandle,
+              rememberFutureResult: true,
+              whenDone: (listBook) {
+                if (listBook.isEmpty) {
+                  // If fiction book was not found
+                  return _fictionNotFound();
+                }
 
-          // Fiction book list Widget
-          Container(
-            height: screenHeight(context) / 2.5,
-            child: Column(
-              children: <Widget>[
-                InkWell(
-                  onTap: () {
-                    //TODO: On tap go to fiction list book
+                return ListView.builder(
+                  itemCount: listBook.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    if (index == listBook.length - 1) {
+                      // Next Widget
+                      return _moreWidget(() {
+                        // TODO: go to list view fiction
+                      });
+                    }
+
+                    // Book Item Widget
+                    return EnhancedFutureBuilder<Book>(
+                      future: model.getDetailBookFiction(
+                        listBook[index]['url'],
+                      ),
+                      rememberFutureResult: true,
+                      whenWaiting: ShimmerBookItemHorizontalWidget(),
+                      whenNotDone: _shimmerLoading(context),
+                      whenError: (_) => Container(),
+                      whenDone: (book) => BookItemHorizontalWidget(book: book),
+                    );
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'Fiction Books',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.arrow_forward),
-                          onPressed: null,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: FutureBuilder<List<Map<String, dynamic>>>(
-                      future: model.searchFantasyBook(query),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          // Loading Widget
-                          return _shimmerLoading(context);
-                        }
-
-                        if (snapshot.hasData) {
-                          if (snapshot.data.isEmpty) {
-                            // If fiction book was not found
-                            return _fictionNotFound();
-                          }
-
-                          return ListView.builder(
-                            itemCount: snapshot.data.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              if (index == snapshot.data.length - 1) {
-                                // Next Widget
-                                return _moreWidget(() {
-                                  // TODO: go to list view fiction
-                                });
-                              }
-
-                              // Book Item Widget
-                              return FutureBuilder<Book>(
-                                  future: model.getDetailBookFiction(
-                                      snapshot.data[index]['url']),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return ShimmerBookItemHorizontalWidget();
-                                    }
-
-                                    if (snapshot.hasData) {
-                                      return BookItemHorizontalWidget(
-                                        book: snapshot.data,
-                                      );
-                                    }
-
-                                    if (snapshot.hasError) {
-                                      return Container();
-                                    }
-
-                                    return Container();
-                                  });
-                            },
-                          );
-                        }
-
-                        if (snapshot.hasError) {
-                          //TODO: handle error
-                          print(snapshot.error.toString());
-
-                          return Center(
-                            child: Text(snapshot.error.toString()),
-                          );
-                        }
-                        return Container();
-                      }),
-                ),
-              ],
+                );
+              },
             ),
           ),
         ],
       ),
-      viewModelBuilder: () => SearchViewModel(),
+    );
+  }
+
+  Container _generalBookList(BuildContext context, SearchViewModel model) {
+    return Container(
+      height: screenHeight(context) / 2.5,
+      child: Column(
+        children: <Widget>[
+          InkWell(
+            onTap: () async {
+              //TODO: On tap go to general list book
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SearchResultGeneralView(
+                  query: query,
+                ),
+              ));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'General Books',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward),
+                    onPressed: null,
+                  )
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: EnhancedFutureBuilder<List<Book>>(
+              future: model.searchGeneralBook(query),
+              whenWaiting: _shimmerLoading(context),
+              whenNotDone: _shimmerLoading(context),
+              rememberFutureResult: true,
+              whenError: _errorHandle,
+              whenDone: (listBook) {
+                if (listBook.isEmpty) {
+                  // If list book is empty
+                  return _generalNotFound();
+                }
+                return ListView.builder(
+                  itemCount: listBook.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    if (index == listBook.length - 1) {
+                      // Next Widget
+                      return _moreWidget(() {
+                        // TODO: go to list view general
+                      });
+                    }
+
+                    // Book Item Widget
+                    return BookItemHorizontalWidget(
+                      book: listBook[index],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _errorHandle(e) {
+    //TODO: handle error
+    print(e.toString());
+
+    return Center(
+      child: Text(e.toString()),
     );
   }
 
