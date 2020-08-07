@@ -4,12 +4,14 @@ import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/search/search_viewmodel.dart';
 import 'package:librebook/ui/views/search_result/search_result_general_view.dart';
 import 'package:librebook/ui/widgets/book_item_horizontal_widget.dart';
+import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
 import 'package:librebook/ui/widgets/shimmer_book_item_horizontal_widget.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:stacked/stacked.dart';
 
 // TODO:
 // - Handle Error
-class BookSearch extends SearchDelegate<Map<String, dynamic>> {
+class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
   bool isResultView = false;
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -111,7 +113,7 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           // Loading Widget
-                          return Center(child: CircularProgressIndicator());
+                          return _shimmerLoading(context);
                         }
 
                         if (snapshot.hasData) {
@@ -188,7 +190,7 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           // Loading Widget
-                          return Center(child: CircularProgressIndicator());
+                          return _shimmerLoading(context);
                         }
 
                         if (snapshot.hasData) {
@@ -251,6 +253,13 @@ class BookSearch extends SearchDelegate<Map<String, dynamic>> {
         ],
       ),
       viewModelBuilder: () => SearchViewModel(),
+    );
+  }
+
+  ListView _shimmerLoading(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: List.generate(10, (index) => ShimmerBookItemHorizontalWidget()),
     );
   }
 
