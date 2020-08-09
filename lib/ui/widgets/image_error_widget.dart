@@ -15,16 +15,6 @@ class ImageErrorWidget extends StatelessWidget {
               size: 50,
               color: Colors.grey[600],
             ),
-            verticalSpaceSmall,
-            Center(
-              child: Text(
-                'Image not available',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                ),
-                textAlign: TextAlign.center,
-              ),
-            )
           ],
         ));
   }
