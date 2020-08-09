@@ -1,12 +1,14 @@
 import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:librebook/models/book_model.dart';
+import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/search/search_viewmodel.dart';
 import 'package:librebook/ui/views/search_result/search_result_general_view.dart';
 import 'package:librebook/ui/widgets/book_item_horizontal_widget.dart';
 import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
 import 'package:librebook/ui/widgets/shimmer_book_item_horizontal_widget.dart';
+import 'package:librebook/utils/custom_exception.dart';
 import 'package:stacked/stacked.dart';
 
 // TODO:
@@ -110,39 +112,21 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
             ),
           ),
           Expanded(
-            child: EnhancedFutureBuilder<List<Map<String, dynamic>>>(
+            child: EnhancedFutureBuilder<BookSearchDetail>(
               future: model.searchFantasyBook(query),
               whenWaiting: _shimmerLoading(context),
               whenNotDone: _shimmerLoading(context),
               whenError: _errorHandle,
               rememberFutureResult: true,
-              whenDone: (listBook) {
-                if (listBook.isEmpty) {
-                  // If fiction book was not found
-                  return _fictionNotFound();
-                }
-
-                return ListView.builder(
-                  itemCount: listBook.length,
+              whenDone: (bookSearchDetail) {
+                return ListView.separated(
                   scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  separatorBuilder: (context, _) => horizontalSpaceSmall,
+                  itemCount: bookSearchDetail.listBook.length,
                   itemBuilder: (context, index) {
-                    if (index == listBook.length - 1) {
-                      // Next Widget
-                      return _moreWidget(() {
-                        // TODO: go to list view fiction
-                      });
-                    }
-
-                    // Book Item Widget
-                    return EnhancedFutureBuilder<Book>(
-                      future: model.getDetailBookFiction(
-                        listBook[index]['url'],
-                      ),
-                      rememberFutureResult: true,
-                      whenWaiting: ShimmerBookItemHorizontalWidget(),
-                      whenNotDone: _shimmerLoading(context),
-                      whenError: (_) => Container(),
-                      whenDone: (book) => BookItemHorizontalWidget(book: book),
+                    return BookItemHorizontalWidget(
+                      book: bookSearchDetail.listBook[index],
                     );
                   },
                 );
@@ -162,11 +146,12 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           InkWell(
             onTap: () async {
               //TODO: On tap go to general list book
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => SearchResultGeneralView(
-                  query: query,
-                ),
-              ));
+              // Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (context) => SearchResultGeneralView(
+
+              //     query: query,
+              //   ),
+              // ));
             },
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -189,31 +174,21 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
             ),
           ),
           Expanded(
-            child: EnhancedFutureBuilder<List<Book>>(
+            child: EnhancedFutureBuilder<BookSearchDetail>(
               future: model.searchGeneralBook(query),
               whenWaiting: _shimmerLoading(context),
               whenNotDone: _shimmerLoading(context),
               rememberFutureResult: true,
               whenError: _errorHandle,
-              whenDone: (listBook) {
-                if (listBook.isEmpty) {
-                  // If list book is empty
-                  return _generalNotFound();
-                }
-                return ListView.builder(
-                  itemCount: listBook.length,
+              whenDone: (bookSearchDetail) {
+                return ListView.separated(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  separatorBuilder: (context, _) => horizontalSpaceSmall,
                   scrollDirection: Axis.horizontal,
+                  itemCount: bookSearchDetail.listBook.length,
                   itemBuilder: (context, index) {
-                    if (index == listBook.length - 1) {
-                      // Next Widget
-                      return _moreWidget(() {
-                        // TODO: go to list view general
-                      });
-                    }
-
-                    // Book Item Widget
                     return BookItemHorizontalWidget(
-                      book: listBook[index],
+                      book: bookSearchDetail.listBook[index],
                     );
                   },
                 );
@@ -227,7 +202,11 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
 
   Widget _errorHandle(e) {
     //TODO: handle error
-    print(e.toString());
+    print(e);
+
+    if (e is SearchNotFoundException) {
+      return _notFoundWidget();
+    }
 
     return Center(
       child: Text(e.toString()),
@@ -241,7 +220,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     );
   }
 
-  Column _fictionNotFound() {
+  Column _notFoundWidget() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -255,38 +234,10 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
         ),
         Text(
-          'query was not found in fiction book',
-        )
-      ],
-    );
-  }
-
-  Column _generalNotFound() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.sentiment_dissatisfied,
-          size: 50,
-        ),
-        verticalSpaceSmall,
-        Text(
-          'Not Found',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-        ),
-        Text(
-          'query was not found in general book',
+          'Please try with another query',
           style: TextStyle(),
         )
       ],
-    );
-  }
-
-  Widget _moreWidget(Function onTap) {
-    return IconButton(
-      icon: Icon(Icons.navigate_next),
-      iconSize: 40,
-      onPressed: () {},
     );
   }
 

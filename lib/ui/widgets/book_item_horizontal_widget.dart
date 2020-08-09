@@ -13,7 +13,6 @@ class BookItemHorizontalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 8),
       width: screenWidth(context) / 3.2,
       child: InkWell(
         onTap: () {
