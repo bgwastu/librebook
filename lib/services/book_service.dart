@@ -184,19 +184,29 @@ class BookService {
       throw SearchNotFoundException();
     }
 
-    // Get last page & current result
-    final filesFound = RegExp(r'(\d+)')
+    // Pagination
+    var currentPage = 1;
+    var lastPage = 1;
+    final pageSelector = RegExp(r'(\d+)')
         .allMatches(document.querySelector('td > font').text)
-        .first
-        .group(0);
-    final currentResult = RegExp(r'(\d+)')
-        .allMatches(document.querySelector('td > font').text)
-        .toList()[1]
-        .group(0);
+        .length;
 
-    // Parse and make it lastPage and currentPage
-    final lastPage = int.parse(filesFound) ~/ 25;
-    final currentPage = int.parse(currentResult) ~/ 25 + 1;
+    // Fill currentPage and lastPage if page selector was available
+    if (pageSelector > 1) {
+      // Get last page & current result
+      final filesFound = RegExp(r'(\d+)')
+          .allMatches(document.querySelector('td > font').text)
+          .first
+          .group(0);
+      final currentResult = RegExp(r'(\d+)')
+          .allMatches(document.querySelector('td > font').text)
+          .toList()[1]
+          .group(0);
+
+      // Parse and make it lastPage and currentPage
+      final lastPage = int.parse(filesFound) ~/ 25;
+      final currentPage = int.parse(currentResult) ~/ 25 + 1;
+    }
 
     // Scrape books id
     final listBookId = document
@@ -223,7 +233,7 @@ class BookService {
 
     // Check server
     if (response.statusCode != 200) {
-      throw Exception('Can\'t connect to server');
+      throw ServerException();
     }
 
     List<dynamic> body = json.decode(response.body);
