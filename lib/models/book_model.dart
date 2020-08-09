@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 class Book {
   final String id;
@@ -9,6 +9,7 @@ class Book {
   List<String> authors;
   final String format;
   final String mirrorUrl;
+  final String language;
 
   Book({
     @required this.id,
@@ -19,8 +20,9 @@ class Book {
     @required this.authors,
     @required this.format,
     @required this.description,
+    @required this.language
   }) {
-    if(this.authors.isEmpty){
+    if (this.authors.isEmpty) {
       authors = ['No Author'];
     }
   }
