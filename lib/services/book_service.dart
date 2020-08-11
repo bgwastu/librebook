@@ -17,6 +17,7 @@ class BookService {
   final mirrorName = 'Gen.lib.rus.ec';
 
   Future<BookSearchDetail> findFiction(String query, int page) async {
+    print('search fiction with query: $query and page: ${page.toString()}');
     final response = await _client.get(url + '/fiction/?q=$query&page=$page');
 
     // Future for detail book
@@ -71,6 +72,7 @@ class BookService {
       currentPage: currentPage,
       lastPage: lastPage,
       listBook: listBook,
+      isGeneral: false,
     );
   }
 
@@ -162,6 +164,7 @@ class BookService {
   }
 
   Future<BookSearchDetail> findGeneral(String query, int page) async {
+    print('search general with query: $query and page: ${page.toString()}');
     final response =
         await _client.get('$url/search.php?req=$query&page=$page&phrase=1');
     List<Book> listBook = [];
@@ -204,8 +207,8 @@ class BookService {
           .group(0);
 
       // Parse and make it lastPage and currentPage
-      final lastPage = int.parse(filesFound) ~/ 25;
-      final currentPage = int.parse(currentResult) ~/ 25 + 1;
+      lastPage = int.parse(filesFound) ~/ 25;
+      currentPage = int.parse(currentResult) ~/ 25 + 1;
     }
 
     // Scrape books id
@@ -221,10 +224,10 @@ class BookService {
     }
 
     return BookSearchDetail(
-      currentPage: currentPage,
-      lastPage: lastPage,
-      listBook: listBook,
-    );
+        currentPage: currentPage,
+        lastPage: lastPage,
+        listBook: listBook,
+        isGeneral: true);
   }
 
   Future<List<Book>> _getGeneralDetailBook(List<String> ids) async {
