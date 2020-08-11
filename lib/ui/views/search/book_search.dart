@@ -1,10 +1,10 @@
+import 'dart:io';
+
 import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/search/search_viewmodel.dart';
-import 'package:librebook/ui/views/search_result/search_result_general_view.dart';
 import 'package:librebook/ui/widgets/book_item_horizontal_widget.dart';
 import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
 import 'package:librebook/ui/widgets/shimmer_book_item_horizontal_widget.dart';
@@ -204,12 +204,44 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     //TODO: handle error
     print(e);
 
+    if (e is SocketException) {
+      return _noInternetWidget();
+    }
+
     if (e is SearchNotFoundException) {
       return _notFoundWidget();
     }
 
     return Center(
       child: Text(e.toString()),
+    );
+  }
+
+  Widget _noInternetWidget() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.signal_cellular_connected_no_internet_4_bar,
+          size: 50,
+          color: Colors.grey[600],
+        ),
+        verticalSpaceSmall,
+        Text(
+          'Not Found',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[600],
+          ),
+        ),
+        Text(
+          'No internet access',
+          style: TextStyle(
+            color: Colors.grey[600],
+          ),
+        )
+      ],
     );
   }
 
@@ -227,15 +259,22 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
         Icon(
           Icons.sentiment_dissatisfied,
           size: 50,
+          color: Colors.grey[600],
         ),
         verticalSpaceSmall,
         Text(
           'Not Found',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontSize: 22,
+            color: Colors.grey[600],
+            fontWeight: FontWeight.w600,
+          ),
         ),
         Text(
           'Please try with another query',
-          style: TextStyle(),
+          style: TextStyle(
+            color: Colors.grey[600],
+          ),
         )
       ],
     );
