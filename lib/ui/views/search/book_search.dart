@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/search/search_viewmodel.dart';
+import 'package:librebook/ui/views/search_result/search_result_view.dart';
 import 'package:librebook/ui/widgets/book_item_horizontal_widget.dart';
 import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
 import 'package:librebook/ui/widgets/shimmer_book_item_horizontal_widget.dart';
@@ -146,12 +147,14 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           InkWell(
             onTap: () async {
               //TODO: On tap go to general list book
-              // Navigator.of(context).push(MaterialPageRoute(
-              //   builder: (context) => SearchResultGeneralView(
-
-              //     query: query,
-              //   ),
-              // ));
+              if (!model.isGeneralBusy) {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SearchResultView(
+                    query: query,
+                    firstSearchDetail: model.currentGeneralSearchDetail,
+                  ),
+                ));
+              }
             },
             child: Padding(
               padding: const EdgeInsets.all(16),
