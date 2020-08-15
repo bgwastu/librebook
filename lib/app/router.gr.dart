@@ -4,10 +4,11 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:librebook/ui/views/home/home_view.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:librebook/ui/views/splash/splash_view.dart';
+import 'package:librebook/ui/views/home/home_view.dart';
 
 class Routes {
   static const String splashView = '/';

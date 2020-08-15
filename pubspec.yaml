@@ -34,6 +34,7 @@ dependencies:
   cached_network_image:
   async:
   enhanced_future_builder:
+  lazy_load_refresh_indicator:
 
 dev_dependencies:
   flutter_test:
