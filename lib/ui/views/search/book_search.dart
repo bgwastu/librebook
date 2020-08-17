@@ -82,7 +82,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
   Container _fictionBookList(
       BuildContext context, SearchController controller) {
     return Container(
-      height: Get.height / 2.5,
+      height: Get.height / 2.3,
       child: Column(
         children: <Widget>[
           Obx(
@@ -141,7 +141,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
   Container _generalBookList(
       BuildContext context, SearchController controller) {
     return Container(
-      height: Get.height / 2.5,
+      height: Get.height / 2.3,
       child: Column(
         children: <Widget>[
           Obx(
