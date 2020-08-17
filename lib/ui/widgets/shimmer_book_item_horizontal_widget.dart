@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -10,7 +11,7 @@ class ShimmerBookItemHorizontalWidget extends StatelessWidget {
       highlightColor: Colors.grey[100],
       child: Container(
         margin: EdgeInsets.only(left: 8),
-        width: screenWidth(context) / 3.2,
+        width: Get.width / 3.2,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -28,7 +29,7 @@ class ShimmerBookItemHorizontalWidget extends StatelessWidget {
             verticalSpaceTiny,
             Container(
               height: 20,
-              width: screenWidth(context) / 4,
+              width: Get.width / 4,
               color: Colors.white,
             ),
           ],

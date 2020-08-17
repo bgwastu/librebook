@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:librebook/ui/views/splash/splash_viewmodel.dart';
-import 'package:stacked/stacked.dart';
+import 'package:get/get.dart';
+import 'package:librebook/controllers/splash_controller.dart';
 
-class SplashView extends StatelessWidget {
+class SplashView extends StatefulWidget {
+  @override
+  _SplashViewState createState() => _SplashViewState();
+}
+
+class _SplashViewState extends State<SplashView> {
+  final controller = Get.put(SplashController());
+  @override
+  void initState() {
+    super.initState();
+    controller.redirect();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<SplashViewModel>.nonReactive(
-      builder: (context, model, child) => Scaffold(
-        body: Center(
-          child: Text('Librebook'),
-        ),
+    return Scaffold(
+      body: Center(
+        child: Text('Librebook'),
       ),
-      viewModelBuilder: () => SplashViewModel(),
-      onModelReady: (model) => model.redirect(),
     );
   }
 }

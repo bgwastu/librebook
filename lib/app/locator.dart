@@ -1,9 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:injectable/injectable.dart';
-
-import 'locator.iconfig.dart';
+import 'package:librebook/services/book_service.dart';
+import 'package:librebook/services/download_service.dart';
 
 final locator = GetIt.I;
 
-@injectableInit
-void setupLocator() => $initGetIt(locator);
+void setupLocator() {
+  locator.registerLazySingleton(() => BookService());
+  locator.registerLazySingleton(() => DownloadService());
+}

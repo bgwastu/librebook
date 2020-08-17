@@ -5,7 +5,9 @@ class NoInternetException implements Exception {
 }
 
 class ServerException implements Exception {
-  final String message = 'Can\'t connect to server';
+  String message = 'Can\'t connect to server';
+
+  ServerException({this.message});
 }
 
 class SearchNotFoundException implements Exception {}

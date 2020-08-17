@@ -1,34 +1,26 @@
+import 'package:get/get.dart';
 import 'package:librebook/app/locator.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/services/book_service.dart';
-import 'package:stacked/stacked.dart';
 
-class SearchViewModel extends BaseViewModel {
+class SearchController extends GetxController {
   final _bookService = locator<BookService>();
   bool isFantasySearch = false;
-  int index = 1;
 
   // data
   BookSearchDetail currentFantasySearchDetail;
   BookSearchDetail currentGeneralSearchDetail;
 
   // busy
-  bool isFantasyBusy = false;
-  bool isGeneralBusy = false;
+  var isFantasyBusy = false.obs;
+  var isGeneralBusy = false.obs;
 
   setFantasyBusy(bool isBusy) {
-    isFantasyBusy = isBusy;
-    notifyListeners();
+    isFantasyBusy.value = isBusy;
   }
 
   setGeneralBusy(bool isBusy) {
-    isGeneralBusy = isBusy;
-    notifyListeners();
-  }
-
-  setIndex(int index) {
-    index = index;
-    notifyListeners();
+    isGeneralBusy.value = isBusy;
   }
 
   List<Map<String, dynamic>> listFantasyBook = [];
