@@ -88,7 +88,14 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           Obx(
             () => InkWell(
               onTap: () {
-                //TODO: On tap go to fiction list book
+                if (!controller.isFantasyBusy.value) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SearchResultView(
+                      query: query,
+                      firstSearchDetail: controller.currentFantasySearchDetail,
+                    ),
+                  ));
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -147,7 +154,6 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           Obx(
             () => InkWell(
               onTap: () async {
-                //TODO: On tap go to general list book
                 if (!controller.isGeneralBusy.value) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => SearchResultView(
