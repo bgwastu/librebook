@@ -216,15 +216,8 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
       return _notFoundWidget();
     }
 
-    if (e is ServerException) {
-      Get.dialog(AlertDialog(
-        title: Text('Exception'),
-        content: Text('Server Error!'),
-      ));
-    }
-
     return Center(
-      child: Text(e.toString()),
+      child: Text('Oops, something went wrong'),
     );
   }
 
