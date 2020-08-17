@@ -14,7 +14,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: Get.width / 3.2,
+      width: Get.height / 5,
       child: InkWell(
         onTap: () {
           //TODO: implement tap book item horizontal widget
