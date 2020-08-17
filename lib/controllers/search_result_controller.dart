@@ -25,8 +25,6 @@ class SearchResultController extends GetxController {
   }
 
   checkLastPage() {
-    print('currentPage: ' + bookSearchDetail.value.currentPage.toString());
-    print('lastPage: ' + bookSearchDetail.value.lastPage.toString());
     if (bookSearchDetail.value.currentPage >= bookSearchDetail.value.lastPage) {
       return;
     }
@@ -35,20 +33,12 @@ class SearchResultController extends GetxController {
   Future loadData(String query) async {
     setLoading(true);
     checkLastPage();
-    Stopwatch stopwatch = new Stopwatch()..start();
-    print('loaddataTrigger');
     // Delay to prevent server exception
     await Future.delayed(Duration(seconds: 2));
     final page = this.bookSearchDetail.value.currentPage + 1;
-    try {
       final nextBookSearchDetail = await _bookService.findGeneral(query, page);
       setBookSearchDetail(nextBookSearchDetail);
-    } catch (e) {
-      print('exception bangs');
-    }
     setLoading(false);
-    print(
-        'loadData(page: ${page.toString()}) executed in ${stopwatch.elapsed}');
   }
 
   Future onRefreshData(String query) async {

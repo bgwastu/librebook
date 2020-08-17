@@ -207,7 +207,6 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
 
   Widget _errorHandle(e) {
     //TODO: handle error
-    print(e);
 
     if (e is SocketException) {
       return _noInternetWidget();
@@ -217,8 +216,11 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
       return _notFoundWidget();
     }
 
-    if(e is ServerException) {
-      print(e.message);
+    if (e is ServerException) {
+      Get.dialog(AlertDialog(
+        title: Text('Exception'),
+        content: Text('Server Error!'),
+      ));
     }
 
     return Center(
