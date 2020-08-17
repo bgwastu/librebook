@@ -24,7 +24,7 @@ class _SearchResultViewState extends State<SearchResultView> {
   @override
   void initState() {
     super.initState();
-    controller.setBookSearchDetail(widget.firstSearchDetail);
+    controller.setBookSearchDetailNew(widget.firstSearchDetail);
   }
 
   @override
@@ -46,9 +46,9 @@ class _SearchResultViewState extends State<SearchResultView> {
         () => LazyLoadRefreshIndicator(
           child: ListView.builder(
             itemBuilder: (context, index) {
-              if (index + 1 >= controller.listBook.length &&
-                  controller.bookSearchDetail.value.currentPage <
-                      controller.bookSearchDetail.value.lastPage) {
+              final isNextPage = index + 1 >= controller.listBook.length &&
+                  !controller.isLastPage();
+              if (isNextPage) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 8),
                   child: Column(
@@ -70,6 +70,7 @@ class _SearchResultViewState extends State<SearchResultView> {
           onEndOfPage: () => controller.loadData(widget.query),
           onRefresh: () => controller.onRefreshData(widget.query),
           isLoading: controller.isLoading.value,
+          scrollOffset: 150,
         ),
       ),
     );
