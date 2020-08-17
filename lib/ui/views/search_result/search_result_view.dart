@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lazy_load_refresh_indicator/lazy_load_refresh_indicator.dart';
+import 'package:librebook/controllers/search_result_controller.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
-import 'package:librebook/ui/views/search_result/search_result_general_viewmodel.dart';
-import 'package:stacked/stacked.dart';
 
-class SearchResultView extends StatelessWidget {
+class SearchResultView extends StatefulWidget {
   final String query;
   final BookSearchDetail firstSearchDetail;
 
@@ -15,49 +15,64 @@ class SearchResultView extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return ViewModelBuilder<SearchResultGeneralViewModel>.reactive(
-      builder: (context, model, _) => Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: Text(
-              'General Books',
-              style: TextStyle(color: Colors.grey[800]),
-            ),
-            actions: [
-              IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () => Navigator.of(context).pop())
-            ],
-          ),
-          body: LazyLoadRefreshIndicator(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                if (index + 1 >= model.listBook.length && model.bookSearchDetail.currentPage < model.bookSearchDetail.lastPage) {
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: Column(
-                      children: [CircularProgressIndicator()],
-                    ),
-                  );
-                }
+  _SearchResultViewState createState() => _SearchResultViewState();
+}
 
-                return ListTile(
-                  title: Text(model.listBook[index].title),
-                  subtitle: Text(model.listBook[index].authors.join(', ')),
-                  trailing: Text(
-                    model.listBook[index].id,
+class _SearchResultViewState extends State<SearchResultView> {
+  final controller = Get.put(SearchResultController());
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.firstSearchDetail.currentPage.toString() + 'asdasdassssssssssssssssssssssssssssss');
+    controller.setBookSearchDetail(widget.firstSearchDetail);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          'General Books',
+          style: TextStyle(color: Colors.grey[800]),
+        ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () => Navigator.of(context).pop())
+        ],
+      ),
+      body: Obx(
+        () => LazyLoadRefreshIndicator(
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              if (index + 1 >= controller.listBook.length &&
+                  controller.bookSearchDetail.value.currentPage <
+                      controller.bookSearchDetail.value.lastPage) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: Column(
+                    children: [CircularProgressIndicator()],
                   ),
                 );
-              },
-              itemCount: model.listBook.length,
-            ),
-            onEndOfPage: () => model.loadData(query),
-            onRefresh: () => model.onRefreshData(query),
-            isLoading: model.isLoading,
-          )),
-      viewModelBuilder: () => SearchResultGeneralViewModel(),
-      onModelReady: (model) => model.setBookSearchDetail(firstSearchDetail),
+              }
+
+              return ListTile(
+                title: Text(controller.listBook[index].title),
+                subtitle: Text(controller.listBook[index].authors.join(', ')),
+                trailing: Text(
+                  controller.listBook[index].id,
+                ),
+              );
+            },
+            itemCount: controller.listBook.length,
+          ),
+          onEndOfPage: () => controller.loadData(widget.query),
+          onRefresh: () => controller.onRefreshData(widget.query),
+          isLoading: controller.isLoading.value,
+        ),
+      ),
     );
   }
 }

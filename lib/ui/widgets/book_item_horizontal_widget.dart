@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
@@ -13,7 +14,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screenWidth(context) / 3.2,
+      width: Get.width / 3.2,
       child: InkWell(
         onTap: () {
           //TODO: implement tap book item horizontal widget
@@ -91,6 +92,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
       errorWidget: (context, _, __) {
         return ImageErrorWidget();
       },
+
       width: double.infinity,
     );
   }

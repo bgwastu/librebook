@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:librebook/app/locator.dart';
-import 'package:librebook/app/router.gr.dart';
 import 'package:librebook/ui/shared/theme.dart';
-import 'package:stacked_services/stacked_services.dart';
+import 'package:librebook/ui/views/splash/splash_view.dart';
 
-void main() {
+void main() async {
   setupLocator();
+  // await setPotraitOrientation();
   runApp(App());
 }
 
@@ -17,17 +18,15 @@ class App extends StatelessWidget {
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         systemNavigationBarColor: Colors.white,
-        systemNavigationBarDividerColor: Colors.black,
+        systemNavigationBarDividerColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.dark,
-      ),
-      child: MaterialApp(
-        title: 'Librebook',
-        debugShowCheckedModeBanner: false,
-        navigatorKey: locator<NavigationService>().navigatorKey,
-        onGenerateRoute: Router().onGenerateRoute,
-        initialRoute: Routes.splashView,
-        theme: kLightTheme,
-      ),
-    );
-  }
+        statusBarIconBrightness: Brightness.dark
+        ),
+        child: GetMaterialApp(
+          title: 'Librebook',
+          debugShowCheckedModeBanner: false,
+          theme: kLightTheme,
+          home: SplashView(),
+        ));
+  } 
 }
