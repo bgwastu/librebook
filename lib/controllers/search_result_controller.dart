@@ -1,34 +1,33 @@
+import 'package:get/get.dart';
 import 'package:librebook/app/locator.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/services/book_service.dart';
-import 'package:stacked/stacked.dart';
 
-class SearchResultGeneralViewModel extends BaseViewModel {
-  bool isLoading = false;
-  BookSearchDetail bookSearchDetail;
+class SearchResultController extends GetxController {
+  var isLoading = false.obs;
+  Rx<BookSearchDetail> bookSearchDetail ;
   final _bookService = locator<BookService>();
-  List<Book> listBook = [];
+  RxList<Book> listBook = RxList<Book>();
 
   setLoading(bool isLoading) {
-    this.isLoading = isLoading;
-    notifyListeners();
+    this.isLoading.value = isLoading;
   }
 
   setBookSearchDetail(BookSearchDetail bookSearchDetail) {
-    this.bookSearchDetail = bookSearchDetail;
-    listBook.addAll(bookSearchDetail.listBook);
+    this.bookSearchDetail = bookSearchDetail.obs;
+    listBook = bookSearchDetail.listBook.obs;
   }
 
   setBookSearchDetailNew(BookSearchDetail bookSearchDetail) {
-    this.bookSearchDetail = bookSearchDetail;
-    listBook = bookSearchDetail.listBook;
+    this.bookSearchDetail = bookSearchDetail.obs;
+    listBook = bookSearchDetail.listBook.obs;
   }
 
   checkLastPage() {
-    print('currentPage: ' + bookSearchDetail.currentPage.toString());
-    print('lastPage: ' + bookSearchDetail.lastPage.toString());
-    if (bookSearchDetail.currentPage >= bookSearchDetail.lastPage) {
+    print('currentPage: ' + bookSearchDetail.value.currentPage.toString());
+    print('lastPage: ' + bookSearchDetail.value.lastPage.toString());
+    if (bookSearchDetail.value.currentPage >= bookSearchDetail.value.lastPage) {
       return;
     }
   }
@@ -40,7 +39,7 @@ class SearchResultGeneralViewModel extends BaseViewModel {
     print('loaddataTrigger');
     // Delay to prevent server exception
     await Future.delayed(Duration(seconds: 2));
-    final page = this.bookSearchDetail.currentPage + 1;
+    final page = this.bookSearchDetail.value.currentPage + 1;
     try {
       final nextBookSearchDetail = await _bookService.findGeneral(query, page);
       setBookSearchDetail(nextBookSearchDetail);

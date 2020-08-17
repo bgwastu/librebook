@@ -1,8 +1,6 @@
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
-import 'package:injectable/injectable.dart';
 
-@lazySingleton
 class DownloadService {
   final Client _client;
 

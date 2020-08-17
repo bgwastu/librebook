@@ -2,18 +2,16 @@ import 'dart:io';
 
 import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:librebook/controllers/search_controller.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
-import 'package:librebook/ui/views/search/search_viewmodel.dart';
 import 'package:librebook/ui/views/search_result/search_result_view.dart';
 import 'package:librebook/ui/widgets/book_item_horizontal_widget.dart';
 import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
 import 'package:librebook/ui/widgets/shimmer_book_item_horizontal_widget.dart';
 import 'package:librebook/utils/custom_exception.dart';
-import 'package:stacked/stacked.dart';
 
-// TODO:
-// - Handle Error
 class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
   bool isResultView = false;
   @override
@@ -71,50 +69,51 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
   @override
   Widget buildResults(BuildContext context) {
     isResultView = true;
-    return ViewModelBuilder<SearchViewModel>.nonReactive(
-      builder: (context, model, _) => ListView(
-        physics: ClampingScrollPhysics(),
-        children: <Widget>[
-          _generalBookList(context, model),
-          _fictionBookList(context, model),
-        ],
-      ),
-      viewModelBuilder: () => SearchViewModel(),
+    final controller = Get.put(SearchController());
+    return ListView(
+      physics: ClampingScrollPhysics(),
+      children: <Widget>[
+        _generalBookList(context, controller),
+        _fictionBookList(context, controller),
+      ],
     );
   }
 
-  Container _fictionBookList(BuildContext context, SearchViewModel model) {
+  Container _fictionBookList(
+      BuildContext context, SearchController controller) {
     return Container(
-      height: screenHeight(context) / 2.5,
+      height: Get.height / 2.5,
       child: Column(
         children: <Widget>[
-          InkWell(
-            onTap: () {
-              //TODO: On tap go to fiction list book
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Fiction Books',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
+          Obx(
+            () => InkWell(
+              onTap: () {
+                //TODO: On tap go to fiction list book
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Fiction Books',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward),
-                    onPressed: null,
-                  )
-                ],
+                    IconButton(
+                      icon: Icon(Icons.arrow_forward),
+                      onPressed: null,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
           Expanded(
             child: EnhancedFutureBuilder<BookSearchDetail>(
-              future: model.searchFantasyBook(query),
+              future: controller.searchFantasyBook(query),
               whenWaiting: _shimmerLoading(context),
               whenNotDone: _shimmerLoading(context),
               whenError: _errorHandle,
@@ -139,46 +138,49 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     );
   }
 
-  Container _generalBookList(BuildContext context, SearchViewModel model) {
+  Container _generalBookList(
+      BuildContext context, SearchController controller) {
     return Container(
-      height: screenHeight(context) / 2.5,
+      height: Get.height / 2.5,
       child: Column(
         children: <Widget>[
-          InkWell(
-            onTap: () async {
-              //TODO: On tap go to general list book
-              if (!model.isGeneralBusy) {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SearchResultView(
-                    query: query,
-                    firstSearchDetail: model.currentGeneralSearchDetail,
-                  ),
-                ));
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'General Books',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
+          Obx(
+            () => InkWell(
+              onTap: () async {
+                //TODO: On tap go to general list book
+                if (!controller.isGeneralBusy.value) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SearchResultView(
+                      query: query,
+                      firstSearchDetail: controller.currentGeneralSearchDetail,
                     ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward),
-                    onPressed: null,
-                  )
-                ],
+                  ));
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'General Books',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.arrow_forward),
+                      onPressed: null,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
           Expanded(
             child: EnhancedFutureBuilder<BookSearchDetail>(
-              future: model.searchGeneralBook(query),
+              future: controller.searchGeneralBook(query),
               whenWaiting: _shimmerLoading(context),
               whenNotDone: _shimmerLoading(context),
               rememberFutureResult: true,
@@ -213,6 +215,10 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
 
     if (e is SearchNotFoundException) {
       return _notFoundWidget();
+    }
+
+    if(e is ServerException) {
+      print(e.message);
     }
 
     return Center(

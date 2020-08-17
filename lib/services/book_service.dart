@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
-import 'package:injectable/injectable.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/utils/custom_exception.dart';
 
-@lazySingleton
 class BookService {
   final Client _client;
   BookService() : _client = Client();
@@ -66,7 +64,11 @@ class BookService {
 
     // Process future of list book.
     final listBook = await Future.wait(fListBook);
-
+    // response
+    print('==== Fiction Result ====');
+    print('currentPage: ' + currentPage.toString());
+    print('lastPage: ' + lastPage.toString());
+    print('====                ====');
     return BookSearchDetail(
       currentPage: currentPage,
       lastPage: lastPage,
@@ -221,6 +223,11 @@ class BookService {
       listBook.addAll(await _getGeneralDetailBook(listBookId));
     }
 
+    print('==== General Result ====');
+    print('currentPage: ' + currentPage.toString());
+    print('lastPage: ' + lastPage.toString());
+    print('====                ====');
+
     return BookSearchDetail(
         currentPage: currentPage,
         lastPage: lastPage,
@@ -230,21 +237,28 @@ class BookService {
 
   Future<List<Book>> _getGeneralDetailBook(List<String> ids) async {
     final response = await _client.get(
-        '$url/json.php?ids=${ids.toString()}&fields=id,title,descr,md5,coverurl,author,extension,language');
+        '$url/json.php?ids=${ids.join(',')}&fields=id,title,descr,md5,coverurl,author,extension,language');
 
     // Check server
     if (response.statusCode != 200) {
-      throw ServerException();
+      throw ServerException(message: 'Error getGeneralDetailBook');
     }
 
     List<dynamic> body = json.decode(response.body);
     final listBook = body.map((bookMap) {
+      // Check if cover was't available
+      if (bookMap['coverurl'].toString().isEmpty) {
+        print('halo');
+        bookMap['coverurl'] = url + '/img/blank.png';
+      }else {
+        bookMap['coverurl'] =  url + '/covers/' + bookMap['coverurl'];
+      }
       return Book(
         id: bookMap['id'],
         title: bookMap['title'],
         description: bookMap['description'],
         md5: bookMap['md5'],
-        cover: url + '/covers/' + bookMap['coverurl'],
+        cover: bookMap['coverurl'],
         authors: [bookMap['author']],
         format: bookMap['extension'],
         language: bookMap['language'],
