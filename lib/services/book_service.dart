@@ -64,11 +64,7 @@ class BookService {
 
     // Process future of list book.
     final listBook = await Future.wait(fListBook);
-    // response
-    print('==== Fiction Result ====');
-    print('currentPage: ' + currentPage.toString());
-    print('lastPage: ' + lastPage.toString());
-    print('====                ====');
+
     return BookSearchDetail(
       currentPage: currentPage,
       lastPage: lastPage,
@@ -171,7 +167,6 @@ class BookService {
 
     // Server check
     if (response.statusCode != 200) {
-      print(response.body);
       throw ServerException();
     }
 
@@ -223,10 +218,6 @@ class BookService {
       listBook.addAll(await _getGeneralDetailBook(listBookId));
     }
 
-    print('==== General Result ====');
-    print('currentPage: ' + currentPage.toString());
-    print('lastPage: ' + lastPage.toString());
-    print('====                ====');
 
     return BookSearchDetail(
         currentPage: currentPage,
@@ -248,7 +239,6 @@ class BookService {
     final listBook = body.map((bookMap) {
       // Check if cover was't available
       if (bookMap['coverurl'].toString().isEmpty) {
-        print('halo');
         bookMap['coverurl'] = url + '/img/blank.png';
       }else {
         bookMap['coverurl'] =  url + '/covers/' + bookMap['coverurl'];

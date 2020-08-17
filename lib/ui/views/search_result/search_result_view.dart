@@ -24,7 +24,6 @@ class _SearchResultViewState extends State<SearchResultView> {
   @override
   void initState() {
     super.initState();
-    print(widget.firstSearchDetail.currentPage.toString() + 'asdasdassssssssssssssssssssssssssssss');
     controller.setBookSearchDetail(widget.firstSearchDetail);
   }
 

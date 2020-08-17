@@ -18,7 +18,6 @@ class BookItemHorizontalWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
           //TODO: implement tap book item horizontal widget
-          print('tap');
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
