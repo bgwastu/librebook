@@ -11,7 +11,7 @@ class ShimmerBookItemHorizontalWidget extends StatelessWidget {
       highlightColor: Colors.grey[100],
       child: Container(
         margin: EdgeInsets.only(left: 8),
-        width: Get.width / 3.2,
+        width: Get.height / 5,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
