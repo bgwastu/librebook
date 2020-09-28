@@ -126,7 +126,9 @@ class BookService {
     // If genesis dont provide description
     String description = '';
     if (descriptionElement != null) {
-      description = descriptionElement.text.replaceAll('\s{2,}', '').trim();
+      if (descriptionElement.text.isNotEmpty) {
+        description = descriptionElement.text.replaceAll('\s{2,}', '').trim();
+      }
     }
 
     // Get cover url
@@ -218,7 +220,6 @@ class BookService {
       listBook.addAll(await _getGeneralDetailBook(listBookId));
     }
 
-
     return BookSearchDetail(
         currentPage: currentPage,
         lastPage: lastPage,
@@ -240,16 +241,16 @@ class BookService {
       // Check if cover was't available
       if (bookMap['coverurl'].toString().isEmpty) {
         bookMap['coverurl'] = url + '/img/blank.png';
-      }else {
-        bookMap['coverurl'] =  url + '/covers/' + bookMap['coverurl'];
+      } else {
+        bookMap['coverurl'] = url + '/covers/' + bookMap['coverurl'];
       }
       return Book(
         id: bookMap['id'],
-        title: bookMap['title'],
-        description: bookMap['description'],
+        title: bookMap['title'] ?? '',
+        description: bookMap['description'] ?? '',
         md5: bookMap['md5'],
         cover: bookMap['coverurl'],
-        authors: [bookMap['author']],
+        authors: [bookMap['author']] ?? [''],
         format: bookMap['extension'],
         language: bookMap['language'],
         mirrorUrl: url + '/get.php?md5=' + bookMap['md5'],

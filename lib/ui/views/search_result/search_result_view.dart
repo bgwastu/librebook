@@ -6,17 +6,20 @@ import 'package:librebook/controllers/search_result_controller.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
+import 'package:librebook/ui/views/book_detail/book_detail_view.dart';
 import 'package:librebook/ui/widgets/image_error_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SearchResultView extends StatefulWidget {
   final String query;
+  final bool isGeneral;
   final BookSearchDetail firstSearchDetail;
 
   SearchResultView({
     Key key,
     @required this.query,
     @required this.firstSearchDetail,
+    @required this.isGeneral,
   }) : super(key: key);
 
   @override
@@ -38,7 +41,7 @@ class _SearchResultViewState extends State<SearchResultView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'General Books',
+          widget.isGeneral ? 'General Books' : 'Fantasy Books',
           style: TextStyle(color: Colors.grey[800]),
         ),
         actions: [
@@ -65,105 +68,120 @@ class _SearchResultViewState extends State<SearchResultView> {
 
               return Padding(
                 padding: EdgeInsets.only(left: 8, right: 8, top: 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: Get.height / 6,
-                      width: Get.height / 8,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Positioned(
-                            top: 2,
-                            left: 2,
-                            child: Material(
-                              elevation: 3,
-                              color: primaryColor,
-                              child: Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    book.format,
-                                    style: TextStyle(
-                                        color: secondaryColor,
-                                        fontWeight: FontWeight.w600),
-                                  )),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => BookDetailView(
+                          book: book,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: Get.height / 6,
+                        width: Get.height / 8,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Positioned(
+                              top: 2,
+                              left: 2,
+                              child: Material(
+                                elevation: 3,
+                                color: primaryColor,
+                                child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      book.format,
+                                      style: TextStyle(
+                                          color: secondaryColor,
+                                          fontWeight: FontWeight.w600),
+                                    )),
+                              ),
                             ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey[300])),
-                            child: CachedNetworkImage(
-                              imageUrl: book.cover,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: Colors.grey[300],
-                                highlightColor: Colors.grey[100],
-                                child: Container(
-                                  width: double.infinity,
-                                  color: Colors.white,
+                            Hero(
+                              tag: 'image' + book.id,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[300]),
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: book.cover,
+                                  placeholder: (context, url) =>
+                                      Shimmer.fromColors(
+                                    baseColor: Colors.grey[300],
+                                    highlightColor: Colors.grey[100],
+                                    child: Container(
+                                      width: double.infinity,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  fit: BoxFit.fill,
+                                  errorWidget: (context, _, __) {
+                                    return ImageErrorWidget();
+                                  },
                                 ),
                               ),
-                              fit: BoxFit.fill,
-                              errorWidget: (context, _, __) {
-                                return ImageErrorWidget();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    horizontalSpaceSmall,
-                    Expanded(
-                      child: Container(
-                        height: Get.height / 6,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                verticalSpaceSmall,
-                                Text(
-                                  book.title,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                verticalSpaceSmall,
-                                Text(
-                                  book.authors.join(', '),
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: 14),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Format: ' + book.format,
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                                Text(
-                                  'Language: ' + book.language,
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                  ),
-                                )
-                              ],
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                      horizontalSpaceSmall,
+                      Expanded(
+                        child: Container(
+                          height: Get.height / 6,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    book.title,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  verticalSpaceTiny,
+                                  Text(
+                                    book.authors.join(', '),
+                                    maxLines: 1,
+                                    style: TextStyle(fontSize: 14),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Format: ' + book.format,
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  Text(
+                                    'Language: ' + book.language,
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

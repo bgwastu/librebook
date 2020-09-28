@@ -24,25 +24,28 @@ class BookDetailView extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 160,
-                width: 120,
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.grey[300])),
-                child: CachedNetworkImage(
-                  imageUrl: book.cover,
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.grey[100],
-                    child: Container(
-                      width: double.infinity,
-                      color: Colors.white,
+              Hero(
+                tag: 'image' + book.id,
+                child: Container(
+                  height: 160,
+                  width: 120,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey[300])),
+                  child: CachedNetworkImage(
+                    imageUrl: book.cover,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: Container(
+                        width: double.infinity,
+                        color: Colors.white,
+                      ),
                     ),
+                    fit: BoxFit.fill,
+                    errorWidget: (context, _, __) {
+                      return ImageErrorWidget();
+                    },
                   ),
-                  fit: BoxFit.fill,
-                  errorWidget: (context, _, __) {
-                    return ImageErrorWidget();
-                  },
                 ),
               ),
               horizontalSpaceSmall,
@@ -54,80 +57,83 @@ class BookDetailView extends StatelessWidget {
                       book.title,
                       style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 21),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
                     ),
                     verticalSpaceSmall,
                     Text(
                       book.authors.join(', '),
                       style: TextStyle(fontSize: 15),
+                      maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                     ),
                     verticalSpaceLarge,
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    book.language,
-                                    style: TextStyle(
-                                        color: Colors.grey[700],
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16),
-                                  ),
-                                  horizontalSpaceTiny,
-                                  Icon(
-                                    OMIcons.language,
-                                    color: Colors.grey[800],
-                                  ),
-                                ],
-                              ),
-                              verticalSpaceTiny,
-                              Text(
-                                'Language',
-                                style: TextStyle(
-                                    color: Colors.grey[700], fontSize: 12),
-                              )
-                            ],
-                          ),
-                          Container(
-                            height: 30,
-                            width: 0.4,
-                            color: Colors.grey[800],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    book.format.toUpperCase(),
-                                    style: TextStyle(
-                                        color: Colors.grey[700],
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16),
-                                  ),
-                                  horizontalSpaceTiny,
-                                  Icon(
-                                    OMIcons.book,
-                                    color: Colors.grey[700],
-                                  ),
-                                ],
-                              ),
-                              verticalSpaceTiny,
-                              Text(
-                                'Format',
-                                style: TextStyle(
-                                    color: Colors.grey[800], fontSize: 12),
-                              )
-                            ],
-                          )
-                        ],
-                      )
                   ],
                 ),
               ),
+            ],
+          ),
+          verticalSpaceMedium,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        book.language,
+                        style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16),
+                      ),
+                      horizontalSpaceTiny,
+                      Icon(
+                        OMIcons.language,
+                        color: Colors.grey[800],
+                      ),
+                    ],
+                  ),
+                  verticalSpaceTiny,
+                  Text(
+                    'Language',
+                    style: TextStyle(color: Colors.grey[700], fontSize: 12),
+                  )
+                ],
+              ),
+              Container(
+                height: 30,
+                width: 0.4,
+                color: Colors.grey[800],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        book.format.toUpperCase(),
+                        style: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16),
+                      ),
+                      horizontalSpaceTiny,
+                      Icon(
+                        OMIcons.book,
+                        color: Colors.grey[700],
+                      ),
+                    ],
+                  ),
+                  verticalSpaceTiny,
+                  Text(
+                    'Format',
+                    style: TextStyle(color: Colors.grey[800], fontSize: 12),
+                  )
+                ],
+              )
             ],
           ),
           verticalSpaceMedium,
@@ -161,7 +167,7 @@ class BookDetailView extends StatelessWidget {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
           verticalSpaceSmall,
-          Text(book.description.isEmpty ? 'No Description': book.description),
+          Text(book.description.isEmpty ? 'No Description' : book.description),
         ],
       ),
     );
