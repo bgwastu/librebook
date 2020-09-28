@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
+import 'package:librebook/ui/views/book_detail/book_detail_view.dart';
 import 'package:librebook/ui/widgets/image_error_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -17,7 +18,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
       width: Get.height / 5,
       child: InkWell(
         onTap: () {
-          //TODO: implement tap book item horizontal widget
+          Get.to(BookDetailView(book: book));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,23 +78,26 @@ class BookItemHorizontalWidget extends StatelessWidget {
   }
 
   Widget _coverImage() {
-    return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.grey[300])),
-      child: CachedNetworkImage(
-        imageUrl: book.cover,
-        placeholder: (context, url) => Shimmer.fromColors(
-          baseColor: Colors.grey[300],
-          highlightColor: Colors.grey[100],
+    return Hero(
+      tag: 'image' + book.id,
           child: Container(
-            width: double.infinity,
-            color: Colors.white,
+        decoration: BoxDecoration(border: Border.all(color: Colors.grey[300])),
+        child: CachedNetworkImage(
+          imageUrl: book.cover,
+          placeholder: (context, url) => Shimmer.fromColors(
+            baseColor: Colors.grey[300],
+            highlightColor: Colors.grey[100],
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
+            ),
           ),
+          fit: BoxFit.fill,
+          errorWidget: (context, _, __) {
+            return ImageErrorWidget();
+          },
+          width: double.infinity,
         ),
-        fit: BoxFit.fill,
-        errorWidget: (context, _, __) {
-          return ImageErrorWidget();
-        },
-        width: double.infinity,
       ),
     );
   }

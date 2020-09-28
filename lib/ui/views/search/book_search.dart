@@ -93,6 +93,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
                     builder: (context) => SearchResultView(
                       query: query,
                       firstSearchDetail: controller.currentFantasySearchDetail,
+                      isGeneral: false,
                     ),
                   ));
                 }
@@ -153,13 +154,13 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
         children: <Widget>[
           Obx(
             () => InkWell(
-              onTap: () async {
+              onTap: () {
                 if (!controller.isGeneralBusy.value) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => SearchResultView(
                       query: query,
                       firstSearchDetail: controller.currentGeneralSearchDetail, 
-                      isGeneral: null,
+                      isGeneral: true,
                     ),
                   ));
                 }
