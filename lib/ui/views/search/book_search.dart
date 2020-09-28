@@ -158,7 +158,8 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => SearchResultView(
                       query: query,
-                      firstSearchDetail: controller.currentGeneralSearchDetail,
+                      firstSearchDetail: controller.currentGeneralSearchDetail, 
+                      isGeneral: null,
                     ),
                   ));
                 }
