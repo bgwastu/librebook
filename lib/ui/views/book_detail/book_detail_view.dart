@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
@@ -27,8 +28,8 @@ class BookDetailView extends StatelessWidget {
               Hero(
                 tag: 'image' + book.id,
                 child: Container(
-                  height: 160,
-                  width: 120,
+                  height: Get.height / 6,
+                  width: Get.height / 8,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey[300])),
                   child: CachedNetworkImage(
@@ -57,15 +58,15 @@ class BookDetailView extends StatelessWidget {
                       book.title,
                       style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 21),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     verticalSpaceSmall,
                     Text(
                       book.authors.join(', '),
                       style: TextStyle(fontSize: 15),
                       maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     verticalSpaceLarge,
                   ],
