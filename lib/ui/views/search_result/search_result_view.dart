@@ -70,13 +70,9 @@ class _SearchResultViewState extends State<SearchResultView> {
                 padding: EdgeInsets.only(left: 8, right: 8, top: 8),
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => BookDetailView(
-                          book: book,
-                        ),
-                      ),
-                    );
+                    Get.to(BookDetailView(
+                      book: book,
+                    ));
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
