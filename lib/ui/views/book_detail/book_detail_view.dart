@@ -25,49 +25,15 @@ class BookDetailView extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Hero(
-                tag: 'image' + book.id,
-                child: Container(
-                  height: Get.height / 6,
-                  width: Get.height / 8,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[300])),
-                  child: CachedNetworkImage(
-                    imageUrl: book.cover,
-                    placeholder: (context, url) => Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Container(
-                        width: double.infinity,
-                        color: Colors.white,
-                      ),
-                    ),
-                    fit: BoxFit.fill,
-                    errorWidget: (context, _, __) {
-                      return ImageErrorWidget();
-                    },
-                  ),
-                ),
-              ),
+              _coverImage(),
               horizontalSpaceSmall,
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      book.title,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 21),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    _title(),
                     verticalSpaceSmall,
-                    Text(
-                      book.authors.join(', '),
-                      style: TextStyle(fontSize: 15),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    _authors(),
                     verticalSpaceLarge,
                   ],
                 ),
@@ -75,101 +41,162 @@ class BookDetailView extends StatelessWidget {
             ],
           ),
           verticalSpaceMedium,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        book.language,
-                        style: TextStyle(
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16),
-                      ),
-                      horizontalSpaceTiny,
-                      Icon(
-                        OMIcons.language,
-                        color: Colors.grey[800],
-                      ),
-                    ],
-                  ),
-                  verticalSpaceTiny,
-                  Text(
-                    'Language',
-                    style: TextStyle(color: Colors.grey[700], fontSize: 12),
-                  )
-                ],
-              ),
-              Container(
-                height: 30,
-                width: 0.4,
-                color: Colors.grey[800],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        book.format.toUpperCase(),
-                        style: TextStyle(
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16),
-                      ),
-                      horizontalSpaceTiny,
-                      Icon(
-                        OMIcons.book,
-                        color: Colors.grey[700],
-                      ),
-                    ],
-                  ),
-                  verticalSpaceTiny,
-                  Text(
-                    'Format',
-                    style: TextStyle(color: Colors.grey[800], fontSize: 12),
-                  )
-                ],
-              )
-            ],
-          ),
+          _language(),
           verticalSpaceMedium,
-          Row(
-            children: [
-              Expanded(
-                child: MaterialButton(
-                  child: Text('Download'),
-                  color: secondaryColor,
-                  onPressed: () {},
-                ),
-              ),
-              horizontalSpaceSmall,
-              Expanded(
-                child: OutlineButton(
-                  child: Text('Preview'),
-                  textColor: secondaryColor,
-                  color: secondaryColor,
-                  onPressed: () {},
-                ),
-              ),
-            ],
-          ),
+          _actionButton(),
           verticalSpaceSmall,
           Divider(
             height: 10,
           ),
           verticalSpaceSmall,
-          Text(
-            'Description',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-          ),
-          verticalSpaceSmall,
-          Text(book.description.isEmpty ? 'No Description' : book.description),
+          _description()
         ],
+      ),
+    );
+  }
+
+  Column _description() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Description',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+        verticalSpaceSmall,
+        Text(book.description.isEmpty ? 'No Description' : book.description),
+      ],
+    );
+  }
+
+  Row _actionButton() {
+    return Row(
+      children: [
+        Expanded(
+          child: MaterialButton(
+            child: Text('Download'),
+            color: secondaryColor,
+            onPressed: () {},
+          ),
+        ),
+        horizontalSpaceSmall,
+        Expanded(
+          child: OutlineButton(
+            child: Text('Preview'),
+            textColor: secondaryColor,
+            color: secondaryColor,
+            onPressed: () {},
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _language() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                Text(
+                  book.language,
+                  style: TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16),
+                ),
+                horizontalSpaceTiny,
+                Icon(
+                  OMIcons.language,
+                  color: Colors.grey[800],
+                ),
+              ],
+            ),
+            verticalSpaceTiny,
+            Text(
+              'Language',
+              style: TextStyle(color: Colors.grey[700], fontSize: 12),
+            )
+          ],
+        ),
+        Container(
+          height: 30,
+          width: 0.4,
+          color: Colors.grey[800],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                Text(
+                  book.format.toUpperCase(),
+                  style: TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16),
+                ),
+                horizontalSpaceTiny,
+                Icon(
+                  OMIcons.book,
+                  color: Colors.grey[700],
+                ),
+              ],
+            ),
+            verticalSpaceTiny,
+            Text(
+              'Format',
+              style: TextStyle(color: Colors.grey[800], fontSize: 12),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Text _authors() {
+    return Text(
+      book.authors.join(', '),
+      style: TextStyle(fontSize: 15),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Text _title() {
+    return Text(
+      book.title,
+      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 21),
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Hero _coverImage() {
+    return Hero(
+      tag: 'image' + book.id,
+      child: Container(
+        height: Get.height / 6,
+        width: Get.height / 8,
+        decoration: BoxDecoration(border: Border.all(color: Colors.grey[300])),
+        child: CachedNetworkImage(
+          imageUrl: book.cover,
+          placeholder: (context, url) => Shimmer.fromColors(
+            baseColor: Colors.grey[300],
+            highlightColor: Colors.grey[100],
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
+            ),
+          ),
+          fit: BoxFit.fill,
+          errorWidget: (context, _, __) {
+            return ImageErrorWidget();
+          },
+        ),
       ),
     );
   }
