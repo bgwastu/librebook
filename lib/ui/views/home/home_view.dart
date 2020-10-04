@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/search/book_search.dart';
 import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
       length: 2,
       vsync: this,
     );
+    Permission.storage.request();
   }
 
   @override
@@ -36,7 +38,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                   automaticallyImplyLeading: false,
                   backgroundColor: Colors.white,
                   pinned: true,
-                  elevation: 2,
+                  elevation: 5,
                   snap: true,
                   forceElevated: true,
                   bottom: TabBar(
@@ -54,7 +56,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0)),
-                        elevation: 2,
+                        elevation: 5,
                         child: InkWell(
                           onTap: () {
                             // TODO: Implement search
