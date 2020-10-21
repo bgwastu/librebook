@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:librebook/controllers/download_controller.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
@@ -8,10 +11,46 @@ import 'package:librebook/ui/widgets/image_error_widget.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
-class BookDetailView extends StatelessWidget {
+class BookDetailView extends StatefulWidget {
   final Book book;
 
   const BookDetailView({Key key, @required this.book}) : super(key: key);
+
+  @override
+  _BookDetailViewState createState() => _BookDetailViewState();
+}
+
+class _BookDetailViewState extends State<BookDetailView> {
+  int _progress = 0;
+
+  final _downloadController = Get.put(DownloadController());
+  Book book;
+
+  @override
+  void initState() {
+    super.initState();
+    _downloadController.isDownloading.listen((value) {
+      if (value) {
+        Get.dialog(
+          Obx(() => AlertDialog(
+                title:
+                    Text('Hello World: ' + _downloadController.progress.value),
+              )),
+          barrierDismissible: false,
+        );
+      } else {
+        if (Get.isDialogOpen) {
+          Get.back();
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    IsolateNameServer.removePortNameMapping('downloading');
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +82,22 @@ class BookDetailView extends StatelessWidget {
           verticalSpaceMedium,
           _language(),
           verticalSpaceMedium,
+          LinearProgressIndicator(
+            value: _progress / 10,
+          ),
           _actionButton(),
+          // Obx(() {
+          //   if (_status.value == DownloadTaskStatus.undefined) {
+          //     return _actionButton();
+          //   } else if (_status.value == DownloadTaskStatus.running) {
+          //     return LinearProgressIndicator(
+          //       value: _progress / 10,
+          //     );
+          //   } else {
+          //     print('Status: ' + _status.value.toString());
+          //     return _actionButton();
+          //   }
+          // }),
           verticalSpaceSmall,
           Divider(
             height: 10,
@@ -64,7 +118,9 @@ class BookDetailView extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
         verticalSpaceSmall,
-        Text(book.description.isEmpty ? 'No Description' : book.description),
+        Text(widget.book.description.isEmpty
+            ? 'No Description'
+            : widget.book.description),
       ],
     );
   }
@@ -74,10 +130,11 @@ class BookDetailView extends StatelessWidget {
       children: [
         Expanded(
           child: MaterialButton(
-            child: Text('Download'),
-            color: secondaryColor,
-            onPressed: () {},
-          ),
+              child: Text('Download'),
+              color: secondaryColor,
+              onPressed: () async {
+                await _downloadController.download(widget.book);
+              }),
         ),
         horizontalSpaceSmall,
         Expanded(
@@ -102,7 +159,7 @@ class BookDetailView extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  book.language,
+                  widget.book.language,
                   style: TextStyle(
                       color: Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -133,7 +190,7 @@ class BookDetailView extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  book.format.toUpperCase(),
+                  widget.book.format.toUpperCase(),
                   style: TextStyle(
                       color: Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -159,7 +216,7 @@ class BookDetailView extends StatelessWidget {
 
   Text _authors() {
     return Text(
-      book.authors.join(', '),
+      widget.book.authors.join(', '),
       style: TextStyle(fontSize: 15),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
@@ -168,7 +225,7 @@ class BookDetailView extends StatelessWidget {
 
   Text _title() {
     return Text(
-      book.title,
+      widget.book.title,
       style: TextStyle(fontWeight: FontWeight.w600, fontSize: 21),
       maxLines: 3,
       overflow: TextOverflow.ellipsis,
@@ -177,13 +234,13 @@ class BookDetailView extends StatelessWidget {
 
   Hero _coverImage() {
     return Hero(
-      tag: 'image' + book.id,
+      tag: 'image' + widget.book.id,
       child: Container(
         height: Get.height / 6,
         width: Get.height / 8,
         decoration: BoxDecoration(border: Border.all(color: Colors.grey[300])),
         child: CachedNetworkImage(
-          imageUrl: book.cover,
+          imageUrl: widget.book.cover,
           placeholder: (context, url) => Shimmer.fromColors(
             baseColor: Colors.grey[300],
             highlightColor: Colors.grey[100],
