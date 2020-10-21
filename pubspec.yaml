@@ -33,6 +33,14 @@ dependencies:
   flutter_statusbarcolor:
   outline_material_icons:
 
+  #download
+  dio:
+  path_provider:
+  downloads_path_provider_28:
+  permission_handler:
+  open_file:
+  flutter_local_notifications:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
