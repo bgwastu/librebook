@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/search/book_search.dart';
 import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
+import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HomeView extends StatefulWidget {
@@ -26,7 +28,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     var scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: scaffoldKey,
-        drawer: Drawer(),
         body: ScrollConfiguration(
           behavior: ScrollBehavior(),
           child: GlowingOverscrollIndicator(
@@ -44,11 +45,17 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                   bottom: TabBar(
                     controller: _tabController,
                     indicatorWeight: 3,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicator: MD2Indicator(
+                      indicatorHeight: 3,
+                      indicatorColor: secondaryColor,
+                      indicatorSize: MD2IndicatorSize.full,
+                    ),
                     unselectedLabelColor: Colors.grey[600],
                     indicatorPadding: EdgeInsets.symmetric(horizontal: 16),
                     tabs: [
-                      Tab(text: "My library"),
                       Tab(text: "Downloads"),
+                      Tab(text: "Settings"),
                     ],
                   ),
                   title: Hero(
@@ -59,20 +66,16 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                         elevation: 5,
                         child: InkWell(
                           onTap: () {
-                            // TODO: Implement search
                             customSearch.showSearch(
                                 context: context, delegate: BookSearch());
                           },
                           child: Container(
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     IconButton(
-                                      icon: Icon(Icons.menu),
+                                      icon: Icon(Icons.search),
                                       onPressed: () =>
                                           scaffoldKey.currentState.openDrawer(),
                                     ),
@@ -101,8 +104,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     child: TabBarView(
                       controller: _tabController,
                       children: <Widget>[
-                        Center(child: Text('My library')),
                         Center(child: Text('Download')),
+                        Center(child: Text('Settings')),
                       ],
                     ),
                   ),
