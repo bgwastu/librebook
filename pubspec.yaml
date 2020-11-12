@@ -9,6 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.3
+  path: ^1.7.0
 
   # architecture
   get:
@@ -33,6 +34,8 @@ dependencies:
   flutter_statusbarcolor:
   outline_material_icons:
   md2_tab_indicator:
+  sembast:
+  flutter_downloader:
 
   #download
   dio:

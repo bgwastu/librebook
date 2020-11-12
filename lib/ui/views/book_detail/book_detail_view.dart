@@ -125,27 +125,14 @@ class _BookDetailViewState extends State<BookDetailView> {
     );
   }
 
-  Row _actionButton() {
-    return Row(
-      children: [
-        Expanded(
-          child: MaterialButton(
-              child: Text('Download'),
-              color: secondaryColor,
-              onPressed: () async {
-                await _downloadController.download(widget.book);
-              }),
-        ),
-        horizontalSpaceSmall,
-        Expanded(
-          child: OutlineButton(
-            child: Text('Preview'),
-            textColor: secondaryColor,
-            color: secondaryColor,
-            onPressed: () {},
-          ),
-        ),
-      ],
+  Widget _actionButton() {
+    return Expanded(
+      child: MaterialButton(
+          child: Text('Download'),
+          color: secondaryColor,
+          onPressed: () async {
+            await _downloadController.download(widget.book);
+          }),
     );
   }
 
