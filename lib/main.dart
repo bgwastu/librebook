@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:librebook/app/locator.dart';
 import 'package:librebook/database/download_database.dart';
@@ -8,6 +9,11 @@ import 'package:librebook/ui/views/splash/splash_view.dart';
 
 void main() async {
   setupLocator();
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(
+    // delete this
+    debug: true,
+  );
   DownloadDatabase.init();
   runApp(App());
 }
@@ -29,5 +35,4 @@ class App extends StatelessWidget {
           home: SplashView(),
         ));
   }
-  
 }

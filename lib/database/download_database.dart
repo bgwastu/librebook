@@ -22,14 +22,33 @@ class DownloadDatabase {
     db.close();
   }
 
-  Future insert(Book book, String filePath) {
-    return _store.add(_database, {'book': book, 'filePath': filePath});
+  Future insert(Book book, String taskId) {
+    // TODO: if already have task id ignore it
+    return _store.add(_database, {
+      'title': book.title,
+      'md5'
+      'authors': book.authors,
+      'imageUrl': book.cover,
+      'taskId': taskId,
+    });
   }
 
-  Future update(int id, Book book, String filePath) {
-    return _store
-        .record(id)
-        .update(_database, {'book': book, 'filePath': filePath});
+  Future getByTaskId(String taskId) {
+    return _store.findFirst(_database,
+        finder: Finder(filter: Filter.equals('taskId', taskId)));
+  }
+
+  Future getTaskIdBy(int id) async {
+    // return _store.find(databaseClient)
+  }
+
+  Future update(int id, Book book, String taskId) {
+    return _store.record(id).update(_database, {
+      'title': book.title,
+      'authors': book.authors,
+      'imageUrl': book.cover,
+      'taskId': taskId
+    });
   }
 
   Future delete(int id) {
