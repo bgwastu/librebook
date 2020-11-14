@@ -1,7 +1,9 @@
+import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:librebook/controllers/download_controller.dart';
 import 'package:librebook/models/book_model.dart';
@@ -11,6 +13,8 @@ import 'package:librebook/ui/widgets/image_error_widget.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
+//TODO: benerin multi download
+// https://github.com/fluttercommunity/flutter_downloader/issues/282
 class BookDetailView extends StatefulWidget {
   final Book book;
 
@@ -21,29 +25,26 @@ class BookDetailView extends StatefulWidget {
 }
 
 class _BookDetailViewState extends State<BookDetailView> {
-  int _progress = 0;
-
-  final _downloadController = Get.put(DownloadController());
+  final _receivePort = ReceivePort();
   Book book;
+  final _downloadController = Get.put(DownloadController());
+  static void downloadCallback(id, status, progress) {
+    final SendPort send = IsolateNameServer.lookupPortByName('downloading');
+    send.send([id, status, progress]);
+  }
 
   @override
   void initState() {
     super.initState();
-    _downloadController.isDownloading.listen((value) {
-      if (value) {
-        Get.dialog(
-          Obx(() => AlertDialog(
-                title:
-                    Text('Hello World: ' + _downloadController.progress.value),
-              )),
-          barrierDismissible: false,
-        );
-      } else {
-        if (Get.isDialogOpen) {
-          Get.back();
-        }
-      }
+    book = widget.book;
+    IsolateNameServer.registerPortWithName(
+        _receivePort.sendPort, 'downloading');
+
+    // Listening
+    _receivePort.listen((data) {
     });
+
+    FlutterDownloader.registerCallback(downloadCallback);
   }
 
   @override
@@ -82,22 +83,7 @@ class _BookDetailViewState extends State<BookDetailView> {
           verticalSpaceMedium,
           _language(),
           verticalSpaceMedium,
-          LinearProgressIndicator(
-            value: _progress / 10,
-          ),
           _actionButton(),
-          // Obx(() {
-          //   if (_status.value == DownloadTaskStatus.undefined) {
-          //     return _actionButton();
-          //   } else if (_status.value == DownloadTaskStatus.running) {
-          //     return LinearProgressIndicator(
-          //       value: _progress / 10,
-          //     );
-          //   } else {
-          //     print('Status: ' + _status.value.toString());
-          //     return _actionButton();
-          //   }
-          // }),
           verticalSpaceSmall,
           Divider(
             height: 10,
@@ -126,14 +112,12 @@ class _BookDetailViewState extends State<BookDetailView> {
   }
 
   Widget _actionButton() {
-    return Expanded(
-      child: MaterialButton(
-          child: Text('Download'),
-          color: secondaryColor,
-          onPressed: () async {
-            await _downloadController.download(widget.book);
-          }),
-    );
+    return MaterialButton(
+        child: Text('Download'),
+        color: secondaryColor,
+        onPressed: () async {
+          await _downloadController.download(widget.book);
+        });
   }
 
   Row _language() {
