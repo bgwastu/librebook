@@ -1,5 +1,4 @@
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:librebook/app/locator.dart';
@@ -35,9 +34,6 @@ class DownloadController extends GetxController {
 
       final bookUrl = await _downloadServices.getDownloadUrl(book.mirrorUrl);
 
-      final taskId = await FlutterDownloader.enqueue(url: bookUrl, savedDir: externalDir.path);
-
-      return taskId;
     } else {
       print('permission denied');
     }
