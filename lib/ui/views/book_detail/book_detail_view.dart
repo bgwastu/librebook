@@ -1,9 +1,7 @@
-import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:librebook/controllers/download_controller.dart';
 import 'package:librebook/models/book_model.dart';
@@ -13,8 +11,7 @@ import 'package:librebook/ui/widgets/image_error_widget.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
-//TODO: benerin multi download
-// https://github.com/fluttercommunity/flutter_downloader/issues/282
+
 class BookDetailView extends StatefulWidget {
   final Book book;
 
@@ -25,26 +22,10 @@ class BookDetailView extends StatefulWidget {
 }
 
 class _BookDetailViewState extends State<BookDetailView> {
-  final _receivePort = ReceivePort();
-  Book book;
-  final _downloadController = Get.put(DownloadController());
-  static void downloadCallback(id, status, progress) {
-    final SendPort send = IsolateNameServer.lookupPortByName('downloading');
-    send.send([id, status, progress]);
-  }
-
+  DownloadController _downloadController = Get.put(DownloadController());
   @override
   void initState() {
     super.initState();
-    book = widget.book;
-    IsolateNameServer.registerPortWithName(
-        _receivePort.sendPort, 'downloading');
-
-    // Listening
-    _receivePort.listen((data) {
-    });
-
-    FlutterDownloader.registerCallback(downloadCallback);
   }
 
   @override
