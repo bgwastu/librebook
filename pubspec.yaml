@@ -13,10 +13,6 @@ dependencies:
   # architecture
   get:
 
-  # hooks
-  flutter_hooks:
-  stacked_hooks:
-
   # injection
   get_it:
 
