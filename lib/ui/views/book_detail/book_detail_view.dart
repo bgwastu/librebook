@@ -26,6 +26,7 @@ class _BookDetailViewState extends State<BookDetailView> {
   @override
   void initState() {
     super.initState();
+    _downloadController.init();
   }
 
   @override
