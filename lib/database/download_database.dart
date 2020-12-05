@@ -7,12 +7,12 @@ import 'package:sembast/sembast_io.dart';
 
 class DownloadDatabase {
   final Database _database = GetIt.I.get();
-  final StoreRef _store = intMapStoreFactory.store("download_store");
+  final StoreRef _store = intMapStoreFactory.store('download_store');
 
   static init() async {
     final appDir = await getApplicationDocumentsDirectory();
     await appDir.create(recursive: true);
-    final databasePath = join(appDir.path, "download_database.db");
+    final databasePath = join(appDir.path, 'download_database.db');
     final database = await databaseFactoryIo.openDatabase(databasePath);
     GetIt.I.registerSingleton<Database>(database);
   }
@@ -22,28 +22,31 @@ class DownloadDatabase {
     db.close();
   }
 
-  Future insert(Book book, String taskId) {
-    // TODO: if already have task id ignore it
+  Future insert(Book book, String path) async {
+    final currentBook = await getDownloadedBookByMD5(book.md5);
+    if (currentBook != null) {
+      return null;
+    }
     return _store.add(_database, {
       'title': book.title,
-      'md5'
+      'md5': book.md5,
       'authors': book.authors,
       'imageUrl': book.cover,
-      'taskId': taskId,
+      'path': path,
     });
   }
 
-  Future getByTaskId(String taskId) {
+  Future<RecordSnapshot<dynamic, dynamic>> getDownloadedBookByMD5(String md5) {
     return _store.findFirst(_database,
-        finder: Finder(filter: Filter.equals('taskId', taskId)));
+        finder: Finder(filter: Filter.equals('md5', md5)));
   }
 
-  Future getTaskIdBy(int id) async {
-    // return _store.find(databaseClient)
-  }
-
-  Future update(int id, Book book, String taskId) {
-    return _store.record(id).update(_database, {
+  Future update(Book book, String taskId) async {
+    final downloadedBook = await getDownloadedBookByMD5(book.md5);
+    if(downloadedBook == null){
+      throw Exception('Downloaded book not found');
+    }
+    return _store.record(downloadedBook.key).update(_database, {
       'title': book.title,
       'authors': book.authors,
       'imageUrl': book.cover,
@@ -51,7 +54,11 @@ class DownloadDatabase {
     });
   }
 
-  Future delete(int id) {
-    _store.record(id).delete(_database);
+  Future delete(String md5) async {
+    final downloadedBook = await getDownloadedBookByMD5(md5);
+    if(downloadedBook == null){
+      throw Exception('Downloaded book not found');
+    }
+    await _store.delete(downloadedBook.key);
   }
 }
