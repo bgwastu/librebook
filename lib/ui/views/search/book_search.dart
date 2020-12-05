@@ -14,6 +14,7 @@ import 'package:librebook/utils/custom_exception.dart';
 
 class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
   bool isResultView = false;
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -85,37 +86,35 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
       height: Get.height / 2.3,
       child: Column(
         children: <Widget>[
-          Obx(
-            () => InkWell(
-              onTap: () {
-                if (!controller.isFantasyBusy.value) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SearchResultView(
-                      query: query,
-                      firstSearchDetail: controller.currentFantasySearchDetail,
-                      isGeneral: false,
+          InkWell(
+            onTap: () {
+              if (!controller.isFantasyBusy.value) {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SearchResultView(
+                    query: query,
+                    firstSearchDetail: controller.currentFantasySearchDetail,
+                    isGeneral: false,
+                  ),
+                ));
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Fiction Books',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ));
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Fiction Books',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.arrow_forward),
-                      onPressed: null,
-                    )
-                  ],
-                ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward),
+                    onPressed: null,
+                  )
+                ],
               ),
             ),
           ),
@@ -152,37 +151,35 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
       height: Get.height / 2.3,
       child: Column(
         children: <Widget>[
-          Obx(
-            () => InkWell(
-              onTap: () {
-                if (!controller.isGeneralBusy.value) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SearchResultView(
-                      query: query,
-                      firstSearchDetail: controller.currentGeneralSearchDetail, 
-                      isGeneral: true,
+          InkWell(
+            onTap: () {
+              if (!controller.isGeneralBusy.value) {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SearchResultView(
+                    query: query,
+                    firstSearchDetail: controller.currentGeneralSearchDetail,
+                    isGeneral: true,
+                  ),
+                ));
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'General Books',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ));
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'General Books',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.arrow_forward),
-                      onPressed: null,
-                    )
-                  ],
-                ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward),
+                    onPressed: null,
+                  )
+                ],
               ),
             ),
           ),
