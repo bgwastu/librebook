@@ -10,7 +10,6 @@ void main() async {
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
   DownloadDatabase.init();
-
   runApp(App());
 }
 
