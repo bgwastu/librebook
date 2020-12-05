@@ -18,21 +18,22 @@ class DownloadController extends GetxController {
   final _downloadServices = locator<DownloadService>();
   final _downloadDb = DownloadDatabase();
   RxInt _progress = 0.obs;
-  Rx<DownloadStatus> _status = DownloadStatus.unInitialized.obs;
+  Rx<DownloadStatus> downloadStatus = DownloadStatus.unInitialized.obs;
+  RxBool isAlreadyDownloaded = false.obs;
   String _fileDir;
 
   RxInt _received = 0.obs;
   RxInt _total = 0.obs;
 
-  ///is page currently download?
-  Future<bool> isCurrentlyDownload(String taskId) async {
-    final download = await _downloadDb.getByTaskId(taskId);
-    print('download: ' + download.toString());
-    return download != null;
+  /// Is this book already downloaded?
+  Future isCompleted(String md5) async {
+    final download = await _downloadDb.getDownloadedBookByMD5(md5);
+    print('isCompleted: ' + download.toString());
+    isAlreadyDownloaded.value = download != null;
   }
 
   init() {
-    _status.listen((status) {
+    downloadStatus.listen((status) {
       if (status == DownloadStatus.loading) {
         if (Get.isDialogOpen) {
           Get.back();
@@ -101,17 +102,17 @@ class DownloadController extends GetxController {
           title: Text('Error has been occurred'),
           content: Text(':('),
         ));
-        _status.value = DownloadStatus.unInitialized;
+        downloadStatus.value = DownloadStatus.unInitialized;
       }
     });
   }
 
-  /// return task id
-  Future<String> download(Book book) async {
+
+  Future download(Book book) async {
     final status = await Permission.storage.request();
 
     if (status.isGranted) {
-      _status.value = DownloadStatus.loading;
+      downloadStatus.value = DownloadStatus.loading;
       final externalDir = await DownloadsPathProvider.downloadsDirectory;
 
       //TODO: need internet connection handler
@@ -121,7 +122,7 @@ class DownloadController extends GetxController {
             await _downloadServices.checkMirror(book.mirrorUrl);
 
         if (!isUrlWorking) {
-          _status.value = DownloadStatus.error;
+          downloadStatus.value = DownloadStatus.error;
           print('error: url is not working');
           throw Exception('Url is not working');
         }
@@ -142,11 +143,13 @@ class DownloadController extends GetxController {
         // result
         final isCompleted = response.statusCode == 200;
         if (isCompleted) {
-          _status.value = DownloadStatus.completed;
+          await _downloadDb.insert(book, _fileDir);
+          downloadStatus.value = DownloadStatus.completed;
+          isAlreadyDownloaded.value = true;
         }
       } catch (e) {
         print('Error!: ' + e.toString());
-        _status.value = DownloadStatus.error;
+        downloadStatus.value = DownloadStatus.error;
         throw e;
       }
     } else {
