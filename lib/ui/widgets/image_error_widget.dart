@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:librebook/ui/shared/ui_helper.dart';
 
 class ImageErrorWidget extends StatelessWidget {
   @override

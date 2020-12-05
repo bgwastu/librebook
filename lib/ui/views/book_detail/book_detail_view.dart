@@ -11,7 +11,6 @@ import 'package:librebook/ui/widgets/image_error_widget.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
-
 class BookDetailView extends StatefulWidget {
   final Book book;
 
@@ -23,9 +22,13 @@ class BookDetailView extends StatefulWidget {
 
 class _BookDetailViewState extends State<BookDetailView> {
   DownloadController _downloadController = Get.put(DownloadController());
+  bool isDownloaded = false;
+
   @override
   void initState() {
     super.initState();
+    // check is book already downloaded
+    _downloadController.isCompleted(widget.book.md5);
     _downloadController.init();
   }
 
@@ -65,7 +68,11 @@ class _BookDetailViewState extends State<BookDetailView> {
           verticalSpaceMedium,
           _language(),
           verticalSpaceMedium,
-          _actionButton(),
+          Obx(
+            () => _downloadController.isAlreadyDownloaded.value
+                ? Text('completed')
+                : _actionButton(),
+          ),
           verticalSpaceSmall,
           Divider(
             height: 10,
