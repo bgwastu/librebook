@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 final ThemeData kLightTheme = _buildLightTheme();
 const Color primaryColor = Color(0xFFFFFFFF);
-const Color secondaryColor = Color(0xFF5D4037);
+const Color secondaryColor = Colors.indigo;
 
 ThemeData _buildLightTheme() {
   final ColorScheme colorScheme = const ColorScheme.light().copyWith(
