@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +12,11 @@ import 'package:librebook/services/download_service.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/utils/consts.dart';
 import 'package:librebook/utils/download_status.dart';
+import 'package:mime/mime.dart';
 import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
+import 'dart:io' as io;
 
 class DownloadController extends GetxController {
   final _downloadServices = locator<DownloadService>();
@@ -28,8 +32,31 @@ class DownloadController extends GetxController {
   /// Is this book already downloaded?
   Future isCompleted(String md5) async {
     final download = await _downloadDb.getDownloadedBookByMD5(md5);
-    print('isCompleted: ' + download.toString());
+    // check is file is still available
+    if (download != null) {
+      // if the download still available in database but not in the file then delete database
+      if (!await File(download['path']).exists()) {
+        await _downloadDb.delete(download['md5']);
+      }
+    }
     isAlreadyDownloaded.value = download != null;
+  }
+
+  Future deleteBook(String md5, String path) async {
+    await _downloadDb.delete(md5);
+    if (await File(path).exists()) {
+      await File(path).delete();
+      downloadStatus.value = DownloadStatus.unInitialized;
+      isAlreadyDownloaded.value = false;
+    }
+  }
+
+  Future<String> getPath(String md5) async {
+    final book = await _downloadDb.getDownloadedBookByMD5(md5);
+    if (book == null) {
+      throw Exception('Book not found, make sure to download it first');
+    }
+    return book['path'];
   }
 
   init() {
@@ -88,7 +115,7 @@ class DownloadController extends GetxController {
               //TODO: implement this button
               MaterialButton(
                 onPressed: () async {
-                  await OpenFile.open(_fileDir);
+                  await OpenFile.open(_fileDir, type: lookupMimeType(_fileDir));
                   Get.back();
                 },
                 child: Text('Yes'),
@@ -107,6 +134,11 @@ class DownloadController extends GetxController {
     });
   }
 
+  openFile(Book book) async {
+    final downloadedBook = await _downloadDb.getDownloadedBookByMD5(book.md5);
+    final path = downloadedBook['path'];
+    await OpenFile.open(path, type: lookupMimeType(path));
+  }
 
   Future download(Book book) async {
     final status = await Permission.storage.request();

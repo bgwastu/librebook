@@ -43,6 +43,38 @@ class _BookDetailViewState extends State<BookDetailView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        actions: [
+          Obx(() {
+            if (_downloadController.isAlreadyDownloaded.value) {
+              return IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    Get.dialog(AlertDialog(
+                      title: Text('Confirmation'),
+                      content: Text('Are you sure want to delete this book?'),
+                      actions: [
+                        MaterialButton(
+                          onPressed: () => Get.back(),
+                          child: Text('No'),
+                        ),
+                        MaterialButton(
+                          onPressed: () async {
+                            final path = await _downloadController
+                                .getPath(widget.book.md5);
+                            await _downloadController.deleteBook(
+                                widget.book.md5, path);
+                            Get.back();
+                          },
+                          child: Text('Yes'),
+                        ),
+                      ],
+                    ));
+                  });
+            } else {
+              return Container();
+            }
+          }),
+        ],
       ),
       body: ListView(
         padding: EdgeInsets.all(16),
@@ -70,7 +102,7 @@ class _BookDetailViewState extends State<BookDetailView> {
           verticalSpaceMedium,
           Obx(
             () => _downloadController.isAlreadyDownloaded.value
-                ? Text('completed')
+                ? _completedButton()
                 : _actionButton(),
           ),
           verticalSpaceSmall,
@@ -215,6 +247,14 @@ class _BookDetailViewState extends State<BookDetailView> {
           },
         ),
       ),
+    );
+  }
+
+  Widget _completedButton() {
+    return MaterialButton(
+      child: Text('Open Book'),
+      color: secondaryColor,
+      onPressed: () => _downloadController.openFile(widget.book),
     );
   }
 }

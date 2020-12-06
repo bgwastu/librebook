@@ -54,11 +54,7 @@ class DownloadDatabase {
     });
   }
 
-  Future delete(String md5) async {
-    final downloadedBook = await getDownloadedBookByMD5(md5);
-    if(downloadedBook == null){
-      throw Exception('Downloaded book not found');
-    }
-    await _store.delete(downloadedBook.key);
+  Future delete(String md5) {
+    return _store.delete(_database, finder: Finder(filter: Filter.equals('md5', md5)));
   }
 }
