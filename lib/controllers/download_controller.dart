@@ -115,10 +115,22 @@ class DownloadController extends GetxController {
               ),
               MaterialButton(
                 onPressed: () async {
-                  await OpenFile.open(_fileDir, type: lookupMimeType(_fileDir));
                   Get.back();
+                  final res = await OpenFile.open(_fileDir,
+                      type: lookupMimeType(_fileDir));
+                  if (res.type != ResultType.done) {
+                    Get.rawSnackbar(
+                      message: res.message,
+                      duration: Duration(milliseconds: 1500),
+                      isDismissible: true,
+                      title: 'Error',
+                    );
+                  }
                 },
-                child: Text('YES', style: TextStyle(color: secondaryColor),),
+                child: Text(
+                  'YES',
+                  style: TextStyle(color: secondaryColor),
+                ),
               ),
             ]));
       } else if (status == DownloadStatus.error) {
@@ -137,14 +149,30 @@ class DownloadController extends GetxController {
   openFile(Book book) async {
     final downloadedBook = await _downloadDb.getDownloadedBookByMD5(book.md5);
     final path = downloadedBook['path'];
-    await OpenFile.open(path, type: lookupMimeType(path));
+    final res = await OpenFile.open(
+      path,
+      type: lookupMimeType(path),
+    );
+    if (res.type != ResultType.done) {
+      Get.rawSnackbar(
+        message: res.message,
+        duration: Duration(milliseconds: 1500),
+        isDismissible: true,
+        title: 'Error',
+      );
+    }
   }
 
   Future download(Book book) async {
     final status = await Permission.storage.request();
 
     if (status.isGranted) {
+      // Reset all value
       downloadStatus.value = DownloadStatus.loading;
+      _progress.value = 0;
+      _received.value = 0;
+      _total.value = 0;
+
       final externalDir = await DownloadsPathProvider.downloadsDirectory;
 
       //TODO: need internet connection handler
