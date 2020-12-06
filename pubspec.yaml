@@ -30,6 +30,7 @@ dependencies:
   outline_material_icons:
   md2_tab_indicator:
   sembast:
+  mime:
 
   #download
   dio:
