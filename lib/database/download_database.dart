@@ -22,6 +22,27 @@ class DownloadDatabase {
     db.close();
   }
 
+  Future<List<Map<String, dynamic>>> getDownloadList() async {
+    final record = await _store.find(_database);
+    final downloadList = record.map((e) {
+      final book = Book(id: e['id'],
+        authors: List<String>.from(e['authors']),
+        cover: e['cover'],
+        description: e['description'],
+        format: e['format'],
+        language: e['language'],
+        md5: e['md5'],
+        mirrorUrl: e['mirrorUrl'],
+        title: e['title'],
+      );
+      return {
+        'book': book,
+        'path': ['path'],
+      };
+    }).toList();
+    return downloadList;
+  }
+
   Future insert(Book book, String path) async {
     final currentBook = await getDownloadedBookByMD5(book.md5);
     if (currentBook != null) {
@@ -31,8 +52,13 @@ class DownloadDatabase {
       'title': book.title,
       'md5': book.md5,
       'authors': book.authors,
-      'imageUrl': book.cover,
+      'cover': book.cover,
       'path': path,
+      'format': book.format,
+      'id': book.id,
+      'mirrorUrl': book.mirrorUrl,
+      'language': book.language,
+      'description': book.description,
     });
   }
 
@@ -43,7 +69,7 @@ class DownloadDatabase {
 
   Future update(Book book, String taskId) async {
     final downloadedBook = await getDownloadedBookByMD5(book.md5);
-    if(downloadedBook == null){
+    if (downloadedBook == null) {
       throw Exception('Downloaded book not found');
     }
     return _store.record(downloadedBook.key).update(_database, {
@@ -55,6 +81,7 @@ class DownloadDatabase {
   }
 
   Future delete(String md5) {
-    return _store.delete(_database, finder: Finder(filter: Filter.equals('md5', md5)));
+    return _store.delete(
+        _database, finder: Finder(filter: Filter.equals('md5', md5)));
   }
 }

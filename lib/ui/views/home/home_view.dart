@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
+import 'package:librebook/ui/views/home/download_view.dart';
 import 'package:librebook/ui/views/search/book_search.dart';
 import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
@@ -104,7 +105,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     child: TabBarView(
                       controller: _tabController,
                       children: <Widget>[
-                        Center(child: Text('Download')),
+                        DownloadView(),
                         Center(child: Text('Settings')),
                       ],
                     ),
