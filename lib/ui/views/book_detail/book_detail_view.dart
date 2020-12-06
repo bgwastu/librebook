@@ -43,38 +43,6 @@ class _BookDetailViewState extends State<BookDetailView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        actions: [
-          Obx(() {
-            if (_downloadController.isAlreadyDownloaded.value) {
-              return IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    Get.dialog(AlertDialog(
-                      title: Text('Confirmation'),
-                      content: Text('Are you sure want to delete this book?'),
-                      actions: [
-                        MaterialButton(
-                          onPressed: () => Get.back(),
-                          child: Text('No'),
-                        ),
-                        MaterialButton(
-                          onPressed: () async {
-                            final path = await _downloadController
-                                .getPath(widget.book.md5);
-                            await _downloadController.deleteBook(
-                                widget.book.md5, path);
-                            Get.back();
-                          },
-                          child: Text('Yes'),
-                        ),
-                      ],
-                    ));
-                  });
-            } else {
-              return Container();
-            }
-          }),
-        ],
       ),
       body: ListView(
         padding: EdgeInsets.all(16),
@@ -251,10 +219,52 @@ class _BookDetailViewState extends State<BookDetailView> {
   }
 
   Widget _completedButton() {
-    return MaterialButton(
-      child: Text('Open Book'),
-      color: secondaryColor,
-      onPressed: () => _downloadController.openFile(widget.book),
+    return Row(
+      children: [
+        OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(width: 2, color: secondaryColor),
+          ),
+          onPressed: _deleteBookDialog,
+          child: Text(
+            'Delete Book',
+            style: TextStyle(color: secondaryColor),
+          ),
+        ),
+        horizontalSpaceSmall,
+        Expanded(
+          child: MaterialButton(
+            child: Text('Open Book'),
+            color: secondaryColor,
+            onPressed: () => _downloadController.openFile(widget.book),
+          ),
+        ),
+      ],
     );
+  }
+
+  void _deleteBookDialog() {
+    Get.dialog(AlertDialog(
+      title: Text('Confirmation'),
+      content: Text('Are you sure want to delete this book?'),
+      actions: [
+        MaterialButton(
+          onPressed: () => Get.back(),
+          child: Text('NO', style: TextStyle(color: secondaryColor)),
+        ),
+        MaterialButton(
+          onPressed: () => deleteBook(),
+          child: Text('YES', style: TextStyle(color: secondaryColor)),
+        ),
+      ],
+    ));
+  }
+
+  Future<void> deleteBook() async{
+    final path = await _downloadController
+        .getPath(widget.book.md5);
+    await _downloadController.deleteBook(
+        widget.book.md5, path);
+    Get.back();
   }
 }

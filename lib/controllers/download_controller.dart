@@ -9,6 +9,7 @@ import 'package:librebook/app/locator.dart';
 import 'package:librebook/database/download_database.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/services/download_service.dart';
+import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/utils/consts.dart';
 import 'package:librebook/utils/download_status.dart';
@@ -110,15 +111,14 @@ class DownloadController extends GetxController {
             actions: [
               MaterialButton(
                 onPressed: () => Get.back(),
-                child: Text('No'),
+                child: Text('NO', style: TextStyle(color: secondaryColor)),
               ),
-              //TODO: implement this button
               MaterialButton(
                 onPressed: () async {
                   await OpenFile.open(_fileDir, type: lookupMimeType(_fileDir));
                   Get.back();
                 },
-                child: Text('Yes'),
+                child: Text('YES', style: TextStyle(color: secondaryColor),),
               ),
             ]));
       } else if (status == DownloadStatus.error) {
