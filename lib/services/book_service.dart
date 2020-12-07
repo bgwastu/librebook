@@ -4,6 +4,8 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
+import 'package:librebook/services/download_service.dart';
+import 'package:librebook/utils/book_category.dart';
 import 'package:librebook/utils/custom_exception.dart';
 
 class BookService {
@@ -13,6 +15,8 @@ class BookService {
   //TODO: make option for this variable
   final url = 'http://gen.lib.rus.ec';
   final mirrorName = 'Gen.lib.rus.ec';
+
+  final _downloadService = DownloadService();
 
   Future<BookSearchDetail> findFiction(String query, int page) async {
     final response = await _client.get(url + '/fiction/?q=$query&page=$page');
@@ -139,14 +143,7 @@ class BookService {
       cover = url + '/static/no_cover.png';
     }
 
-    // TODO: mirror based on gen.lib.rus.ec. Make it dynamic
-    final libgenMirror = [
-      ...document.querySelectorAll('ul.record_mirrors > li > a')
-    ]
-        .where((m) => m.text == mirrorName)
-        .map((e) => e.attributes['href'])
-        .toList();
-
+    final listMirror = _downloadService.getListUrlMirror(md5, BookCategory.Fiction);
     // Return
     final book = Book(
       id: id,
@@ -156,8 +153,9 @@ class BookService {
       format: format,
       description: description,
       md5: md5,
-      mirrorUrl: libgenMirror.first,
+      listMirror: listMirror,
       language: language,
+      bookCategory: BookCategory.Fiction,
     );
     return book;
   }
@@ -237,13 +235,15 @@ class BookService {
     }
 
     List<dynamic> body = json.decode(response.body);
-    final listBook = body.map((bookMap) {
+    final listBook = body.map((bookMap){
       // Check if cover was't available
       if (bookMap['coverurl'].toString().isEmpty) {
         bookMap['coverurl'] = url + '/img/blank.png';
       } else {
         bookMap['coverurl'] = url + '/covers/' + bookMap['coverurl'];
       }
+
+      final listMirror = _downloadService.getListUrlMirror(bookMap['md5'], BookCategory.General);
       return Book(
         id: bookMap['id'],
         title: bookMap['title'] ?? '',
@@ -253,7 +253,8 @@ class BookService {
         authors: [bookMap['author']] ?? [''],
         format: bookMap['extension'],
         language: bookMap['language'],
-        mirrorUrl: url + '/get.php?md5=' + bookMap['md5'],
+        listMirror: listMirror,
+        bookCategory: BookCategory.General,
       );
     }).toList();
     return listBook;

@@ -15,9 +15,8 @@ import 'package:librebook/utils/consts.dart';
 import 'package:librebook/utils/download_status.dart';
 import 'package:mime/mime.dart';
 import 'package:open_file/open_file.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
-import 'dart:io' as io;
+import 'package:permission_handler/permission_handler.dart';
 
 class DownloadController extends GetxController {
   final _downloadServices = locator<DownloadService>();
@@ -178,15 +177,9 @@ class DownloadController extends GetxController {
       //TODO: need internet connection handler
 
       try {
-        final isUrlWorking =
-            await _downloadServices.checkMirror(book.mirrorUrl);
+        final downloadUrl =
+            await _downloadServices.getDownloadUrl(book.listMirror);
 
-        if (!isUrlWorking) {
-          downloadStatus.value = DownloadStatus.error;
-          print('error: url is not working');
-          throw Exception('Url is not working');
-        }
-        final bookUrl = await _downloadServices.getDownloadUrl(book.mirrorUrl);
         _fileDir = externalDir.path +
             '/' +
             book.title +
@@ -195,7 +188,7 @@ class DownloadController extends GetxController {
             '.' +
             book.format;
         final response = await Dio().download(
-          bookUrl,
+          downloadUrl,
           path.join(externalDir.path,
               book.title + ' - ' + book.authors[0] + '.' + book.format),
           onReceiveProgress: _onReceiveProgress,

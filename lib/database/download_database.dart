@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:librebook/models/book_model.dart';
+import 'package:librebook/models/mirror_model.dart';
+import 'package:librebook/utils/book_category.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
@@ -32,8 +34,15 @@ class DownloadDatabase {
         format: e['format'],
         language: e['language'],
         md5: e['md5'],
-        mirrorUrl: e['mirrorUrl'],
-        title: e['title'],
+        listMirror: List.from([
+          DownloadMirror(name: 'first', url: e['firstMirror']),
+          DownloadMirror(name: 'second', url: e['secondMirror'])
+
+        ]),
+        title:
+        e['title']
+        ,
+        bookCategory: bookCategoryFromString(e['category']),
       );
       return {
         'book': book,
@@ -56,9 +65,11 @@ class DownloadDatabase {
       'path': path,
       'format': book.format,
       'id': book.id,
-      'mirrorUrl': book.mirrorUrl,
+      'firstMirror': book.listMirror[0].url,
+      'secondMirror': book.listMirror[1].url,
       'language': book.language,
       'description': book.description,
+      'category': book.bookCategory.toString()
     });
   }
 
