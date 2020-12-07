@@ -71,11 +71,25 @@ class DownloadController extends GetxController {
               onWillPop: () => Future.value(false),
               child: AlertDialog(
                 title: _progress.value == 0
-                    ? Text('Waiting for server reply...')
+                    ? _total.value == -1 ? Text('Downloading...') : Text('Waiting for server reply...')
                     : Text('Downloading...'),
                 content: _progress.value == 0
-                    ? LinearProgressIndicator()
-                    : Column(
+                    ? _total.value == -1 ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LinearProgressIndicator(),
+                    verticalSpaceSmall,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        Constants.formatBytes(_received.value, 1),
+
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ) : LinearProgressIndicator()
+                    :  Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           LinearProgressIndicator(value: _progress.value / 100),
@@ -179,7 +193,6 @@ class DownloadController extends GetxController {
       try {
         final downloadUrl =
             await _downloadServices.getDownloadUrl(book.listMirror);
-
         _fileDir = externalDir.path +
             '/' +
             book.title +
