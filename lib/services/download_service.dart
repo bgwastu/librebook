@@ -26,19 +26,9 @@ class DownloadService {
         final document = parse(response.body);
 
         // get mirror urls
-        final listMirror = [...document.querySelectorAll('li > a')]
-            .map((e) => e.attributes['href'])
-            .toList();
+        final mirrorUrl = document.querySelector('li > a')
+            .attributes['href'];
 
-        String mirrorUrl;
-        // check mirror, if the one is alive then break the loop
-        for (final mirror in listMirror) {
-          final available = await checkMirror(mirror);
-          if (available) {
-            mirrorUrl = mirror;
-            break;
-          }
-        }
         return mirrorUrl;
       } else {
         // second mirror
