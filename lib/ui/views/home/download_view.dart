@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:librebook/controllers/download_controller.dart';
 import 'package:librebook/controllers/home_controller.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
@@ -21,6 +20,11 @@ class DownloadView extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator(),);
           }
+
+          if(snapshot.hasError){
+            throw snapshot.error;
+          }
+
           if (snapshot.hasData) {
             final listMeta = snapshot.data;
             return ListView.builder(

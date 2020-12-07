@@ -1,3 +1,5 @@
+import 'package:librebook/models/mirror_model.dart';
+import 'package:librebook/utils/book_category.dart';
 import 'package:meta/meta.dart';
 
 class Book {
@@ -8,19 +10,22 @@ class Book {
   final String cover;
   List<String> authors;
   final String format;
-  final String mirrorUrl;
+  final List<DownloadMirror> listMirror;
+  final BookCategory bookCategory;
   final String language;
 
-  Book(
-      {@required this.id,
-      @required this.md5,
-      @required this.cover,
-      @required this.title,
-      @required this.mirrorUrl,
-      @required this.authors,
-      @required this.format,
-      @required this.description,
-      @required this.language}) {
+  Book({
+    @required this.bookCategory,
+    @required this.id,
+    @required this.md5,
+    @required this.cover,
+    @required this.title,
+    @required this.listMirror,
+    @required this.authors,
+    @required this.format,
+    @required this.description,
+    @required this.language,
+  }) {
     if (this.authors.isEmpty) {
       authors = ['No Author'];
     }
@@ -35,9 +40,8 @@ class Book {
       'cover': cover,
       'authors': authors,
       'format': format,
-      'mirrorUrl': mirrorUrl,
+      'listMirror': listMirror,
       'language': language,
     };
   }
-
 }
