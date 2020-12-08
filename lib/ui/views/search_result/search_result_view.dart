@@ -5,7 +5,6 @@ import 'package:lazy_load_refresh_indicator/lazy_load_refresh_indicator.dart';
 import 'package:librebook/controllers/search_result_controller.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
-import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/book_detail/book_detail_view.dart';
 import 'package:librebook/ui/widgets/image_error_widget.dart';
@@ -156,21 +155,7 @@ class _SearchResultViewState extends State<SearchResultView> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Positioned(
-            top: 2,
-            left: 2,
-            child: Material(
-              elevation: 3,
-              color: primaryColor,
-              child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    book.format,
-                    style: TextStyle(
-                        color: secondaryColor, fontWeight: FontWeight.w600),
-                  )),
-            ),
-          ),
+
           Hero(
             tag: 'image' + book.id,
             child: Container(
