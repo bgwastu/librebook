@@ -28,7 +28,6 @@ class DownloadService {
         // get mirror urls
         final mirrorUrl = document.querySelector('li > a')
             .attributes['href'];
-
         return mirrorUrl;
       } else {
         // second mirror

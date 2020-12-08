@@ -27,7 +27,8 @@ class DownloadDatabase {
   Future<List<Map<String, dynamic>>> getDownloadList() async {
     final record = await _store.find(_database);
     final downloadList = record.map((e) {
-      final book = Book(id: e['id'],
+      final book = Book(
+        id: e['id'],
         authors: List<String>.from(e['authors']),
         cover: e['cover'],
         description: e['description'],
@@ -37,11 +38,8 @@ class DownloadDatabase {
         listMirror: List.from([
           DownloadMirror(name: 'first', url: e['firstMirror']),
           DownloadMirror(name: 'second', url: e['secondMirror'])
-
         ]),
-        title:
-        e['title']
-        ,
+        title: e['title'],
         bookCategory: bookCategoryFromString(e['category']),
       );
       return {
@@ -92,7 +90,7 @@ class DownloadDatabase {
   }
 
   Future delete(String md5) {
-    return _store.delete(
-        _database, finder: Finder(filter: Filter.equals('md5', md5)));
+    return _store.delete(_database,
+        finder: Finder(filter: Filter.equals('md5', md5)));
   }
 }
