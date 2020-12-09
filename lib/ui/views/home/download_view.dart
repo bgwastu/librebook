@@ -30,6 +30,7 @@ class DownloadView extends StatelessWidget {
           if (snapshot.hasData) {
             final listMeta = snapshot.data.reversed.toList();
             return ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.only(top: 16),
               itemCount: listMeta.length,
               itemBuilder: (context, index) {

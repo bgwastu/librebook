@@ -1,23 +1,14 @@
 import 'package:get_it/get_it.dart';
+import 'package:librebook/database/app_database.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/mirror_model.dart';
 import 'package:librebook/utils/book_category.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
-import 'package:sembast/sembast_io.dart';
 
 class DownloadDatabase {
-  final Database _database = GetIt.I.get();
   final StoreRef _store = intMapStoreFactory.store('download_store');
 
-  static init() async {
-    final appDir = await getApplicationDocumentsDirectory();
-    await appDir.create(recursive: true);
-    final databasePath = join(appDir.path, 'download_database.db');
-    final database = await databaseFactoryIo.openDatabase(databasePath);
-    GetIt.I.registerSingleton<Database>(database);
-  }
+  Future<Database> get _database => AppDatabase.instance.database;
 
   static close() async {
     final Database db = GetIt.I.get();
@@ -25,7 +16,7 @@ class DownloadDatabase {
   }
 
   Future<List<Map<String, dynamic>>> getDownloadList() async {
-    final record = await _store.find(_database);
+    final record = await _store.find(await _database);
     final downloadList = record.map((e) {
       final book = Book(
         id: e['id'],
@@ -55,7 +46,7 @@ class DownloadDatabase {
     if (currentBook != null) {
       return null;
     }
-    return _store.add(_database, {
+    return _store.add(await _database, {
       'title': book.title,
       'md5': book.md5,
       'authors': book.authors,
@@ -71,8 +62,9 @@ class DownloadDatabase {
     });
   }
 
-  Future<RecordSnapshot<dynamic, dynamic>> getDownloadedBookByMD5(String md5) {
-    return _store.findFirst(_database,
+  Future<RecordSnapshot<dynamic, dynamic>> getDownloadedBookByMD5(
+      String md5) async {
+    return _store.findFirst(await _database,
         finder: Finder(filter: Filter.equals('md5', md5)));
   }
 
@@ -81,7 +73,7 @@ class DownloadDatabase {
     if (downloadedBook == null) {
       throw Exception('Downloaded book not found');
     }
-    return _store.record(downloadedBook.key).update(_database, {
+    return _store.record(downloadedBook.key).update(await _database, {
       'title': book.title,
       'authors': book.authors,
       'imageUrl': book.cover,
@@ -89,8 +81,8 @@ class DownloadDatabase {
     });
   }
 
-  Future delete(String md5) {
-    return _store.delete(_database,
+  Future delete(String md5) async {
+    return _store.delete(await _database,
         finder: Finder(filter: Filter.equals('md5', md5)));
   }
 }

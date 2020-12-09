@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/home/download_view.dart';
+import 'package:librebook/ui/views/home/settings_view.dart';
 import 'package:librebook/ui/views/search/book_search.dart';
 import 'package:librebook/ui/widgets/custom_search_widget.dart' as customSearch;
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
@@ -40,7 +41,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                   automaticallyImplyLeading: false,
                   backgroundColor: Colors.white,
                   pinned: true,
-                  elevation: 5,
+                  floating: true,
+                  elevation: 2,
                   snap: true,
                   forceElevated: true,
                   bottom: TabBar(
@@ -63,7 +65,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     tag: 'search',
                     child: Card(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0)),
+                            borderRadius: BorderRadius.circular(5)),
                         elevation: 5,
                         child: InkWell(
                           onTap: () {
@@ -96,7 +98,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                           ),
                         )),
                   ),
-                  floating: true,
                 ),
                 SliverFillRemaining(
                   child: GlowingOverscrollIndicator(
@@ -106,7 +107,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                       controller: _tabController,
                       children: <Widget>[
                         DownloadView(),
-                        Center(child: Text('Settings')),
+                        SettingView(),
                       ],
                     ),
                   ),
