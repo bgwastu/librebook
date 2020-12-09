@@ -8,6 +8,7 @@ class DownloadService {
 
   DownloadService() : _client = Client();
 
+  //TODO: move to setting
   final generalFirstMirror = 'http://library.lol/main/';
   final generalSecondMirror = 'http://libgen.gs/ads.php?md5=';
   final fictionFirstMirror = 'http://library.lol/fiction/';
