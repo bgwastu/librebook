@@ -46,7 +46,7 @@ class DownloadService {
 
     listDownloadUrl.removeWhere((mirror) => mirror == null);
 
-    return listDownloadUrl.first;
+    return listDownloadUrl.last;
   }
 
   /// Parse download url from gen.lib.rus.ec & libgen.lc mirror
