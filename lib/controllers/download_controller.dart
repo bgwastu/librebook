@@ -8,9 +8,7 @@ import 'package:get/state_manager.dart';
 import 'package:librebook/database/download_database.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/services/download_service.dart';
-import 'package:librebook/ui/shared/theme.dart';
-import 'package:librebook/ui/shared/ui_helper.dart';
-import 'package:librebook/utils/consts.dart';
+import 'package:librebook/ui/shared/download_dialog.dart';
 import 'package:librebook/utils/download_status.dart';
 import 'package:mime/mime.dart';
 import 'package:open_file/open_file.dart';
@@ -59,55 +57,21 @@ class DownloadController extends GetxController {
     return book['path'];
   }
 
-  init() {
+  @override
+  void onReady() {
+    super.onReady();
     downloadStatus.listen((status) {
       if (status == DownloadStatus.loading) {
         if (Get.isDialogOpen) Get.back();
         Get.dialog(
           Obx(() {
             return WillPopScope(
-              onWillPop: () => Future.value(false),
-              child: AlertDialog(
-                title: _progress.value == 0
-                    ? _total.value == -1 ? Text('Downloading...') : Text('Waiting for server reply...')
-                    : Text('Downloading...'),
-                content: _progress.value == 0
-                    ? _total.value == -1 ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    LinearProgressIndicator(),
-                    verticalSpaceSmall,
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        Constants.formatBytes(_received.value, 1),
-
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  ],
-                ) : LinearProgressIndicator()
-                    :  Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          LinearProgressIndicator(value: _progress.value / 100),
-                          verticalSpaceSmall,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(_progress.value.toString() + '%'),
-                              Text(
-                                Constants.formatBytes(_received.value, 1) +
-                                    ' of ' +
-                                    Constants.formatBytes(_total.value, 1),
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-              ),
-            );
+                onWillPop: () => Future.value(false),
+                child: DownloadDialog(
+                  progress: _progress.value,
+                  received: _received.value,
+                  total: _total.value,
+                ));
           }),
           barrierDismissible: false,
           useRootNavigator: true,
@@ -116,42 +80,12 @@ class DownloadController extends GetxController {
         if (Get.isDialogOpen) {
           Get.back();
         }
-        Get.dialog(AlertDialog(
-            title: Text('Download completed!'),
-            content: Text('Do you want to open the book?'),
-            actions: [
-              MaterialButton(
-                onPressed: () => Get.back(),
-                child: Text('NO', style: TextStyle(color: secondaryColor)),
-              ),
-              MaterialButton(
-                onPressed: () async {
-                  Get.back();
-                  final res = await OpenFile.open(_fileDir,
-                      type: lookupMimeType(_fileDir));
-                  if (res.type != ResultType.done) {
-                    Get.rawSnackbar(
-                      message: res.message,
-                      duration: Duration(milliseconds: 1500),
-                      isDismissible: true,
-                      title: 'Error',
-                    );
-                  }
-                },
-                child: Text(
-                  'YES',
-                  style: TextStyle(color: secondaryColor),
-                ),
-              ),
-            ]));
+        Get.dialog(DownloadCompletedDialog(fileDir: _fileDir));
       } else if (status == DownloadStatus.error) {
         if (Get.isDialogOpen) {
           Get.back();
         }
-        Get.dialog(AlertDialog(
-          title: Text('Error has been occurred'),
-          content: Text(':('),
-        ));
+        Get.dialog(DownloadErrorDialog());
         downloadStatus.value = DownloadStatus.unInitialized;
       }
     });

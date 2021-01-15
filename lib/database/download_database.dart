@@ -1,4 +1,3 @@
-import 'package:get_it/get_it.dart';
 import 'package:librebook/database/app_database.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/mirror_model.dart';
@@ -9,11 +8,6 @@ class DownloadDatabase {
   final StoreRef _store = intMapStoreFactory.store('download_store');
 
   Future<Database> get _database => AppDatabase.instance.database;
-
-  static close() async {
-    final Database db = GetIt.I.get();
-    db.close();
-  }
 
   Future<List<Map<String, dynamic>>> getDownloadList() async {
     final record = await _store.find(await _database);
