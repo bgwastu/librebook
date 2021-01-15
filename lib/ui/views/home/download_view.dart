@@ -18,9 +18,7 @@ class DownloadView extends StatelessWidget {
         future: _homeController.getDownloadList(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Container();
           }
 
           if (snapshot.hasError) {
