@@ -13,14 +13,14 @@ dependencies:
   # architecture
   get:
 
-  # injection
-  get_it:
+  # database
+  sembast:
 
   # api
   http:
   html:
 
-  #misc
+  # misc
   shimmer:
   cached_network_image:
   async:
@@ -29,14 +29,13 @@ dependencies:
   flutter_statusbarcolor:
   outline_material_icons:
   md2_tab_indicator:
-  sembast:
   mime:
 
   #download
   dio:
   path_provider:
   downloads_path_provider_28:
-  permission_handler:
+  permission_handler: ^5.0.1+1
   open_file:
 
 dev_dependencies:

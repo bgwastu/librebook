@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:librebook/app/locator.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/services/book_service.dart';
@@ -7,7 +6,7 @@ import 'package:librebook/services/book_service.dart';
 class SearchResultController extends GetxController {
   var isLoading = false.obs;
   Rx<BookSearchDetail> bookSearchDetail;
-  final _bookService = locator<BookService>();
+  final _bookService = Get.put(BookService());
   RxList<Book> listBook = RxList<Book>();
 
   setLoading(bool isLoading) {

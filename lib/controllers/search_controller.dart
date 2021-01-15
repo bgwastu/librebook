@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:librebook/app/locator.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/services/book_service.dart';
 
 class SearchController extends GetxController {
-  final _bookService = locator<BookService>();
+  final BookService _bookService = Get.put(BookService());
+
   bool isFantasySearch = false;
 
   // data
