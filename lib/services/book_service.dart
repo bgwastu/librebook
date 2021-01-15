@@ -14,7 +14,6 @@ class BookService {
 
   //TODO: make option for this variable
   final url = 'http://gen.lib.rus.ec';
-  final mirrorName = 'Gen.lib.rus.ec';
 
   final _downloadService = DownloadService();
 
