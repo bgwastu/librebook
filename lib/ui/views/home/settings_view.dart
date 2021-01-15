@@ -1,28 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:librebook/controllers/settings_controller.dart';
-import 'package:librebook/ui/shared/string.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-class SettingView extends StatefulWidget {
-  @override
-  _SettingViewState createState() => _SettingViewState();
-}
-
-class _SettingViewState extends State<SettingView> {
+class SettingView extends StatelessWidget {
   final _settingsController = SettingsController();
-
-  @override
-  void initState() {
-    super.initState();
-    _settingsController.getAll();
-  }
 
   @override
   Widget build(BuildContext context) {

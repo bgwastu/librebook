@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:librebook/database/settings_database.dart';
-import 'package:librebook/ui/shared/string.dart';
 
 class SettingsController extends GetxController {
   final _settingDatabase = SettingsDatabase();
@@ -10,6 +9,16 @@ class SettingsController extends GetxController {
   RxString fictionBookMirror2 = ''.obs;
   RxString libgenUrl = ''.obs;
   RxString downloadLocation = ''.obs;
+
+
+  @override
+  void onInit() {
+    super.onInit();
+    getAll();
+    libgenUrl.listen((val) {
+      print(val);
+    });
+  }
 
   getAll() async {
     generalBookMirror1.value = await getGeneralMirror1();
