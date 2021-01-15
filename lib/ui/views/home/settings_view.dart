@@ -47,6 +47,46 @@ class SettingView extends StatelessWidget {
             // } else {
             //   // User cancelled without picking any directory
             // }
+            //TODO; implement download location
+            Get.rawSnackbar(
+                title: 'Under development',
+                message: 'This feature is still under development',
+                icon: Icon(
+                  Icons.warning,
+                  color: Colors.white,
+                ),
+                animationDuration: Duration(milliseconds: 500),
+                duration: Duration(milliseconds: 1500)
+            );
+          },
+        ),
+        Divider(
+          height: 2,
+          thickness: 1,
+        ),
+        ListTile(
+          title: Text('Synchronize'),
+          subtitle: Text('Get default scraper settings'),
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Icon(
+              Icons.sync,
+              color: Colors.grey[700],
+              size: 26,
+            ),
+          ),
+          onTap: () {
+            //TODO; implement synchronize settings
+            Get.rawSnackbar(
+              title: 'Under development',
+              message: 'This feature is still under development',
+              icon: Icon(
+                Icons.warning,
+                color: Colors.white,
+              ),
+              animationDuration: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 1500)
+            );
           },
         ),
         Divider(
