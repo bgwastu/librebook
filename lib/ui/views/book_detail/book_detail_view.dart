@@ -29,13 +29,6 @@ class _BookDetailViewState extends State<BookDetailView> {
     super.initState();
     // check is book already downloaded
     _downloadController.isCompleted(widget.book.md5);
-    _downloadController.init();
-  }
-
-  @override
-  void dispose() {
-    IsolateNameServer.removePortNameMapping('downloading');
-    super.dispose();
   }
 
   @override
