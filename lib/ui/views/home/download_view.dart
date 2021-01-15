@@ -92,17 +92,7 @@ class DownloadView extends StatelessWidget {
                 ),
               ],
             ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Downloaded',
-                  maxLines: 1,
-                  style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
+
           ],
         ),
       ),
