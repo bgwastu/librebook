@@ -5,7 +5,6 @@ import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
-import 'package:librebook/app/locator.dart';
 import 'package:librebook/database/download_database.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/services/download_service.dart';
@@ -19,8 +18,9 @@ import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 
 class DownloadController extends GetxController {
-  final _downloadServices = locator<DownloadService>();
-  final _downloadDb = DownloadDatabase();
+  final _downloadServices = Get.put(DownloadService());
+  final _downloadDb = Get.put(DownloadDatabase());
+
   RxInt _progress = 0.obs;
   Rx<DownloadStatus> downloadStatus = DownloadStatus.unInitialized.obs;
   RxBool isAlreadyDownloaded = false.obs;
@@ -62,9 +62,7 @@ class DownloadController extends GetxController {
   init() {
     downloadStatus.listen((status) {
       if (status == DownloadStatus.loading) {
-        if (Get.isDialogOpen) {
-          Get.back();
-        }
+        if (Get.isDialogOpen) Get.back();
         Get.dialog(
           Obx(() {
             return WillPopScope(
