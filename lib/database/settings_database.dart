@@ -1,11 +1,21 @@
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:librebook/database/app_database.dart';
-import 'package:librebook/ui/shared/string.dart';
 import 'package:sembast/sembast.dart';
 
 class SettingsDatabase {
   final StoreRef _store = StoreRef('settings');
 
   Future<Database> get _database => AppDatabase.instance.database;
+
+  //TODO: Make this value dynamic
+  final defaultMainUrl = 'http://gen.lib.rus.ec';
+  final defaultGeneralFirstMirror = 'http://library.lol/main/';
+  final defaultGeneralSecondMirror = 'http://libgen.gs/ads.php?md5=';
+  final defaultFictionFirstMirror = 'http://library.lol/fiction/';
+  final defaultFictionSecondMirror =
+      'http://libgen.gs/foreignfiction/ads.php?md5=';
+
+  final defaultDownloadLocation = DownloadsPathProvider.downloadsDirectory;
 
   setDefaultSetting() async {
     final downloadPath = await defaultDownloadLocation;
@@ -17,22 +27,17 @@ class SettingsDatabase {
     _store.record(6).add(await _database, downloadPath.path);
   }
 
-  Future<String> getGeneralMirror1() async {
-    return await _store.record(1).get(await _database);
-  }
+  Future<String> getGeneralMirror1() async =>
+      await _store.record(1).get(await _database);
 
   Future<String> getGeneralMirror2() async =>
       await _store.record(2).get(await _database);
 
-  Future setGeneralMirror1(String mirror1) async => await _store.record(1).update(
-        await _database,
-        mirror1,
-      );
+  Future setGeneralMirror1(String mirror1) async =>
+      await _store.record(1).update(await _database, mirror1);
 
-  Future setGeneralMirror2(String mirror2) async => await _store.record(2).update(
-        await _database,
-        mirror2,
-      );
+  Future setGeneralMirror2(String mirror2) async =>
+      await _store.record(2).update(await _database, mirror2);
 
   Future<String> getLibgenUrl() async =>
       await _store.record(3).get(await _database);
