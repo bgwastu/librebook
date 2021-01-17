@@ -20,16 +20,23 @@ class DownloadService {
       print(mirror.url);
       if (mirror.name == 'first') {
         // first mirror
+
         final response = await _client.get(mirror.url);
         if (response.statusCode != 200) {
           return null;
         }
-        final document = parse(response.body);
+        try{
+          //cloudflare ipfs
+          final document = parse(response.body);
+          // get mirror urls
+          final mirrorUrl = document.querySelector('li > a')
+              .attributes['href'];
+          return mirrorUrl;
+        }catch(_){
+          return null;
+        }
 
-        // get mirror urls
-        final mirrorUrl = document.querySelector('li > a')
-            .attributes['href'];
-        return mirrorUrl;
+
       } else {
         // second mirror
         final response = await _client.get(mirror.url);
