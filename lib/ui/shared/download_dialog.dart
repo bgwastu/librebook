@@ -109,7 +109,7 @@ class DownloadErrorDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Error has been occurred'),
-      content: Text(':('),
+      content: Text('Please check your internet connection and try again later'),
     );
   }
 }
