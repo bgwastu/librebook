@@ -132,10 +132,11 @@ class DownloadController extends GetxController {
             book.authors[0] +
             '.' +
             book.format;
+        _fileDir = path.join(externalDir.path,
+            book.title + ' - ' + book.authors[0] + '.' + book.format);
         final response = await Dio().download(
           downloadUrl,
-          path.join(externalDir.path,
-              book.title + ' - ' + book.authors[0] + '.' + book.format),
+          _fileDir,
           onReceiveProgress: _onReceiveProgress,
         );
         // result
@@ -147,7 +148,7 @@ class DownloadController extends GetxController {
         }
       } catch (e) {
         print('Error!: ' + e.toString());
-        downloadStatus.value = DownloadStatus.error;
+        downloadStatus?.value = DownloadStatus.error;
         throw e;
       }
     } else {
