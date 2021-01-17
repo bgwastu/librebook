@@ -118,7 +118,8 @@ class DownloadController extends GetxController {
       _received.value = 0;
       _total.value = 0;
 
-      final externalDir = await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
+      final externalDir = await ExtStorage.getExternalStoragePublicDirectory(
+          ExtStorage.DIRECTORY_DOWNLOADS);
 
       //TODO: need internet connection handler
 
