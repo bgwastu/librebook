@@ -13,7 +13,7 @@ class SettingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.only(top: 16, left: 8, right: 8),
+      padding: EdgeInsets.only(top: 0, left: 8, right: 8),
       children: [
         ListTile(
           title: Text('Download location'),
