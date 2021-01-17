@@ -1,16 +1,33 @@
-# Librebook
+<p align="center"><img width=12.5% src="screenshots/app_icon.png"></p>
+<h1 align="center">Librebook</h1>
+<h4 align="center">A minimal front-end library genesis client, built by Flutter</h4>
 
-A new Flutter project.
+<p align="center">
+  <img alt="GitHub issues" src="https://img.shields.io/github/issues/bagaswastu/librebook">
+  <img alt="Codemagic" src="https://api.codemagic.io/apps/6003d2461b08f3ec61b49785/6003d2461b08f3ec61b49784/status_badge.svg">
+  <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/bagaswastu/librebook?include_prereleases">
+  <img alt="GitHub" src="https://img.shields.io/github/license/bagaswastu/librebook">
+</p>
 
-## Getting Started
+## Description
+Librebook is an open-source front-end application to help the users download the book easily from library genesis.
 
-This project is a starting point for a Flutter application.
+## Features
+- [x] General book download
+- [x] Fantasy book download
+- [x] IPFS download mirror
+- [ ] Syncronize scraper settings (on progress)
+- [ ] Change download location (on progress)
+- [ ] Search history (on progress)
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
+<img src="screenshots/1.png" height="550px" />  <img src="screenshots/2.png" height="550px" />  <img src="screenshots/3.png" height="550px" />
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Download
+You can download Librebook from [Codemagic](https://codemagic.io/apps/6003d2461b08f3ec61b49785/6003d2461b08f3ec61b49784/latest_build) by downloading **app-release.apk**. You also can download Librebook from [release page](https://github.com/bagaswastu/librebook/releases/) as well.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Contributing
+Any contributions you make are **greatly appreciated**. However, for major changes, please open an issue first to discuss what you would like to change.
+
+## License
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
