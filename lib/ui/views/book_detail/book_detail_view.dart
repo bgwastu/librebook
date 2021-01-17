@@ -185,28 +185,25 @@ class _BookDetailViewState extends State<BookDetailView> {
     );
   }
 
-  Hero _coverImage() {
-    return Hero(
-      tag: 'image' + widget.book.id,
-      child: Container(
-        height: Get.height / 6,
-        width: Get.height / 8,
-        decoration: BoxDecoration(border: Border.all(color: Colors.grey[300])),
-        child: CachedNetworkImage(
-          imageUrl: widget.book.cover,
-          placeholder: (context, url) => Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
-            child: Container(
-              width: double.infinity,
-              color: Colors.white,
-            ),
+  Widget _coverImage() {
+    return Container(
+      height: Get.height / 6,
+      width: Get.height / 8,
+      decoration: BoxDecoration(border: Border.all(color: Colors.grey[300])),
+      child: CachedNetworkImage(
+        imageUrl: widget.book.cover,
+        placeholder: (context, url) => Shimmer.fromColors(
+          baseColor: Colors.grey[300],
+          highlightColor: Colors.grey[100],
+          child: Container(
+            width: double.infinity,
+            color: Colors.white,
           ),
-          fit: BoxFit.fill,
-          errorWidget: (context, _, __) {
-            return ImageErrorWidget();
-          },
         ),
+        fit: BoxFit.fill,
+        errorWidget: (context, _, __) {
+          return ImageErrorWidget();
+        },
       ),
     );
   }

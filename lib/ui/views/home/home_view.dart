@@ -61,43 +61,40 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                       Tab(text: "Settings"),
                     ],
                   ),
-                  title: Hero(
-                    tag: 'search',
-                    child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                        elevation: 5,
-                        child: InkWell(
-                          onTap: () {
-                            customSearch.showSearch(
-                                context: context, delegate: BookSearch());
-                          },
-                          child: Container(
-                            child: Row(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Icon(Icons.search),
-                                      onPressed: () =>
-                                          scaffoldKey.currentState.openDrawer(),
+                  title: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 5,
+                      child: InkWell(
+                        onTap: () {
+                          customSearch.showSearch(
+                              context: context, delegate: BookSearch());
+                        },
+                        child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: Icon(Icons.search),
+                                    onPressed: () =>
+                                        scaffoldKey.currentState.openDrawer(),
+                                  ),
+                                  horizontalSpaceTiny,
+                                  Text(
+                                    'Search for book',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 16,
                                     ),
-                                    horizontalSpaceTiny,
-                                    Text(
-                                      'Search for book',
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 16,
-                                      ),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        )),
-                  ),
+                        ),
+                      )),
                 ),
                 SliverFillRemaining(
                   child: GlowingOverscrollIndicator(

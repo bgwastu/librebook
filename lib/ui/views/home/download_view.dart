@@ -98,26 +98,23 @@ class DownloadView extends StatelessWidget {
   }
 
   Widget _coverImage(Book book) {
-    return Hero(
-      tag: 'image' + book.id,
-      child: Container(
-        height: Get.height / 9,
-        width: Get.height / 13,
-        child: CachedNetworkImage(
-          imageUrl: book.cover,
-          placeholder: (context, url) => Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
-            child: Container(
-              width: double.infinity,
-              color: Colors.white,
-            ),
+    return Container(
+      height: Get.height / 9,
+      width: Get.height / 13,
+      child: CachedNetworkImage(
+        imageUrl: book.cover,
+        placeholder: (context, url) => Shimmer.fromColors(
+          baseColor: Colors.grey[300],
+          highlightColor: Colors.grey[100],
+          child: Container(
+            width: double.infinity,
+            color: Colors.white,
           ),
-          fit: BoxFit.fill,
-          errorWidget: (context, _, __) {
-            return ImageErrorWidget();
-          },
         ),
+        fit: BoxFit.fill,
+        errorWidget: (context, _, __) {
+          return ImageErrorWidget();
+        },
       ),
     );
   }
