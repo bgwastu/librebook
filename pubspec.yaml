@@ -36,7 +36,7 @@ dependencies:
   path_provider:
   ext_storage: ^1.0.3
   permission_handler: ^5.0.1+1
-  open_file:
+  open_file: ^3.0.3
 
 dev_dependencies:
   flutter_test:
