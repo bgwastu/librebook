@@ -29,7 +29,7 @@ class DownloadView extends StatelessWidget {
             final listMeta = snapshot.data.reversed.toList();
             return ListView.builder(
               physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.only(top: 16),
+              padding: EdgeInsets.only(top: 8),
               itemCount: listMeta.length,
               itemBuilder: (context, index) {
                 Book book = listMeta[index]['book'];
