@@ -156,27 +156,24 @@ class _SearchResultViewState extends State<SearchResultView> {
         fit: StackFit.expand,
         children: [
 
-          Hero(
-            tag: 'image' + book.id,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[300]),
-              ),
-              child: CachedNetworkImage(
-                imageUrl: book.cover,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
-                  child: Container(
-                    width: double.infinity,
-                    color: Colors.white,
-                  ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey[300]),
+            ),
+            child: CachedNetworkImage(
+              imageUrl: book.cover,
+              placeholder: (context, url) => Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.grey[100],
+                child: Container(
+                  width: double.infinity,
+                  color: Colors.white,
                 ),
-                fit: BoxFit.fill,
-                errorWidget: (context, _, __) {
-                  return ImageErrorWidget();
-                },
               ),
+              fit: BoxFit.fill,
+              errorWidget: (context, _, __) {
+                return ImageErrorWidget();
+              },
             ),
           ),
         ],
