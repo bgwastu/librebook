@@ -34,7 +34,7 @@ class DownloadService {
         // second mirror
         final response = await _client.get(mirror.url);
         if (response.statusCode != 200) {
-          throw Exception('Download was failed because of dead mirror(s)');
+          return null;
         }
         final document = parse(response.body);
         final mirrorUrl = document.querySelector('a').attributes['href'];
@@ -46,6 +46,9 @@ class DownloadService {
 
     listDownloadUrl.removeWhere((mirror) => mirror == null);
 
+    if(listDownloadUrl.isEmpty){
+      throw Exception('Download was failed because of dead mirror(s)');
+    }
     return listDownloadUrl.last;
   }
 
