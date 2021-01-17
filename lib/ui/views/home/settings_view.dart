@@ -112,7 +112,7 @@ class SettingView extends StatelessWidget {
                 children: [
                   verticalSpaceMedium,
                   Text(
-                    'Librebook is an open-source to help the users get content easly from Libgen.\n\nJust rembember that this application has no affiliation whatsoever with Libgen.',
+                    'Librebook is an open-source front-end application to help the users get content easily from library genesis.',
                     style: TextStyle(fontSize: 14, color: Colors.grey[800]),
                   ),
                 ],
