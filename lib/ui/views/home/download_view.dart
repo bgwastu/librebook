@@ -75,7 +75,7 @@ class DownloadView extends StatelessWidget {
                 Text(
                   book.title,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                   maxLines: 2,
@@ -85,7 +85,7 @@ class DownloadView extends StatelessWidget {
                 Text(
                   book.authors.join(', '),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -98,23 +98,29 @@ class DownloadView extends StatelessWidget {
   }
 
   Widget _coverImage(Book book) {
-    return Container(
-      height: Get.height / 9,
-      width: Get.height / 13,
-      child: CachedNetworkImage(
-        imageUrl: book.cover,
-        placeholder: (context, url) => Shimmer.fromColors(
-          baseColor: Colors.grey[300],
-          highlightColor: Colors.grey[100],
-          child: Container(
-            width: double.infinity,
-            color: Colors.white,
+    return Card(
+      elevation: 2,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          height: Get.height / 10,
+          width: Get.height / 15,
+          child: CachedNetworkImage(
+            imageUrl: book.cover,
+            placeholder: (context, url) => Shimmer.fromColors(
+              baseColor: Colors.grey[300],
+              highlightColor: Colors.grey[100],
+              child: Container(
+                width: double.infinity,
+                color: Colors.white,
+              ),
+            ),
+            fit: BoxFit.fill,
+            errorWidget: (context, _, __) {
+              return ImageErrorWidget();
+            },
           ),
         ),
-        fit: BoxFit.fill,
-        errorWidget: (context, _, __) {
-          return ImageErrorWidget();
-        },
       ),
     );
   }
