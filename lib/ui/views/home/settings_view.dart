@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:librebook/controllers/settings_controller.dart';
 import 'package:librebook/ui/shared/theme.dart';
+import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class SettingView extends StatelessWidget {
@@ -56,8 +57,7 @@ class SettingView extends StatelessWidget {
                   color: Colors.white,
                 ),
                 animationDuration: Duration(milliseconds: 500),
-                duration: Duration(milliseconds: 1500)
-            );
+                duration: Duration(milliseconds: 1500));
           },
         ),
         Divider(
@@ -78,15 +78,14 @@ class SettingView extends StatelessWidget {
           onTap: () {
             //TODO; implement synchronize settings
             Get.rawSnackbar(
-              title: 'Under development',
-              message: 'This feature is still under development',
-              icon: Icon(
-                Icons.warning,
-                color: Colors.white,
-              ),
-              animationDuration: Duration(milliseconds: 500),
-              duration: Duration(milliseconds: 1500)
-            );
+                title: 'Under development',
+                message: 'This feature is still under development',
+                icon: Icon(
+                  Icons.warning,
+                  color: Colors.white,
+                ),
+                animationDuration: Duration(milliseconds: 500),
+                duration: Duration(milliseconds: 1500));
           },
         ),
         Divider(
@@ -104,7 +103,19 @@ class SettingView extends StatelessWidget {
             Get.dialog(Theme(
               data: ThemeData(primaryColor: secondaryColor),
               child: AboutDialog(
+                applicationIcon: Container(
+                    width: 60,
+                    height: 60,
+                    child: Image.asset('assets/icon/icon.png')),
                 applicationVersion: 'v0.1-alpha',
+                applicationLegalese: '© 2021 Bagas Wastu',
+                children: [
+                  verticalSpaceMedium,
+                  Text(
+                    'Librebook is an open-source to help the users get content easly from Libgen.\n\nJust rembember that this application has no affiliation whatsoever with Libgen.',
+                    style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+                  ),
+                ],
               ),
             ));
           },
