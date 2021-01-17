@@ -21,7 +21,13 @@ Librebook is an open-source front-end application to help the users download the
 - [ ] Search history (on progress)
 
 ## Screenshots
-<img src="screenshots/1.png" height="550px" />  <img src="screenshots/2.png" height="550px" />  <img src="screenshots/3.png" height="550px" />
+<table>
+  <tr>
+    <td><img src="screenshots/1.png"/></td>
+    <td><img src="screenshots/2.png"/></td>
+    <td><img src="screenshots/3.png"/></td>
+  </tr> 
+</table>
 
 ## Download
 You can download Librebook from [Codemagic](https://codemagic.io/apps/6003d2461b08f3ec61b49785/6003d2461b08f3ec61b49784/latest_build) by downloading **app-release.apk**. You also can download Librebook from [release page](https://github.com/bagaswastu/librebook/releases/) as well.
