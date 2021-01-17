@@ -1,4 +1,4 @@
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:librebook/database/app_database.dart';
 import 'package:sembast/sembast.dart';
 
@@ -15,7 +15,7 @@ class SettingsDatabase {
   final defaultFictionSecondMirror =
       'http://libgen.gs/foreignfiction/ads.php?md5=';
 
-  final defaultDownloadLocation = DownloadsPathProvider.downloadsDirectory;
+  final defaultDownloadLocation = ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
 
   setDefaultSetting() async {
     final downloadPath = await defaultDownloadLocation;
@@ -24,7 +24,7 @@ class SettingsDatabase {
     _store.record(3).add(await _database, defaultMainUrl);
     _store.record(4).add(await _database, defaultFictionFirstMirror);
     _store.record(5).add(await _database, defaultFictionSecondMirror);
-    _store.record(6).add(await _database, downloadPath.path);
+    _store.record(6).add(await _database, downloadPath);
   }
 
   Future<String> getGeneralMirror1() async =>

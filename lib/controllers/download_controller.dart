@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
@@ -118,21 +118,21 @@ class DownloadController extends GetxController {
       _received.value = 0;
       _total.value = 0;
 
-      final externalDir = await DownloadsPathProvider.downloadsDirectory;
+      final externalDir = await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
 
       //TODO: need internet connection handler
 
       try {
         final downloadUrl =
             await _downloadServices.getDownloadUrl(book.listMirror);
-        _fileDir = externalDir.path +
+        _fileDir = externalDir +
             '/' +
             book.title +
             ' - ' +
             book.authors[0] +
             '.' +
             book.format;
-        _fileDir = path.join(externalDir.path,
+        _fileDir = path.join(externalDir,
             book.title + ' - ' + book.authors[0] + '.' + book.format);
         final response = await Dio().download(
           downloadUrl,
