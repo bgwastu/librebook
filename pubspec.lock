@@ -78,17 +78,17 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.10"
-  downloads_path_provider_28:
-    dependency: "direct main"
-    description:
-      name: downloads_path_provider_28
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   enhanced_future_builder:
     dependency: "direct main"
     description:
       name: enhanced_future_builder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
+  ext_storage:
+    dependency: "direct main"
+    description:
+      name: ext_storage
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
