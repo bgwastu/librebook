@@ -72,7 +72,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
             style:
                 TextStyle(color: secondaryColor, fontWeight: FontWeight.w600),
           ),
-          color: primaryColor,
+          color: Colors.white,
         ),
       ),
     );

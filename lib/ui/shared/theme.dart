@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final ThemeData kLightTheme = _buildLightTheme();
-const Color primaryColor = Color(0xFFFFFFFF);
+const Color primaryColor = Colors.indigo;
 const Color secondaryColor = Colors.indigo;
 
 ThemeData _buildLightTheme() {
@@ -14,13 +14,16 @@ ThemeData _buildLightTheme() {
       brightness: Brightness.light,
       accentColorBrightness: Brightness.dark,
       colorScheme: colorScheme,
-      primaryColor: primaryColor,
+      primaryColor: secondaryColor,
       buttonColor: primaryColor,
       indicatorColor: secondaryColor,
       tabBarTheme: TabBarTheme(labelColor: secondaryColor),
       appBarTheme: AppBarTheme(
+        color: Colors.white,
+        brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.grey[600]),
       ),
+      cardColor: Colors.white,
       toggleableActiveColor: primaryColor,
       splashColor: Colors.white24,
       inputDecorationTheme: InputDecorationTheme(
