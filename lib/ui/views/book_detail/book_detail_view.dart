@@ -81,11 +81,13 @@ class _BookDetailViewState extends State<BookDetailView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Description',
+          AppLocalizations.of(context).translate('description'),
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
         verticalSpaceSmall,
-        Text(widget.book.description.isEmpty ? 'No Description' : widget.book.description),
+        Text(widget.book.description.isEmpty
+            ? AppLocalizations.of(context).translate('no-description')
+            : widget.book.description),
       ],
     );
   }
@@ -121,7 +123,7 @@ class _BookDetailViewState extends State<BookDetailView> {
             ),
             verticalSpaceTiny,
             Text(
-              'Language',
+              AppLocalizations.of(context).translate('language'),
               style: TextStyle(color: Colors.grey[700], fontSize: 12),
             )
           ],
@@ -149,7 +151,7 @@ class _BookDetailViewState extends State<BookDetailView> {
             ),
             verticalSpaceTiny,
             Text(
-              'Format',
+              AppLocalizations.of(context).translate('format'),
               style: TextStyle(color: Colors.grey[800], fontSize: 12),
             )
           ],
@@ -213,14 +215,14 @@ class _BookDetailViewState extends State<BookDetailView> {
           ),
           onPressed: _deleteBookDialog,
           child: Text(
-            'Delete Book',
+            AppLocalizations.of(context).translate('delete-book'),
             style: TextStyle(color: secondaryColor),
           ),
         ),
         horizontalSpaceSmall,
         Expanded(
           child: MaterialButton(
-            child: Text('Open Book'),
+            child: Text(AppLocalizations.of(context).translate('open-book')),
             color: secondaryColor,
             onPressed: () => _downloadController.openFile(widget.book),
           ),
@@ -231,16 +233,16 @@ class _BookDetailViewState extends State<BookDetailView> {
 
   void _deleteBookDialog() {
     Get.dialog(AlertDialog(
-      title: Text('Confirmation'),
-      content: Text('Are you sure want to delete this book?'),
+      title: Text(AppLocalizations.of(context).translate('confirmation')),
+      content: Text(AppLocalizations.of(context).translate('book-delete-confirmation')),
       actions: [
         MaterialButton(
           onPressed: () => Get.back(),
-          child: Text('NO', style: TextStyle(color: secondaryColor)),
+          child: Text(AppLocalizations.of(context).translate('no'), style: TextStyle(color: secondaryColor)),
         ),
         MaterialButton(
           onPressed: () => deleteBook(),
-          child: Text('YES', style: TextStyle(color: secondaryColor)),
+          child: Text(AppLocalizations.of(context).translate('yes'), style: TextStyle(color: secondaryColor)),
         ),
       ],
     ));
