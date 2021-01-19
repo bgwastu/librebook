@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:librebook/app_localizations.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/home/download_view.dart';
@@ -57,18 +58,16 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     unselectedLabelColor: Colors.grey[600],
                     indicatorPadding: EdgeInsets.symmetric(horizontal: 16),
                     tabs: [
-                      Tab(text: "Downloads"),
-                      Tab(text: "Settings"),
+                      Tab(text: AppLocalizations.of(context).translate("downloads")),
+                      Tab(text: AppLocalizations.of(context).translate("settings")),
                     ],
                   ),
                   title: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                       elevation: 5,
                       child: InkWell(
                         onTap: () {
-                          customSearch.showSearch(
-                              context: context, delegate: BookSearch());
+                          customSearch.showSearch(context: context, delegate: BookSearch());
                         },
                         child: Container(
                           child: Row(
@@ -77,8 +76,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                                 children: <Widget>[
                                   IconButton(
                                     icon: Icon(Icons.search),
-                                    onPressed: () =>
-                                        scaffoldKey.currentState.openDrawer(),
+                                    onPressed: () => scaffoldKey.currentState.openDrawer(),
                                   ),
                                   horizontalSpaceTiny,
                                   Text(
