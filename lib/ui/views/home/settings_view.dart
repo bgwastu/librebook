@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:librebook/controllers/settings_controller.dart';
-import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -100,23 +99,20 @@ class SettingView extends StatelessWidget {
             size: 26,
           ),
           onTap: () {
-            Get.dialog(Theme(
-              data: ThemeData(primaryColor: secondaryColor),
-              child: AboutDialog(
-                applicationIcon: Container(
-                    width: 60,
-                    height: 60,
-                    child: Image.asset('assets/icon/icon.png')),
-                applicationVersion: 'v0.1-alpha',
-                applicationLegalese: '© 2021 Bagas Wastu',
-                children: [
-                  verticalSpaceMedium,
-                  Text(
-                    'Librebook is an open-source front-end application to help the users get content easily from library genesis.',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[800]),
-                  ),
-                ],
-              ),
+            Get.dialog(AboutDialog(
+              applicationIcon: Container(
+                  width: 60,
+                  height: 60,
+                  child: Image.asset('assets/icon/icon.png')),
+              applicationVersion: 'v0.1-alpha',
+              applicationLegalese: '© 2021 Bagas Wastu',
+              children: [
+                verticalSpaceMedium,
+                Text(
+                  'Librebook is an open-source front-end application to help the users get content easily from library genesis.',
+                  style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+                ),
+              ],
             ));
           },
         ),
