@@ -80,7 +80,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                                   ),
                                   horizontalSpaceTiny,
                                   Text(
-                                    'Search for book',
+                                    AppLocalizations.of(context).translate('search-book'),
                                     style: TextStyle(
                                       color: Colors.grey[600],
                                       fontSize: 16,
