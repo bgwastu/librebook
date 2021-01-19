@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:librebook/app_localizations.dart';
 import 'package:librebook/controllers/download_controller.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
@@ -62,9 +63,7 @@ class _BookDetailViewState extends State<BookDetailView> {
           _language(),
           verticalSpaceMedium,
           Obx(
-            () => _downloadController.isAlreadyDownloaded.value
-                ? _completedButton()
-                : _actionButton(),
+            () => _downloadController.isAlreadyDownloaded.value ? _completedButton() : _actionButton(),
           ),
           verticalSpaceSmall,
           Divider(
@@ -86,16 +85,14 @@ class _BookDetailViewState extends State<BookDetailView> {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
         verticalSpaceSmall,
-        Text(widget.book.description.isEmpty
-            ? 'No Description'
-            : widget.book.description),
+        Text(widget.book.description.isEmpty ? 'No Description' : widget.book.description),
       ],
     );
   }
 
   Widget _actionButton() {
     return MaterialButton(
-        child: Text('Download'),
+        child: Text(AppLocalizations.of(context).translate("download")),
         color: secondaryColor,
         onPressed: () async {
           await _downloadController.download(widget.book);
@@ -113,10 +110,7 @@ class _BookDetailViewState extends State<BookDetailView> {
               children: [
                 Text(
                   widget.book.language,
-                  style: TextStyle(
-                      color: Colors.grey[700],
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16),
+                  style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600, fontSize: 16),
                 ),
                 horizontalSpaceTiny,
                 Icon(
@@ -144,10 +138,7 @@ class _BookDetailViewState extends State<BookDetailView> {
               children: [
                 Text(
                   widget.book.format.toUpperCase(),
-                  style: TextStyle(
-                      color: Colors.grey[700],
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16),
+                  style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600, fontSize: 16),
                 ),
                 horizontalSpaceTiny,
                 Icon(
@@ -255,11 +246,9 @@ class _BookDetailViewState extends State<BookDetailView> {
     ));
   }
 
-  Future<void> deleteBook() async{
-    final path = await _downloadController
-        .getPath(widget.book.md5);
-    await _downloadController.deleteBook(
-        widget.book.md5, path);
+  Future<void> deleteBook() async {
+    final path = await _downloadController.getPath(widget.book.md5);
+    await _downloadController.deleteBook(widget.book.md5, path);
     Get.back();
   }
 }
