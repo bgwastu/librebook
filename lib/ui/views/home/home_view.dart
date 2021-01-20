@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:librebook/app_localizations.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/home/download_view.dart';
@@ -65,8 +66,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                             indicatorPadding:
                                 EdgeInsets.symmetric(horizontal: 16),
                             tabs: [
-                              Tab(text: "Downloads"),
-                              Tab(text: "Settings"),
+                              Tab(text: AppLocalizations.of(context).translate("downloads")),
+                              Tab(text: AppLocalizations.of(context).translate("settings")),
                             ],
                           ),
                           title: _searchBox()),

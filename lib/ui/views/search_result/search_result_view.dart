@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_refresh_indicator/lazy_load_refresh_indicator.dart';
+import 'package:librebook/app_localizations.dart';
 import 'package:librebook/controllers/search_result_controller.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
@@ -41,22 +42,19 @@ class _SearchResultViewState extends State<SearchResultView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          widget.isGeneral ? 'General Books' : 'Fantasy Books',
+          widget.isGeneral
+              ? AppLocalizations.of(context).translate('general-books')
+              : AppLocalizations.of(context).translate('fantasy-books'),
           style: TextStyle(color: Colors.grey[800]),
         ),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () => Navigator.of(context).pop())
-        ],
+        actions: [IconButton(icon: Icon(Icons.close), onPressed: () => Navigator.of(context).pop())],
       ),
       body: Obx(
         () => LazyLoadRefreshIndicator(
           child: ListView.builder(
             itemBuilder: (context, index) {
               final book = controller.listBook[index];
-              final isNextPage = index + 1 >= controller.listBook.length &&
-                  !controller.isLastPage();
+              final isNextPage = index + 1 >= controller.listBook.length && !controller.isLastPage();
               if (isNextPage) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 8, top: 16),
@@ -129,13 +127,13 @@ class _SearchResultViewState extends State<SearchResultView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Format: ' + book.format,
+                  AppLocalizations.of(context).translate('format') + ': ' + book.format,
                   style: TextStyle(
                     color: Colors.grey[600],
                   ),
                 ),
                 Text(
-                  'Language: ' + book.language,
+                  AppLocalizations.of(context).translate('language') + ': ' + book.language,
                   style: TextStyle(
                     color: Colors.grey[600],
                   ),
