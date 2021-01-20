@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:librebook/app_localizations.dart';
 import 'package:librebook/controllers/settings_controller.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
@@ -78,8 +77,8 @@ class SettingView extends StatelessWidget {
           thickness: 1,
         ),
         ListTile(
-          title: Text('Synchronize'),
-          subtitle: Text('Get default scraper settings'),
+          title: Text(AppLocalizations.of(context).translate('synchronize')),
+          subtitle: Text(AppLocalizations.of(context).translate('get-default-scraper-settings')),
           leading: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Icon(
@@ -91,8 +90,8 @@ class SettingView extends StatelessWidget {
           onTap: () {
             //TODO; implement synchronize settings
             Get.rawSnackbar(
-                title: 'Under development',
-                message: 'This feature is still under development',
+                title: AppLocalizations.of(context).translate('under-development'),
+                message: AppLocalizations.of(context).translate('under-development-message'),
                 icon: Icon(
                   Icons.warning,
                   color: Colors.white,
@@ -106,7 +105,7 @@ class SettingView extends StatelessWidget {
           thickness: 1,
         ),
         ListTile(
-          title: Text('About'),
+          title: Text(AppLocalizations.of(context).translate('about')),
           leading: Icon(
             OMIcons.info,
             color: Colors.grey[700],
@@ -123,7 +122,7 @@ class SettingView extends StatelessWidget {
               children: [
                 verticalSpaceMedium,
                 Text(
-                  'Librebook is an open-source front-end application to help the users get content easily from library genesis.',
+                  AppLocalizations.of(context).translate('librebook-description'),
                   style: TextStyle(fontSize: 14, color: Colors.grey[800]),
                 ),
               ],

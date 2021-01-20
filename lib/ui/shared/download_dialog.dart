@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:librebook/app_localizations.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/utils/consts.dart';
@@ -23,9 +24,9 @@ class DownloadDialog extends StatelessWidget {
     return AlertDialog(
       title: progress == 0
           ? total == -1
-              ? Text('Downloading...')
-              : Text('Waiting for server reply...')
-          : Text('Downloading...'),
+              ? Text(AppLocalizations.of(context).translate('downloading'))
+              : Text(AppLocalizations.of(context).translate('waiting-for-server-reply'))
+          : Text(AppLocalizations.of(context).translate('downloading')),
       content: progress == 0
           ? total == -1
               ? Column(
@@ -54,7 +55,9 @@ class DownloadDialog extends StatelessWidget {
                     Text(progress.toString() + '%'),
                     Text(
                       Constants.formatBytes(received, 1) +
-                          ' of ' +
+                          ' ' +
+                          AppLocalizations.of(context).translate('of') +
+                          ' ' +
                           Constants.formatBytes(total, 1),
                       style: TextStyle(fontSize: 12),
                     ),
@@ -73,29 +76,28 @@ class DownloadCompletedDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: Text('Download completed!'),
-        content: Text('Do you want to open the book?'),
+        title: Text(AppLocalizations.of(context).translate('download-completed')),
+        content: Text(AppLocalizations.of(context).translate('do-you-want-to-open-the-book')),
         actions: [
           MaterialButton(
             onPressed: () => Get.back(),
-            child: Text('NO', style: TextStyle(color: secondaryColor)),
+            child: Text(AppLocalizations.of(context).translate('no'), style: TextStyle(color: secondaryColor)),
           ),
           MaterialButton(
             onPressed: () async {
               Get.back();
-              final res = await OpenFile.open(fileDir,
-                  type: lookupMimeType(fileDir));
+              final res = await OpenFile.open(fileDir, type: lookupMimeType(fileDir));
               if (res.type != ResultType.done) {
                 Get.rawSnackbar(
                   message: res.message,
                   duration: Duration(milliseconds: 1500),
                   isDismissible: true,
-                  title: 'Error',
+                  title: AppLocalizations.of(context).translate('error'),
                 );
               }
             },
             child: Text(
-              'YES',
+              AppLocalizations.of(context).translate('yes'),
               style: TextStyle(color: secondaryColor),
             ),
           ),
@@ -103,14 +105,12 @@ class DownloadCompletedDialog extends StatelessWidget {
   }
 }
 
-
 class DownloadErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Error has been occurred'),
-      content: Text('Please check your internet connection and try again later'),
+      title: Text(AppLocalizations.of(context).translate('error-occurred')),
+      content: Text(AppLocalizations.of(context).translate('check-internet-error')),
     );
   }
 }
-

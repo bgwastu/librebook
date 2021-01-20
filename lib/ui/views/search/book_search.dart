@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:librebook/app_localizations.dart';
 import 'package:librebook/controllers/search_controller.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
@@ -43,8 +44,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     assert(theme != null);
     return theme.copyWith(
       primaryColor: Colors.white,
-      primaryIconTheme:
-          theme.primaryIconTheme.copyWith(color: Colors.grey[600]),
+      primaryIconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey[600]),
       primaryColorBrightness: Brightness.light,
       textTheme: TextTheme(
         headline6: TextStyle(
@@ -65,9 +65,6 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
   }
 
   @override
-  String get searchFieldLabel => 'Search for title, author, ISBN';
-
-  @override
   Widget buildResults(BuildContext context) {
     isResultView = true;
     final controller = Get.put(SearchController());
@@ -80,8 +77,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     );
   }
 
-  Container _fictionBookList(
-      BuildContext context, SearchController controller) {
+  Container _fictionBookList(BuildContext context, SearchController controller) {
     return Container(
       height: Get.height / 2.3,
       child: Column(
@@ -104,7 +100,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Fiction Books',
+                    AppLocalizations.of(context).translate('fiction-books'),
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -145,8 +141,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     );
   }
 
-  Container _generalBookList(
-      BuildContext context, SearchController controller) {
+  Container _generalBookList(BuildContext context, SearchController controller) {
     return Container(
       height: Get.height / 2.3,
       child: Column(
@@ -169,7 +164,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'General Books',
+                    AppLocalizations.of(context).translate('general-books'),
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -222,7 +217,8 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     }
 
     return Center(
-      child: Text('Oops, something went wrong'),
+      // todo localization context
+      child: Text('Oops, something went wrong.'),
     );
   }
 
@@ -237,6 +233,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
         ),
         verticalSpaceSmall,
         Text(
+          // todo localization context
           'Not Found',
           style: TextStyle(
             fontSize: 22,
@@ -245,6 +242,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           ),
         ),
         Text(
+          // todo localization context
           'No internet access',
           style: TextStyle(
             color: Colors.grey[600],
@@ -272,6 +270,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
         ),
         verticalSpaceSmall,
         Text(
+          // todo localization context
           'Not Found',
           style: TextStyle(
             fontSize: 22,
@@ -280,6 +279,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           ),
         ),
         Text(
+          // todo localization context
           'Please try with another query',
           style: TextStyle(
             color: Colors.grey[600],
