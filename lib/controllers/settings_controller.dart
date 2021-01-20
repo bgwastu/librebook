@@ -54,8 +54,10 @@ class SettingsController extends GetxController {
   Future setFictionMirror2() =>
       _settingDatabase.setFictionMirror1(fictionBookMirror2.value);
 
-  Future setDownloadLocation() =>
-      _settingDatabase.setDownloadLocation(downloadLocation.value);
+  Future setDownloadLocation(newDirectory) {
+    downloadLocation.value = newDirectory;
+    _settingDatabase.setDownloadLocation(downloadLocation.value);
+  }
 
   Future setLibgenUrl() => _settingDatabase.setLibgenUrl(libgenUrl.value);
 }
