@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +23,7 @@ class SettingView extends StatelessWidget {
         Theme(
           data: ThemeData(primaryColor: secondaryColor),
           child: ListTile(
-              title: Text('Download location'),
+              title: Text(AppLocalizations.of(context).translate('download-location')),
               subtitle: FutureBuilder(
                 future: _settingsController.getDownloadLocation(),
                 builder: (_, snapshot) {
@@ -45,9 +47,9 @@ class SettingView extends StatelessWidget {
                   context: context,
                   rootDirectory: Directory('/storage/emulated/0'),
                   fsType: FilesystemType.folder,
-                  title: 'Download Location',
-                  rootName: 'Internal Storage',
-                  pickText: 'Save book to this folder',
+                  title: AppLocalizations.of(context).translate('download-location'),
+                  rootName: AppLocalizations.of(context).translate('internal-storage'),
+                  pickText: AppLocalizations.of(context).translate('download-location-save'),
                   folderIconColor: primaryColor,
                 );
 
@@ -58,18 +60,6 @@ class SettingView extends StatelessWidget {
                   _settingsController.setDownloadLocation(newDirectory);
 
                 }
-
-                //TODO: implement download location (DOING)
-                //   Get.rawSnackbar(
-                //       title: 'Under development',
-                //       message: 'This feature is still under development',
-                //       icon: Icon(
-                //         Icons.warning,
-                //         color: Colors.white,
-                //       ),
-                //       animationDuration: Duration(milliseconds: 500),
-                //       duration: Duration(milliseconds: 1500));
-                // },
               }),
         ),
         Divider(
