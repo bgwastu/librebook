@@ -35,7 +35,7 @@ You can download Librebook from [Codemagic](https://codemagic.io/apps/6003d2461b
 ## Contributing
 Any contributions you make are **greatly appreciated**. However, for major changes, please open an issue first to discuss what you would like to change.
 
-You can add localizations by creating a json file in `lang/[LANGUAGE_CODE].json` and adding the language to `supportedLocales` in [`lib/main.dart`](https://github.com/bagaswastu/librebook/blob/master/lib/main.dart#L31) and [`lib/app_localizations.dart`](https://github.com/bagaswastu/librebook/blob/master/lib/app_localizations.dart#L40)
+You can add localizations by creating a json file in `lang/[LANGUAGE_CODE].json` and adding the language to `supportedLocales` in [`lib/main.dart`](https://github.com/bagaswastu/librebook/blob/master/lib/main.dart#) and [`lib/app_localizations.dart`](https://github.com/bagaswastu/librebook/blob/master/lib/app_localizations.dart)
 
 ## License
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
