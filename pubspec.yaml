@@ -31,12 +31,17 @@ dependencies:
   md2_tab_indicator:
   mime:
 
-  #download
+  # download
   dio:
   path_provider:
   ext_storage: ^1.0.3
   permission_handler: ^5.0.1+1
   open_file: ^3.0.3
+
+  # localization
+  flutter_localizations:
+    sdk: flutter
+  global_configuration: ^1.5.0
 
 dev_dependencies:
   flutter_test:
@@ -46,5 +51,6 @@ dev_dependencies:
 
 flutter:
   assets:
+    - lang/
     - assets/icon/
   uses-material-design: true

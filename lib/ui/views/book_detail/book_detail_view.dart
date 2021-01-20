@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:librebook/app_localizations.dart';
 import 'package:librebook/controllers/download_controller.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
@@ -62,9 +63,7 @@ class _BookDetailViewState extends State<BookDetailView> {
           _language(),
           verticalSpaceMedium,
           Obx(
-            () => _downloadController.isAlreadyDownloaded.value
-                ? _completedButton()
-                : _actionButton(),
+            () => _downloadController.isAlreadyDownloaded.value ? _completedButton() : _actionButton(),
           ),
           verticalSpaceSmall,
           Divider(
@@ -82,12 +81,12 @@ class _BookDetailViewState extends State<BookDetailView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Description',
+          AppLocalizations.of(context).translate('description'),
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
         verticalSpaceSmall,
         Text(widget.book.description.isEmpty
-            ? 'No Description'
+            ? AppLocalizations.of(context).translate('no-description')
             : widget.book.description),
       ],
     );
@@ -95,7 +94,7 @@ class _BookDetailViewState extends State<BookDetailView> {
 
   Widget _actionButton() {
     return MaterialButton(
-        child: Text('Download'),
+        child: Text(AppLocalizations.of(context).translate("download")),
         color: secondaryColor,
         onPressed: () async {
           await _downloadController.download(widget.book);
@@ -113,10 +112,7 @@ class _BookDetailViewState extends State<BookDetailView> {
               children: [
                 Text(
                   widget.book.language,
-                  style: TextStyle(
-                      color: Colors.grey[700],
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16),
+                  style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600, fontSize: 16),
                 ),
                 horizontalSpaceTiny,
                 Icon(
@@ -127,7 +123,7 @@ class _BookDetailViewState extends State<BookDetailView> {
             ),
             verticalSpaceTiny,
             Text(
-              'Language',
+              AppLocalizations.of(context).translate('language'),
               style: TextStyle(color: Colors.grey[700], fontSize: 12),
             )
           ],
@@ -144,10 +140,7 @@ class _BookDetailViewState extends State<BookDetailView> {
               children: [
                 Text(
                   widget.book.format.toUpperCase(),
-                  style: TextStyle(
-                      color: Colors.grey[700],
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16),
+                  style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600, fontSize: 16),
                 ),
                 horizontalSpaceTiny,
                 Icon(
@@ -158,7 +151,7 @@ class _BookDetailViewState extends State<BookDetailView> {
             ),
             verticalSpaceTiny,
             Text(
-              'Format',
+              AppLocalizations.of(context).translate('format'),
               style: TextStyle(color: Colors.grey[800], fontSize: 12),
             )
           ],
@@ -222,14 +215,14 @@ class _BookDetailViewState extends State<BookDetailView> {
           ),
           onPressed: _deleteBookDialog,
           child: Text(
-            'Delete Book',
+            AppLocalizations.of(context).translate('delete-book'),
             style: TextStyle(color: secondaryColor),
           ),
         ),
         horizontalSpaceSmall,
         Expanded(
           child: MaterialButton(
-            child: Text('Open Book'),
+            child: Text(AppLocalizations.of(context).translate('open-book')),
             color: secondaryColor,
             onPressed: () => _downloadController.openFile(widget.book),
           ),
@@ -240,26 +233,24 @@ class _BookDetailViewState extends State<BookDetailView> {
 
   void _deleteBookDialog() {
     Get.dialog(AlertDialog(
-      title: Text('Confirmation'),
-      content: Text('Are you sure want to delete this book?'),
+      title: Text(AppLocalizations.of(context).translate('confirmation')),
+      content: Text(AppLocalizations.of(context).translate('book-delete-confirmation')),
       actions: [
         MaterialButton(
           onPressed: () => Get.back(),
-          child: Text('NO', style: TextStyle(color: secondaryColor)),
+          child: Text(AppLocalizations.of(context).translate('no'), style: TextStyle(color: secondaryColor)),
         ),
         MaterialButton(
           onPressed: () => deleteBook(),
-          child: Text('YES', style: TextStyle(color: secondaryColor)),
+          child: Text(AppLocalizations.of(context).translate('yes'), style: TextStyle(color: secondaryColor)),
         ),
       ],
     ));
   }
 
-  Future<void> deleteBook() async{
-    final path = await _downloadController
-        .getPath(widget.book.md5);
-    await _downloadController.deleteBook(
-        widget.book.md5, path);
+  Future<void> deleteBook() async {
+    final path = await _downloadController.getPath(widget.book.md5);
+    await _downloadController.deleteBook(widget.book.md5, path);
     Get.back();
   }
 }
