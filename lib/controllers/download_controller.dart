@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:librebook/controllers/settings_controller.dart';
 import 'package:librebook/database/download_database.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/services/download_service.dart';
@@ -18,6 +18,8 @@ import 'package:permission_handler/permission_handler.dart';
 class DownloadController extends GetxController {
   final _downloadServices = Get.put(DownloadService());
   final _downloadDb = Get.put(DownloadDatabase());
+  final _settingController = Get.put(SettingsController());
+
 
   RxInt _progress = 0.obs;
   Rx<DownloadStatus> downloadStatus = DownloadStatus.unInitialized.obs;
@@ -118,8 +120,7 @@ class DownloadController extends GetxController {
       _received.value = 0;
       _total.value = 0;
 
-      final externalDir = await ExtStorage.getExternalStoragePublicDirectory(
-          ExtStorage.DIRECTORY_DOWNLOADS);
+      final externalDir = await _settingController.getDownloadLocation();
 
       //TODO: need internet connection handler
 
