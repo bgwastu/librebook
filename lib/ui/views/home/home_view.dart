@@ -15,6 +15,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   TabController _tabController;
+
   @override
   void initState() {
     super.initState();
@@ -27,87 +28,93 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-        key: scaffoldKey,
-        body: ScrollConfiguration(
-          behavior: ScrollBehavior(),
-          child: GlowingOverscrollIndicator(
-            axisDirection: AxisDirection.down,
-            color: Colors.grey[300],
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  backgroundColor: Colors.white,
-                  pinned: true,
-                  floating: true,
-                  elevation: 2,
-                  snap: true,
-                  forceElevated: true,
-                  bottom: TabBar(
-                    controller: _tabController,
-                    indicatorWeight: 3,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicator: MD2Indicator(
-                      indicatorHeight: 3,
-                      indicatorColor: secondaryColor,
-                      indicatorSize: MD2IndicatorSize.full,
-                    ),
-                    unselectedLabelColor: Colors.grey[600],
-                    indicatorPadding: EdgeInsets.symmetric(horizontal: 16),
-                    tabs: [
-                      Tab(text: "Downloads"),
-                      Tab(text: "Settings"),
-                    ],
-                  ),
-                  title: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
-                      elevation: 5,
-                      child: InkWell(
-                        onTap: () {
-                          customSearch.showSearch(
-                              context: context, delegate: BookSearch());
-                        },
-                        child: Container(
-                          child: Row(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(Icons.search),
-                                    onPressed: () =>
-                                        scaffoldKey.currentState.openDrawer(),
-                                  ),
-                                  horizontalSpaceTiny,
-                                  Text(
-                                    'Search for book',
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ],
-                              ),
+      body: ScrollConfiguration(
+        behavior: ScrollBehavior(),
+        child: GlowingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
+          color: Colors.grey[300],
+          child: DefaultTabController(
+            length: 3,
+            child: NestedScrollView(
+              headerSliverBuilder: (context, isScrolled) {
+                return [
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context),
+                    sliver: SliverSafeArea(
+                      top: false,
+                      sliver: SliverAppBar(
+                          automaticallyImplyLeading: false,
+                          backgroundColor: Colors.white,
+                          pinned: true,
+                          floating: true,
+                          elevation: 2,
+                          snap: true,
+                          forceElevated: true,
+                          bottom: TabBar(
+                            controller: _tabController,
+                            indicatorWeight: 3,
+                            indicatorSize: TabBarIndicatorSize.label,
+                            indicator: MD2Indicator(
+                              indicatorHeight: 3,
+                              indicatorColor: secondaryColor,
+                              indicatorSize: MD2IndicatorSize.full,
+                            ),
+                            unselectedLabelColor: Colors.grey[600],
+                            indicatorPadding:
+                                EdgeInsets.symmetric(horizontal: 16),
+                            tabs: [
+                              Tab(text: "Downloads"),
+                              Tab(text: "Settings"),
                             ],
                           ),
-                        ),
-                      )),
-                ),
-                SliverFillRemaining(
-                  child: GlowingOverscrollIndicator(
-                    axisDirection: AxisDirection.right,
-                    color: Colors.grey[300],
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: <Widget>[
-                        DownloadView(),
-                        SettingView(),
-                      ],
+                          title: _searchBox()),
                     ),
-                  ),
+                  )
+                ];
+              },
+              body: TabBarView(
+                controller: _tabController,
+                children: [
+                  DownloadView(),
+                  SettingView(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _searchBox() {
+    return Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        elevation: 5,
+        child: InkWell(
+          onTap: () {
+            customSearch.showSearch(context: context, delegate: BookSearch());
+          },
+          child: Container(
+            child: Row(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: null,
+                    ),
+                    horizontalSpaceTiny,
+                    Text(
+                      'Search for book',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
                 ),
               ],
             ),
