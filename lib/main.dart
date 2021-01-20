@@ -14,11 +14,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnnotatedRegion(
         value: SystemUiOverlayStyle(
-            statusBarColor: Colors.white,
-            systemNavigationBarColor: Colors.white,
-            systemNavigationBarDividerColor: Colors.white,
-            systemNavigationBarIconBrightness: Brightness.dark,
-            statusBarIconBrightness: Brightness.dark),
+          statusBarColor: Colors.white,
+          systemNavigationBarColor: Colors.white,
+          systemNavigationBarDividerColor: Colors.white,
+          systemNavigationBarIconBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         child: GetMaterialApp(
           title: 'Librebook',
           debugShowCheckedModeBanner: false,
