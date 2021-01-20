@@ -31,5 +31,7 @@
   "search-label": "Search for title, author, ISBN",
   "fiction-books": "Fiction books",
   "general-books": "General books",
-  "something-went-wrong": "Oops, something went wrong."
+  "something-went-wrong": "Oops, something went wrong.",
+  "internal-storage": "Internal Storage",
+  "download-location-save": "save book to this location"
 }

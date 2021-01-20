@@ -31,5 +31,7 @@
   "search-label": "Suche nach Titel, Author, ISBN",
   "fiction-books": "Fiktion",
   "general-books": "Allgemein",
-  "something-went-wrong": "Ups, etwas ist schiefgelaufen."
+  "something-went-wrong": "Ups, etwas ist schiefgelaufen.",
+  "internal-storage": "Interne opslagruimte",
+  "download-location-save": "Boek opslaan op deze locatie"
 }
