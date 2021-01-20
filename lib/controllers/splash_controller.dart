@@ -5,7 +5,7 @@ class SplashController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    Future.delayed(Duration(milliseconds: 500))
+    Future.delayed(Duration(milliseconds: 800))
         .then((value) => Get.off(HomeView()));
   }
 }
