@@ -32,6 +32,6 @@
   "fiction-books": "Fiktion",
   "general-books": "Allgemein",
   "something-went-wrong": "Ups, etwas ist schiefgelaufen.",
-  "internal-storage": "Interne opslagruimte",
-  "download-location-save": "Boek opslaan op deze locatie"
+  "internal-storage": "Internal Storage",
+  "download-location-save": "Save book to this location"
 }
