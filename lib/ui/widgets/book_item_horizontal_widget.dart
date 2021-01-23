@@ -61,10 +61,10 @@ class BookItemHorizontalWidget extends StatelessWidget {
     return Positioned(
       right: 4,
       top: 4,
-      child: Material(
-        elevation: 2,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(5),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Material(
+          elevation: 2,
           child: Container(
             padding: EdgeInsets.all(8),
             child: Text(
