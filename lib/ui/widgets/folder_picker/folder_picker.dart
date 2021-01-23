@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:librebook/ui/widgets/folder_picker/picker_common.dart';
 import 'package:librebook/ui/widgets/folder_picker/picker_filesystem_list.dart';
@@ -182,8 +183,8 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
             data: ThemeData(
               textTheme: TextTheme(
                 button: TextStyle(
-                    color: AppBarTheme.of(context).textTheme?.title?.color ??
-                        Theme.of(context).primaryTextTheme?.title?.color),
+                    color: Theme.of(context).textTheme.bodyText1.color ??
+                        Theme.of(context).textTheme.bodyText1.color),
               ),
             ),
             child: Breadcrumbs<String>(
@@ -193,6 +194,7 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
                   text: path.text, data: path.path))
                   .toList(growable: false)
                   : [],
+              textColor: Theme.of(context).textTheme.bodyText1.color,
               onSelect: (String value) {
                 _changeDirectory(Directory(value));
               },
@@ -231,13 +233,13 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
           child: Center(
             child: FlatButton.icon(
               textColor:
-              AppBarTheme.of(context).textTheme?.title?.color ??
-                  Theme.of(context).primaryTextTheme?.title?.color,
+              AppBarTheme.of(context).textTheme?.bodyText1?.color ??
+                  Theme.of(context).primaryTextTheme?.bodyText1?.color,
               disabledTextColor: (AppBarTheme.of(context)
                   .textTheme
-                  ?.title
+                  ?.bodyText1
                   ?.color ??
-                  Theme.of(context).primaryTextTheme?.title?.color)
+                  Theme.of(context).primaryTextTheme?.bodyText1?.color)
                   .withOpacity(0.5),
               icon: Icon(Icons.check_circle),
               label: (widget.pickText != null)
