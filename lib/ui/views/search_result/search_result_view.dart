@@ -44,7 +44,7 @@ class _SearchResultViewState extends State<SearchResultView> {
         title: Text(
           widget.isGeneral
               ? AppLocalizations.of(context).translate('general-books')
-              : AppLocalizations.of(context).translate('fantasy-books'),
+              : AppLocalizations.of(context).translate('fiction-books'),
           style: TextStyle(color: Colors.grey[800]),
         ),
         actions: [IconButton(icon: Icon(Icons.close), onPressed: () => Navigator.of(context).pop())],
