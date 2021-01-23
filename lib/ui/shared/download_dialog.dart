@@ -52,7 +52,7 @@ class DownloadDialog extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(progress.toString() + '%'),
+                    Text(progress.toString() + '%', style: Theme.of(Get.context).textTheme.subtitle2,),
                     Text(
                       Constants.formatBytes(received, 1) +
                           ' ' +

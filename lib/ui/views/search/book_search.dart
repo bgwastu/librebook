@@ -46,9 +46,8 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     return theme.copyWith(
       primaryColor: Get.isDarkMode ? Colors.grey[900] : Colors.white,
       brightness: Brightness.light,
-
       appBarTheme: AppBarTheme(
-          brightness: Get.isDarkMode ? Brightness.dark : Brightness.light,
+        brightness: Get.isDarkMode ? Brightness.dark : Brightness.light,
       ),
       primaryIconTheme: theme.primaryIconTheme.copyWith(
           color: Get.isDarkMode ? Colors.grey[400] : Colors.grey[800]),
@@ -63,8 +62,6 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
 
   @override
   Widget buildLeading(BuildContext context) {
-    print(Get.isDarkMode);
-
     setCurrentOverlay(Get.isDarkMode);
     return IconButton(
       icon: Icon(Icons.arrow_back),
@@ -96,6 +93,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
         children: <Widget>[
           InkWell(
             onTap: () {
+              print('tap');
               if (!controller.isFantasyBusy.value) {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => SearchResultView(
@@ -113,10 +111,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
                 children: <Widget>[
                   Text(
                     AppLocalizations.of(context).translate('fiction-books'),
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(Get.context).textTheme.headline6,
                   ),
                   IconButton(
                     icon: Icon(Icons.arrow_forward),
@@ -178,10 +173,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
                 children: <Widget>[
                   Text(
                     AppLocalizations.of(context).translate('general-books'),
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(Get.context).textTheme.headline6,
                   ),
                   IconButton(
                     icon: Icon(Icons.arrow_forward),
@@ -273,24 +265,17 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          Icons.sentiment_dissatisfied,
-          size: 50,
-          color: Colors.grey[600],
-        ),
+        Icon(Icons.sentiment_dissatisfied, size: 50),
         verticalSpaceSmall,
         Text(
           // todo localization context
           'Not Found',
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.grey[600],
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(Get.context).textTheme.headline6,
         ),
         Text(
           // todo localization context
           'Please try with another query',
+          style: Theme.of(Get.context).textTheme.bodyText1,
         )
       ],
     );

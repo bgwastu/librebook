@@ -10,9 +10,10 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    appdata.writeIfNull('isDarkMode', false);
     final isDarkMode = appdata.read('isDarkMode');
     setDarkMode(isDarkMode);
-
+    Get.testMode = true;
     Future.delayed(Duration(milliseconds: 800))
         .then((value) => Get.off(HomeView()));
   }

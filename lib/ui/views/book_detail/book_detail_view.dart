@@ -113,9 +113,7 @@ class _BookDetailViewState extends State<BookDetailView> {
               children: [
                 Text(
                   widget.book.language,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16),
+                  style: Theme.of(Get.context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600),
                 ),
                 horizontalSpaceTiny,
                 Icon(
@@ -126,14 +124,14 @@ class _BookDetailViewState extends State<BookDetailView> {
             verticalSpaceTiny,
             Text(
               AppLocalizations.of(context).translate('language'),
-              style: TextStyle( fontSize: 12),
+              style: Theme.of(Get.context).textTheme.bodyText2,
             )
           ],
         ),
         Container(
           height: 30,
           width: 0.4,
-          color: Colors.grey[800],
+          color: Get.isDarkMode ? Colors.grey[100] : Colors.grey[800],
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,9 +140,7 @@ class _BookDetailViewState extends State<BookDetailView> {
               children: [
                 Text(
                   widget.book.format.toUpperCase(),
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16),
+                  style: Theme.of(Get.context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600),
                 ),
                 horizontalSpaceTiny,
                 Icon(
@@ -155,7 +151,7 @@ class _BookDetailViewState extends State<BookDetailView> {
             verticalSpaceTiny,
             Text(
               AppLocalizations.of(context).translate('format'),
-              style: TextStyle(fontSize: 12),
+              style: Theme.of(Get.context).textTheme.bodyText2,
             )
           ],
         )
@@ -166,7 +162,7 @@ class _BookDetailViewState extends State<BookDetailView> {
   Text _authors() {
     return Text(
       widget.book.authors.join(', '),
-      style: TextStyle(fontSize: 15),
+      style: Theme.of(Get.context).textTheme.bodyText2,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
@@ -175,7 +171,7 @@ class _BookDetailViewState extends State<BookDetailView> {
   Text _title() {
     return Text(
       widget.book.title,
-      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 21),
+      style: Theme.of(Get.context).textTheme.headline6,
       maxLines: 3,
       overflow: TextOverflow.ellipsis,
     );
