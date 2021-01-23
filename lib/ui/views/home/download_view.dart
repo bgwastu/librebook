@@ -10,7 +10,7 @@ import 'package:librebook/ui/widgets/image_error_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DownloadView extends StatelessWidget {
-  final _homeController = HomeController();
+  final _homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {

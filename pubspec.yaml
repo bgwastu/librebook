@@ -12,6 +12,7 @@ dependencies:
 
   # architecture
   get:
+  get_storage:
 
   # database
   sembast:

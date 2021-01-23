@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 const Widget horizontalSpaceTiny = SizedBox(width: 4);
 const Widget horizontalSpaceSmall = SizedBox(width: 8);
@@ -15,29 +14,16 @@ const Widget verticalSpaceMassive = SizedBox(height: 32);
 
 hideInput() => SystemChannels.textInput.invokeMethod('TextInput.hide');
 
-setCurrentOverlay() {
+setCurrentOverlay(bool isDarkMode) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: !Get.isDarkMode ? Colors.grey[900] : Colors.white,
+    statusBarColor: isDarkMode ? Colors.grey[900] : Colors.white,
     systemNavigationBarColor:
-    !Get.isDarkMode ? Colors.grey[900] : Colors.white,
+    isDarkMode ? Colors.grey[900] : Colors.white,
     systemNavigationBarIconBrightness:
-    !Get.isDarkMode ? Brightness.light : Brightness.dark,
+    isDarkMode ? Brightness.light : Brightness.dark,
     statusBarIconBrightness:
-    !Get.isDarkMode ? Brightness.light : Brightness.dark,
-    statusBarBrightness: !Get.isDarkMode ? Brightness.light : Brightness.dark,
-  ));
-}
-
-changeOverlay() {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Get.isDarkMode ? Colors.grey[900] : Colors.white,
-    systemNavigationBarColor:
-    Get.isDarkMode ? Colors.grey[900] : Colors.white,
-    systemNavigationBarIconBrightness:
-    Get.isDarkMode ? Brightness.light : Brightness.dark,
-    statusBarIconBrightness:
-    Get.isDarkMode ? Brightness.light : Brightness.dark,
-    statusBarBrightness: Get.isDarkMode ? Brightness.light : Brightness.dark,
+    isDarkMode ? Brightness.light : Brightness.dark,
+    statusBarBrightness: isDarkMode ? Brightness.light : Brightness.dark,
   ));
 }
 
