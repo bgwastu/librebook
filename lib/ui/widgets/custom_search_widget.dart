@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:librebook/app_localizations.dart';
 
 /// Shows a full screen search page and returns the search result selected by
@@ -505,7 +506,7 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
           backgroundColor: theme.primaryColor,
           iconTheme: theme.primaryIconTheme,
           textTheme: theme.primaryTextTheme,
-          brightness: theme.primaryColorBrightness,
+          brightness: Get.isDarkMode ? Brightness.dark : Brightness.light,
           leading: widget.delegate.buildLeading(context),
           title: TextField(
             controller: widget.delegate._queryTextController,
