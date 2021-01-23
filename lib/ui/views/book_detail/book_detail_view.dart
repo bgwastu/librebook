@@ -183,7 +183,7 @@ class _BookDetailViewState extends State<BookDetailView> {
 
   Widget _coverImage() {
     return Card(
-      elevation: 2,
+      elevation: 3,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container(

@@ -68,6 +68,7 @@ class SettingView extends StatelessWidget {
           () => SwitchListTile(
             // TODO: add localization context
             title: Text('Dark mode'),
+            activeColor: primaryColor,
             secondary: Icon(Icons.brightness_4),
             value: _settingsController.isDarkMode.value,
             onChanged: (val) => _settingsController.setDarkMode(val),

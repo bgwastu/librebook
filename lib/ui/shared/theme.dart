@@ -16,6 +16,7 @@ ThemeData _buildLightTheme() {
       colorScheme: colorScheme,
       primaryColor: secondaryColor,
       buttonColor: primaryColor,
+
       indicatorColor: secondaryColor,
       tabBarTheme: TabBarTheme(labelColor: secondaryColor),
       appBarTheme: AppBarTheme(

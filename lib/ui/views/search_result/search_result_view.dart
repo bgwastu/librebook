@@ -45,16 +45,24 @@ class _SearchResultViewState extends State<SearchResultView> {
           widget.isGeneral
               ? AppLocalizations.of(context).translate('general-books')
               : AppLocalizations.of(context).translate('fiction-books'),
-          style: TextStyle(color: Colors.grey[800]),
+          //TODO: fix text color
+          style: TextStyle(
+            color: Get.isDarkMode ? Colors.grey[400] : Colors.grey[800],
+          ),
         ),
-        actions: [IconButton(icon: Icon(Icons.close), onPressed: () => Navigator.of(context).pop())],
+        actions: [
+          IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () => Navigator.of(context).pop())
+        ],
       ),
       body: Obx(
         () => LazyLoadRefreshIndicator(
           child: ListView.builder(
             itemBuilder: (context, index) {
               final book = controller.listBook[index];
-              final isNextPage = index + 1 >= controller.listBook.length && !controller.isLastPage();
+              final isNextPage = index + 1 >= controller.listBook.length &&
+                  !controller.isLastPage();
               if (isNextPage) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 8, top: 16),
@@ -127,11 +135,14 @@ class _SearchResultViewState extends State<SearchResultView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppLocalizations.of(context).translate('format') + ': ' + book.format,
-
+                  AppLocalizations.of(context).translate('format') +
+                      ': ' +
+                      book.format,
                 ),
                 Text(
-                  AppLocalizations.of(context).translate('language') + ': ' + book.language,
+                  AppLocalizations.of(context).translate('language') +
+                      ': ' +
+                      book.language,
                 )
               ],
             ),
@@ -149,7 +160,7 @@ class _SearchResultViewState extends State<SearchResultView> {
         fit: StackFit.expand,
         children: [
           Card(
-            elevation: 2,
+            elevation: 3,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: CachedNetworkImage(

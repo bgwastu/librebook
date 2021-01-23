@@ -98,7 +98,7 @@ class DownloadView extends StatelessWidget {
 
   Widget _coverImage(Book book) {
     return Card(
-      elevation: 2,
+      elevation: 3,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container(
