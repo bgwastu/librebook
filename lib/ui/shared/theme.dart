@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final ThemeData kLightTheme = _buildLightTheme();
-const Color primaryColor = Colors.indigo;
-const Color secondaryColor = Colors.indigo;
+const Color primaryColor = Colors.indigoAccent;
+const Color secondaryColor = Colors.indigoAccent;
 
 ThemeData _buildLightTheme() {
   final ColorScheme colorScheme = const ColorScheme.light().copyWith(
@@ -24,7 +24,6 @@ ThemeData _buildLightTheme() {
         iconTheme: IconThemeData(color: Colors.grey[600]),
       ),
       cardColor: Colors.white,
-      toggleableActiveColor: primaryColor,
       splashColor: Colors.white24,
       inputDecorationTheme: InputDecorationTheme(
         hoverColor: secondaryColor,
@@ -44,6 +43,59 @@ ThemeData _buildLightTheme() {
       canvasColor: Colors.white,
       scaffoldBackgroundColor: Colors.white,
       backgroundColor: Colors.white,
+      errorColor: const Color(0xFFB00020),
+      buttonTheme: ButtonThemeData(
+        colorScheme: colorScheme,
+        textTheme: ButtonTextTheme.primary,
+      ),
+      cupertinoOverrideTheme: CupertinoThemeData(
+        primaryColor: primaryColor,
+        brightness: Brightness.light,
+      ));
+  return base;
+}
+
+final ThemeData kDarkMode = _buildDarkMode();
+
+ThemeData _buildDarkMode() {
+  final ColorScheme colorScheme = const ColorScheme.dark().copyWith(
+    primary: primaryColor,
+    secondary: secondaryColor,
+  );
+  final base = ThemeData(
+      brightness: Brightness.dark,
+      accentColorBrightness: Brightness.dark,
+      colorScheme: colorScheme,
+      primaryColor: secondaryColor,
+      textTheme: TextTheme(
+        headline6: TextStyle(
+          fontSize: 16,
+        ),
+      ),
+      appBarTheme: AppBarTheme(
+        color: Colors.grey[900],
+        brightness: Brightness.dark,
+        iconTheme: IconThemeData(color: Colors.grey[400]),
+      ),
+      primaryIconTheme: IconThemeData(
+        color: Colors.grey[400]
+      ),
+
+      buttonColor: primaryColor,
+      indicatorColor: secondaryColor,
+      tabBarTheme: TabBarTheme(labelColor: secondaryColor),
+      inputDecorationTheme: InputDecorationTheme(
+        hoverColor: secondaryColor,
+      ),
+      iconTheme: IconThemeData(
+        color: Colors.white
+      ),
+      hoverColor: secondaryColor,
+      cursorColor: secondaryColor,
+      textSelectionHandleColor: secondaryColor,
+      textSelectionColor: secondaryColor.withOpacity(0.6),
+      splashFactory: InkRipple.splashFactory,
+      accentColor: secondaryColor,
       errorColor: const Color(0xFFB00020),
       buttonTheme: ButtonThemeData(
         colorScheme: colorScheme,

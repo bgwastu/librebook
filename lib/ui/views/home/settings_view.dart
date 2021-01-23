@@ -10,7 +10,6 @@ import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/widgets/folder_picker/folder_picker.dart';
 import 'package:librebook/ui/widgets/folder_picker/picker_common.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
 
 class SettingView extends StatelessWidget {
   final _settingsController = SettingsController();
@@ -18,70 +17,83 @@ class SettingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.only(top: 8 , left: 8, right: 8),
+      padding: EdgeInsets.only(top: 8, left: 8, right: 8),
       children: [
-        Theme(
-          data: ThemeData(primaryColor: secondaryColor),
-          child: ListTile(
-              title: Text(AppLocalizations.of(context).translate('download-location')),
-              subtitle: FutureBuilder(
-                future: _settingsController.getDownloadLocation(),
-                builder: (_, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data);
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-              leading: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Icon(
-                  OMIcons.saveAlt,
-                  color: Colors.grey[700],
-                  size: 26,
-                ),
-              ),
-              onTap: () async {
-                var newDirectory = await FilesystemPicker.open(
-                  context: context,
-                  rootDirectory: Directory('/storage/emulated/0'),
-                  fsType: FilesystemType.folder,
-                  title: AppLocalizations.of(context).translate('download-location'),
-                  rootName: AppLocalizations.of(context).translate('internal-storage'),
-                  pickText: AppLocalizations.of(context).translate('download-location-save'),
-                  folderIconColor: primaryColor,
-                );
-
-                print(newDirectory);
-
-                if (newDirectory != null) {
-                  // Do something with the picked directory
-                  _settingsController.setDownloadLocation(newDirectory);
-
+        ListTile(
+            title: Text(
+                AppLocalizations.of(context).translate('download-location')),
+            subtitle: FutureBuilder(
+              future: _settingsController.getDownloadLocation(),
+              builder: (_, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot.data);
+                } else {
+                  return Container();
                 }
-              }),
-        ),
+              },
+            ),
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Icon(
+                Icons.save_outlined,
+                size: 26,
+              ),
+            ),
+            onTap: () async {
+              var newDirectory = await FilesystemPicker.open(
+                context: context,
+                rootDirectory: Directory('/storage/emulated/0'),
+                fsType: FilesystemType.folder,
+                title:
+                    AppLocalizations.of(context).translate('download-location'),
+                rootName:
+                    AppLocalizations.of(context).translate('internal-storage'),
+                pickText: AppLocalizations.of(context)
+                    .translate('download-location-save'),
+                folderIconColor: primaryColor,
+              );
+
+              print(newDirectory);
+
+              if (newDirectory != null) {
+                // Do something with the picked directory
+                _settingsController.setDownloadLocation(newDirectory);
+              }
+            }),
         Divider(
           height: 2,
           thickness: 1,
         ),
         ListTile(
+          // TODO: add localization context
+          title: Text('Dark mode'),
+          onTap: () async {
+            Get.isDarkMode
+                ? Get.changeTheme(kLightTheme)
+                : Get.changeTheme(kDarkMode);
+
+            await Future.delayed(Duration(milliseconds: 100));
+            setCurrentOverlay();
+          },
+        ),
+        ListTile(
           title: Text(AppLocalizations.of(context).translate('synchronize')),
-          subtitle: Text(AppLocalizations.of(context).translate('get-default-scraper-settings')),
+          subtitle: Text(AppLocalizations.of(context)
+              .translate('get-default-scraper-settings')),
           leading: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Icon(
               Icons.sync,
-              color: Colors.grey[700],
               size: 26,
             ),
           ),
           onTap: () {
             //TODO; implement synchronize settings
             Get.rawSnackbar(
-                title: AppLocalizations.of(context).translate('under-development'),
-                message: AppLocalizations.of(context).translate('under-development-message'),
+                title:
+                    AppLocalizations.of(context).translate('under-development'),
+                message: AppLocalizations.of(context)
+                    .translate('under-development-message'),
                 icon: Icon(
                   Icons.warning,
                   color: Colors.white,
@@ -97,8 +109,7 @@ class SettingView extends StatelessWidget {
         ListTile(
           title: Text(AppLocalizations.of(context).translate('about')),
           leading: Icon(
-            OMIcons.info,
-            color: Colors.grey[700],
+            Icons.info_outline,
             size: 26,
           ),
           onTap: () {
@@ -112,8 +123,9 @@ class SettingView extends StatelessWidget {
               children: [
                 verticalSpaceMedium,
                 Text(
-                  AppLocalizations.of(context).translate('librebook-description'),
-                  style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+                  AppLocalizations.of(context)
+                      .translate('librebook-description'),
+                  style: TextStyle(fontSize: 14),
                 ),
               ],
             ));

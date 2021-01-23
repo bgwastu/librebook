@@ -9,7 +9,6 @@ import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/widgets/image_error_widget.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
 class BookDetailView extends StatefulWidget {
@@ -63,7 +62,9 @@ class _BookDetailViewState extends State<BookDetailView> {
           _language(),
           verticalSpaceMedium,
           Obx(
-            () => _downloadController.isAlreadyDownloaded.value ? _completedButton() : _actionButton(),
+            () => _downloadController.isAlreadyDownloaded.value
+                ? _completedButton()
+                : _actionButton(),
           ),
           verticalSpaceSmall,
           Divider(
@@ -112,19 +113,20 @@ class _BookDetailViewState extends State<BookDetailView> {
               children: [
                 Text(
                   widget.book.language,
-                  style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600, fontSize: 16),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16),
                 ),
                 horizontalSpaceTiny,
                 Icon(
-                  OMIcons.language,
-                  color: Colors.grey[800],
+                  Icons.language,
                 ),
               ],
             ),
             verticalSpaceTiny,
             Text(
               AppLocalizations.of(context).translate('language'),
-              style: TextStyle(color: Colors.grey[700], fontSize: 12),
+              style: TextStyle( fontSize: 12),
             )
           ],
         ),
@@ -140,19 +142,20 @@ class _BookDetailViewState extends State<BookDetailView> {
               children: [
                 Text(
                   widget.book.format.toUpperCase(),
-                  style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600, fontSize: 16),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16),
                 ),
                 horizontalSpaceTiny,
                 Icon(
-                  OMIcons.book,
-                  color: Colors.grey[700],
+                  Icons.book_outlined,
                 ),
               ],
             ),
             verticalSpaceTiny,
             Text(
               AppLocalizations.of(context).translate('format'),
-              style: TextStyle(color: Colors.grey[800], fontSize: 12),
+              style: TextStyle(fontSize: 12),
             )
           ],
         )
@@ -234,15 +237,18 @@ class _BookDetailViewState extends State<BookDetailView> {
   void _deleteBookDialog() {
     Get.dialog(AlertDialog(
       title: Text(AppLocalizations.of(context).translate('confirmation')),
-      content: Text(AppLocalizations.of(context).translate('book-delete-confirmation')),
+      content: Text(
+          AppLocalizations.of(context).translate('book-delete-confirmation')),
       actions: [
         MaterialButton(
           onPressed: () => Get.back(),
-          child: Text(AppLocalizations.of(context).translate('no'), style: TextStyle(color: secondaryColor)),
+          child: Text(AppLocalizations.of(context).translate('no'),
+              style: TextStyle(color: secondaryColor)),
         ),
         MaterialButton(
           onPressed: () => deleteBook(),
-          child: Text(AppLocalizations.of(context).translate('yes'), style: TextStyle(color: secondaryColor)),
+          child: Text(AppLocalizations.of(context).translate('yes'),
+              style: TextStyle(color: secondaryColor)),
         ),
       ],
     ));

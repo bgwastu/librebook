@@ -128,15 +128,10 @@ class _SearchResultViewState extends State<SearchResultView> {
               children: [
                 Text(
                   AppLocalizations.of(context).translate('format') + ': ' + book.format,
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                  ),
+
                 ),
                 Text(
                   AppLocalizations.of(context).translate('language') + ': ' + book.language,
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                  ),
                 )
               ],
             ),

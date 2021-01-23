@@ -37,14 +37,18 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     ];
   }
 
+
+
   @override
   ThemeData appBarTheme(BuildContext context) {
-    assert(context != null);
-    final ThemeData theme = Theme.of(context);
-    assert(theme != null);
+    final ThemeData theme = Theme.of(Get.context);
     return theme.copyWith(
-      primaryColor: Colors.white,
-      primaryIconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey[600]),
+      primaryColor: Get.isDarkMode ? Colors.grey[900] : Colors.white,
+
+      appBarTheme: AppBarTheme(
+        brightness: Get.isDarkMode ? Brightness.dark : Brightness.light,
+      ),
+      primaryIconTheme: theme.primaryIconTheme.copyWith(color: Get.isDarkMode ? Colors.grey[400] : Colors.grey[800]),
       primaryColorBrightness: Brightness.light,
       textTheme: TextTheme(
         headline6: TextStyle(
@@ -244,9 +248,6 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
         Text(
           // todo localization context
           'No internet access',
-          style: TextStyle(
-            color: Colors.grey[600],
-          ),
         )
       ],
     );
@@ -281,9 +282,6 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
         Text(
           // todo localization context
           'Please try with another query',
-          style: TextStyle(
-            color: Colors.grey[600],
-          ),
         )
       ],
     );
