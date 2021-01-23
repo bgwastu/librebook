@@ -18,6 +18,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
 
   @override
   List<Widget> buildActions(BuildContext context) {
+    setCurrentOverlay(Get.isDarkMode);
     return [
       query.isNotEmpty && !isResultView
           ? IconButton(
@@ -37,18 +38,20 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     ];
   }
 
-
-
   @override
   ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = Theme.of(Get.context);
+    setCurrentOverlay(Get.isDarkMode);
+
+    final ThemeData theme = Get.theme;
     return theme.copyWith(
       primaryColor: Get.isDarkMode ? Colors.grey[900] : Colors.white,
+      brightness: Brightness.light,
 
       appBarTheme: AppBarTheme(
-        brightness: Get.isDarkMode ? Brightness.dark : Brightness.light,
+          brightness: Get.isDarkMode ? Brightness.dark : Brightness.light,
       ),
-      primaryIconTheme: theme.primaryIconTheme.copyWith(color: Get.isDarkMode ? Colors.grey[400] : Colors.grey[800]),
+      primaryIconTheme: theme.primaryIconTheme.copyWith(
+          color: Get.isDarkMode ? Colors.grey[400] : Colors.grey[800]),
       primaryColorBrightness: Brightness.light,
       textTheme: TextTheme(
         headline6: TextStyle(
@@ -60,6 +63,9 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
 
   @override
   Widget buildLeading(BuildContext context) {
+    print(Get.isDarkMode);
+
+    setCurrentOverlay(Get.isDarkMode);
     return IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () {
@@ -70,6 +76,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
 
   @override
   Widget buildResults(BuildContext context) {
+    setCurrentOverlay(Get.isDarkMode);
     isResultView = true;
     final controller = Get.put(SearchController());
     return ListView(
@@ -81,7 +88,8 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     );
   }
 
-  Container _fictionBookList(BuildContext context, SearchController controller) {
+  Container _fictionBookList(
+      BuildContext context, SearchController controller) {
     return Container(
       height: Get.height / 2.3,
       child: Column(
@@ -145,7 +153,8 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     );
   }
 
-  Container _generalBookList(BuildContext context, SearchController controller) {
+  Container _generalBookList(
+      BuildContext context, SearchController controller) {
     return Container(
       height: Get.height / 2.3,
       child: Column(
