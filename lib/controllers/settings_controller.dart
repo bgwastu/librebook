@@ -18,7 +18,6 @@ class SettingsController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    print('onInit');
     // get theme status
     isDarkMode.value = getThemeStatus();
     setDarkMode(isDarkMode.value);
@@ -44,6 +43,7 @@ class SettingsController extends GetxController {
       await Future.delayed(Duration(milliseconds: 100));
       setCurrentOverlay(value);
     }
+    Get.appUpdate();
   }
 
   getAll() async {

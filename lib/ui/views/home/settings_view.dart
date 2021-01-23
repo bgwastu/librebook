@@ -21,12 +21,14 @@ class SettingView extends StatelessWidget {
       children: [
         ListTile(
             title: Text(
-                AppLocalizations.of(context).translate('download-location')),
+              AppLocalizations.of(context).translate('download-location'),
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
             subtitle: FutureBuilder(
               future: _settingsController.getDownloadLocation(),
               builder: (_, snapshot) {
                 if (snapshot.hasData) {
-                  return Text(snapshot.data);
+                  return Text(snapshot.data, style: Theme.of(context).textTheme.caption);
                 } else {
                   return Container();
                 }
@@ -67,7 +69,7 @@ class SettingView extends StatelessWidget {
         Obx(
           () => SwitchListTile(
             // TODO: add localization context
-            title: Text('Dark mode'),
+            title: Text('Dark mode', style: Theme.of(context).textTheme.bodyText1),
             activeColor: primaryColor,
             secondary: Icon(Icons.brightness_4),
             value: _settingsController.isDarkMode.value,
@@ -79,9 +81,9 @@ class SettingView extends StatelessWidget {
           thickness: 1,
         ),
         ListTile(
-          title: Text(AppLocalizations.of(context).translate('synchronize')),
+          title: Text(AppLocalizations.of(context).translate('synchronize'), style: Theme.of(context).textTheme.bodyText1),
           subtitle: Text(AppLocalizations.of(context)
-              .translate('get-default-scraper-settings')),
+              .translate('get-default-scraper-settings'), style: Theme.of(context).textTheme.caption,),
           leading: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Icon(
@@ -109,7 +111,7 @@ class SettingView extends StatelessWidget {
           thickness: 1,
         ),
         ListTile(
-          title: Text(AppLocalizations.of(context).translate('about')),
+          title: Text(AppLocalizations.of(context).translate('about'), style: Get.textTheme.bodyText1,),
           leading: Icon(
             Icons.info_outline,
             size: 26,

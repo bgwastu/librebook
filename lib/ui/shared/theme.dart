@@ -16,7 +16,6 @@ ThemeData _buildLightTheme() {
       colorScheme: colorScheme,
       primaryColor: secondaryColor,
       buttonColor: primaryColor,
-
       indicatorColor: secondaryColor,
       tabBarTheme: TabBarTheme(labelColor: secondaryColor),
       appBarTheme: AppBarTheme(
@@ -35,6 +34,7 @@ ThemeData _buildLightTheme() {
         bodyText2: TextStyle(),
       ).apply(
         bodyColor: Colors.grey[800],
+        displayColor: Colors.grey[800],
       ),
       cursorColor: secondaryColor,
       textSelectionHandleColor: secondaryColor,
@@ -69,28 +69,25 @@ ThemeData _buildDarkMode() {
       colorScheme: colorScheme,
       primaryColor: secondaryColor,
       textTheme: TextTheme(
-        headline6: TextStyle(
-          fontSize: 16,
-        ),
+        bodyText1: TextStyle(),
+        bodyText2: TextStyle(),
+      ).apply(
+        bodyColor: Colors.grey[100],
+        displayColor: Colors.grey[100],
       ),
       appBarTheme: AppBarTheme(
         color: Colors.grey[900],
         brightness: Brightness.dark,
         iconTheme: IconThemeData(color: Colors.grey[400]),
       ),
-      primaryIconTheme: IconThemeData(
-        color: Colors.grey[400]
-      ),
-
+      primaryIconTheme: IconThemeData(color: Colors.grey[400]),
       buttonColor: primaryColor,
       indicatorColor: secondaryColor,
       tabBarTheme: TabBarTheme(labelColor: secondaryColor),
       inputDecorationTheme: InputDecorationTheme(
         hoverColor: secondaryColor,
       ),
-      iconTheme: IconThemeData(
-        color: Colors.white
-      ),
+      iconTheme: IconThemeData(color: Colors.white),
       hoverColor: secondaryColor,
       cursorColor: secondaryColor,
       textSelectionHandleColor: secondaryColor,

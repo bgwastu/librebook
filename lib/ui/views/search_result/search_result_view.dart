@@ -6,6 +6,7 @@ import 'package:librebook/app_localizations.dart';
 import 'package:librebook/controllers/search_result_controller.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/models/book_search_detail_model.dart';
+import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/book_detail/book_detail_view.dart';
 import 'package:librebook/ui/widgets/image_error_widget.dart';
@@ -42,14 +43,10 @@ class _SearchResultViewState extends State<SearchResultView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          widget.isGeneral
-              ? AppLocalizations.of(context).translate('general-books')
-              : AppLocalizations.of(context).translate('fiction-books'),
-          //TODO: fix text color
-          style: TextStyle(
-            color: Get.isDarkMode ? Colors.grey[400] : Colors.grey[800],
-          ),
-        ),
+            widget.isGeneral
+                ? AppLocalizations.of(context).translate('general-books')
+                : AppLocalizations.of(context).translate('fiction-books'),
+            style: Theme.of(Get.context).textTheme.headline6),
         actions: [
           IconButton(
               icon: Icon(Icons.close),
@@ -108,45 +105,51 @@ class _SearchResultViewState extends State<SearchResultView> {
         height: Get.height / 6,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  book.title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                verticalSpaceTiny,
-                Text(
-                  book.authors.join(', '),
-                  maxLines: 1,
-                  style: TextStyle(fontSize: 14),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+            Text(
+              book.title,
+              style: Theme.of(Get.context).textTheme.subtitle1,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppLocalizations.of(context).translate('format') +
-                      ': ' +
-                      book.format,
-                ),
-                Text(
-                  AppLocalizations.of(context).translate('language') +
-                      ': ' +
-                      book.language,
-                )
-              ],
+            verticalSpaceTiny,
+            Text(
+              book.authors.join(', '),
+              maxLines: 1,
+              style: TextStyle(fontSize: 14),
+              overflow: TextOverflow.ellipsis,
             ),
+            verticalSpaceTiny,
+            Text(
+              AppLocalizations.of(context).translate('language') +
+                  ': ' +
+                  book.language,
+            )
           ],
+        ),
+      ),
+    );
+  }
+
+  Positioned _formatBook(Book book) {
+    return Positioned(
+      left: 4,
+      top: 4,
+      child: Material(
+        elevation: 2,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              book.format.toUpperCase(),
+              style: Theme.of(Get.context)
+                  .textTheme
+                  .caption
+                  .copyWith(color: primaryColor, fontWeight: FontWeight.w600),
+            ),
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -180,6 +183,7 @@ class _SearchResultViewState extends State<SearchResultView> {
               ),
             ),
           ),
+          _formatBook(book),
         ],
       ),
     );

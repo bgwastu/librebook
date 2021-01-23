@@ -43,7 +43,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
   Text _authorBook() {
     return Text(
       book.authors.join(', '),
-      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+      style: Theme.of(Get.context).textTheme.bodyText2,
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
     );
@@ -53,9 +53,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
     return Text(
       book.title,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        fontSize: 16,
-      ),
+      style: Theme.of(Get.context).textTheme.bodyText1,
     );
   }
 
@@ -65,14 +63,17 @@ class BookItemHorizontalWidget extends StatelessWidget {
       top: 4,
       child: Material(
         elevation: 2,
-        child: Container(
-          padding: EdgeInsets.all(8),
-          child: Text(
-            book.format,
-            style:
-                TextStyle(color: secondaryColor, fontWeight: FontWeight.w600),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              book.format.toUpperCase(),
+              style:
+              Theme.of(Get.context).textTheme.caption.copyWith(color: primaryColor, fontWeight: FontWeight.w600),
+            ),
+            color: Colors.white,
           ),
-          color: Colors.white,
         ),
       ),
     );

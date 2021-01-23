@@ -73,10 +73,7 @@ class DownloadView extends StatelessWidget {
               children: [
                 Text(
                   book.title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Get.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w500),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -84,7 +81,7 @@ class DownloadView extends StatelessWidget {
                 Text(
                   book.authors.join(', '),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 13),
+                  style: Theme.of(Get.context).textTheme.caption,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
