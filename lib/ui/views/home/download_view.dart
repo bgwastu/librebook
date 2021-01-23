@@ -84,7 +84,7 @@ class DownloadView extends StatelessWidget {
                 Text(
                   book.authors.join(', '),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                  style: TextStyle(fontSize: 13),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],

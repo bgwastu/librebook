@@ -37,7 +37,7 @@ class Breadcrumbs<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToEnd());
 
-    final Color defaultTextColor =  Theme.of(context).textTheme.bodyText1.color;
+    final Color defaultTextColor = Theme.of(context).textTheme.bodyText1.color;
 
     return ShaderMask(
       shaderCallback: (Rect bounds) {
@@ -60,7 +60,7 @@ class Breadcrumbs<T> extends StatelessWidget {
             return ButtonTheme(
               minWidth: 48,
               padding: EdgeInsets.symmetric(
-                  vertical: ButtonTheme.of(context).padding.vertical) +
+                      vertical: ButtonTheme.of(context).padding.vertical) +
                   const EdgeInsets.symmetric(horizontal: 8),
               child: FlatButton(
                 textColor: (index == (items.length - 1))

@@ -32,56 +32,51 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     return Scaffold(
       body: ScrollConfiguration(
         behavior: ScrollBehavior(),
-        child: GlowingOverscrollIndicator(
-          axisDirection: AxisDirection.down,
-          color: Colors.grey[300],
-          child: DefaultTabController(
-            length: 3,
-            child: NestedScrollView(
-              headerSliverBuilder: (context, isScrolled) {
-                return [
-                  SliverOverlapAbsorber(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
-                    sliver: SliverSafeArea(
-                      top: false,
-                      sliver: SliverAppBar(
-                          automaticallyImplyLeading: false,
-                          backgroundColor: Colors.white,
-                          pinned: true,
-                          floating: true,
-                          elevation: 2,
-                          snap: true,
-                          forceElevated: true,
-                          bottom: TabBar(
-                            controller: _tabController,
-                            indicatorWeight: 3,
-                            indicatorSize: TabBarIndicatorSize.label,
-                            indicator: MD2Indicator(
-                              indicatorHeight: 3,
-                              indicatorColor: secondaryColor,
-                              indicatorSize: MD2IndicatorSize.full,
-                            ),
-                            unselectedLabelColor: Colors.grey[600],
-                            indicatorPadding:
-                                EdgeInsets.symmetric(horizontal: 16),
-                            tabs: [
-                              Tab(text: AppLocalizations.of(context).translate("downloads")),
-                              Tab(text: AppLocalizations.of(context).translate("settings")),
-                            ],
+        child: DefaultTabController(
+          length: 3,
+          child: NestedScrollView(
+            headerSliverBuilder: (context, isScrolled) {
+              return [
+                SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                      context),
+                  sliver: SliverSafeArea(
+                    top: false,
+                    sliver: SliverAppBar(
+                        automaticallyImplyLeading: false,
+                        pinned: true,
+                        floating: true,
+                        elevation: 2,
+                        snap: true,
+                        forceElevated: true,
+                        bottom: TabBar(
+                          controller: _tabController,
+                          indicatorWeight: 3,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          indicator: MD2Indicator(
+                            indicatorHeight: 3,
+                            indicatorColor: secondaryColor,
+                            indicatorSize: MD2IndicatorSize.full,
                           ),
-                          title: _searchBox()),
-                    ),
-                  )
-                ];
-              },
-              body: TabBarView(
-                controller: _tabController,
-                children: [
-                  DownloadView(),
-                  SettingView(),
-                ],
-              ),
+                          unselectedLabelColor: Colors.grey[600],
+                          indicatorPadding:
+                              EdgeInsets.symmetric(horizontal: 16),
+                          tabs: [
+                            Tab(text: AppLocalizations.of(context).translate("downloads")),
+                            Tab(text: AppLocalizations.of(context).translate("settings")),
+                          ],
+                        ),
+                        title: _searchBox()),
+                  ),
+                )
+              ];
+            },
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                DownloadView(),
+                SettingView(),
+              ],
             ),
           ),
         ),
