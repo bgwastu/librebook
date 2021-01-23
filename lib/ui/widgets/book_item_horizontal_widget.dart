@@ -80,27 +80,24 @@ class BookItemHorizontalWidget extends StatelessWidget {
 
   Widget _coverImage() {
     return Card(
-      elevation: 1,
+      elevation: 3,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),
-        child: Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey[300])),
-          child: CachedNetworkImage(
-            imageUrl: book.cover,
-            placeholder: (context, url) => Shimmer.fromColors(
-              baseColor: Colors.grey[300],
-              highlightColor: Colors.grey[100],
-              child: Container(
-                width: double.infinity,
-                color: Colors.white,
-              ),
+        child: CachedNetworkImage(
+          imageUrl: book.cover,
+          placeholder: (context, url) => Shimmer.fromColors(
+            baseColor: Colors.grey[300],
+            highlightColor: Colors.grey[100],
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
             ),
-            fit: BoxFit.fill,
-            errorWidget: (context, _, __) {
-              return ImageErrorWidget();
-            },
-            width: double.infinity,
           ),
+          fit: BoxFit.fill,
+          errorWidget: (context, _, __) {
+            return ImageErrorWidget();
+          },
+          width: double.infinity,
         ),
       ),
     );
