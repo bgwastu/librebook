@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final ThemeData kLightTheme = _buildLightTheme();
-const Color primaryColor = Colors.indigoAccent;
-const Color secondaryColor = Colors.indigoAccent;
+const Color primaryColor = Colors.indigo;
+const Color secondaryColor = Colors.indigo;
 
 ThemeData _buildLightTheme() {
   final ColorScheme colorScheme = const ColorScheme.light().copyWith(
