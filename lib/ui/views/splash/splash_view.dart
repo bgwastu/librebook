@@ -2,15 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:librebook/controllers/splash_controller.dart';
-import 'package:librebook/ui/shared/ui_helper.dart';
 
 class SplashView extends StatelessWidget {
   final controller = Get.put(SplashController());
 
   @override
   Widget build(BuildContext context) {
-    // set initial overlay
-    changeOverlay();
 
     return Scaffold(
       body: Stack(

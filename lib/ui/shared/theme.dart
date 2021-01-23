@@ -55,7 +55,7 @@ ThemeData _buildLightTheme() {
   return base;
 }
 
-final ThemeData kDarkMode = _buildDarkMode();
+final ThemeData kDarkTheme = _buildDarkMode();
 
 ThemeData _buildDarkMode() {
   final ColorScheme colorScheme = const ColorScheme.dark().copyWith(

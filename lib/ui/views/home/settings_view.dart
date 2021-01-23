@@ -12,7 +12,7 @@ import 'package:librebook/ui/widgets/folder_picker/folder_picker.dart';
 import 'package:librebook/ui/widgets/folder_picker/picker_common.dart';
 
 class SettingView extends StatelessWidget {
-  final _settingsController = SettingsController();
+  final _settingsController = Get.put(SettingsController());
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +64,18 @@ class SettingView extends StatelessWidget {
           height: 2,
           thickness: 1,
         ),
-        ListTile(
-          // TODO: add localization context
-          title: Text('Dark mode'),
-          onTap: () async {
-            Get.isDarkMode
-                ? Get.changeTheme(kLightTheme)
-                : Get.changeTheme(kDarkMode);
-
-            await Future.delayed(Duration(milliseconds: 100));
-            setCurrentOverlay();
-          },
+        Obx(
+          () => SwitchListTile(
+            // TODO: add localization context
+            title: Text('Dark mode'),
+            secondary: Icon(Icons.brightness_4),
+            value: _settingsController.isDarkMode.value,
+            onChanged: (val) => _settingsController.setDarkMode(val),
+          ),
+        ),
+        Divider(
+          height: 2,
+          thickness: 1,
         ),
         ListTile(
           title: Text(AppLocalizations.of(context).translate('synchronize')),

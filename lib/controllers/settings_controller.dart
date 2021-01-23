@@ -1,23 +1,49 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:librebook/database/settings_database.dart';
+import 'package:librebook/ui/shared/theme.dart';
+import 'package:librebook/ui/shared/ui_helper.dart';
 
 class SettingsController extends GetxController {
   final _settingDatabase = SettingsDatabase();
+  final appdata = GetStorage();
   RxString generalBookMirror1 = ''.obs;
   RxString generalBookMirror2 = ''.obs;
   RxString fictionBookMirror1 = ''.obs;
   RxString fictionBookMirror2 = ''.obs;
   RxString libgenUrl = ''.obs;
   RxString downloadLocation = ''.obs;
-
+  RxBool isDarkMode = false.obs;
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    super.onReady();
+    print('onInit');
+    // get theme status
+    isDarkMode.value = getThemeStatus();
+    setDarkMode(isDarkMode.value);
     getAll();
-    libgenUrl.listen((val) {
-      print(val);
-    });
+  }
+
+
+  bool getThemeStatus() {
+    appdata.writeIfNull('isDarkMode', false);
+    return appdata.read('isDarkMode');
+  }
+
+  setDarkMode(bool value) async {
+    print('Dark mode: ' + value.toString());
+    appdata.write('isDarkMode', value);
+    isDarkMode.value = value;
+    if(value){
+      Get.changeTheme(kDarkTheme);
+      await Future.delayed(Duration(milliseconds: 100));
+      setCurrentOverlay(value);
+    }else{
+      Get.changeTheme(kLightTheme);
+      await Future.delayed(Duration(milliseconds: 100));
+      setCurrentOverlay(value);
+    }
   }
 
   getAll() async {
@@ -54,7 +80,7 @@ class SettingsController extends GetxController {
   Future setFictionMirror2() =>
       _settingDatabase.setFictionMirror1(fictionBookMirror2.value);
 
-  Future setDownloadLocation(newDirectory) {
+  setDownloadLocation(newDirectory) {
     downloadLocation.value = newDirectory;
     _settingDatabase.setDownloadLocation(downloadLocation.value);
   }
