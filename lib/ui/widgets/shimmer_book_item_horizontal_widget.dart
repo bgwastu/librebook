@@ -16,9 +16,12 @@ class ShimmerBookItemHorizontalWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Expanded(
-              child: Container(
-                width: double.infinity,
-                color: Colors.white,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Container(
+                  width: double.infinity,
+                  color: Colors.white,
+                ),
               ),
             ),
             verticalSpaceSmall,
