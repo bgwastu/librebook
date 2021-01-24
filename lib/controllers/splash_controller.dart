@@ -13,18 +13,22 @@ class SplashController extends GetxController {
     appdata.writeIfNull('isDarkMode', false);
     final isDarkMode = appdata.read('isDarkMode');
     setDarkMode(isDarkMode);
-    Get.testMode = true;
-    Future.delayed(Duration(milliseconds: 800))
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    final isDarkMode = appdata.read('isDarkMode');
+    setCurrentOverlay(isDarkMode);
+    Future.delayed(Duration(milliseconds: 5000))
         .then((value) => Get.off(HomeView()));
   }
 
   setDarkMode(bool value) async {
     if (value) {
       Get.changeTheme(kDarkTheme);
-      setCurrentOverlay(value);
     } else {
       Get.changeTheme(kLightTheme);
-      setCurrentOverlay(value);
     }
   }
 }
