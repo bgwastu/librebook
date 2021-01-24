@@ -32,6 +32,7 @@
   "fiction-books": "Fiktion",
   "general-books": "Allgemein",
   "something-went-wrong": "Ups, etwas ist schiefgelaufen.",
-  "internal-storage": "Internal Storage",
-  "download-location-save": "Save book to this location"
+  "internal-storage": "Interner Speicher",
+  "download-location-save": "Speichere das Buch an diesem Ort",
+  "dark-mode": "Dark Mode"
 }

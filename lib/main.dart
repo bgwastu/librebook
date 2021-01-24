@@ -25,8 +25,9 @@ class App extends StatelessWidget {
       enableLog: true,
       home: SplashView(),
       supportedLocales: [
-        Locale('en', 'US'),
-        Locale('de', 'DE'),
+        Locale('en', ''),
+        Locale('de', ''),
+        Locale('fr', ''),
       ],
       localizationsDelegates: [
         AppLocalizations.delegate,
