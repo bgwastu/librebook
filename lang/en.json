@@ -33,5 +33,6 @@
   "general-books": "General books",
   "something-went-wrong": "Oops, something went wrong.",
   "internal-storage": "Internal Storage",
-  "download-location-save": "Save book to this location"
+  "download-location-save": "Save book to this location",
+  "dark-mode": "Dark mode"
 }
