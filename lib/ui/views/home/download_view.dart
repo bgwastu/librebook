@@ -33,7 +33,7 @@ class DownloadView extends StatelessWidget {
                 children: [
                   Icon(Icons.book, size: 64, color: Colors.grey[600],),
                   verticalSpaceSmall,
-                  Text(AppLocalizations.of(context).translate('no-books-title'), style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.grey[800])),
+                  Text(AppLocalizations.of(context).translate('no-books-title'), style: Theme.of(context).textTheme.headline6),
                   verticalSpaceSmall,
                   Text(AppLocalizations.of(context).translate('no-books-description'), style: Theme.of(context).textTheme.bodyText2)
                 ],
