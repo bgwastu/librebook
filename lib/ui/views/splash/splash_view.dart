@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:librebook/controllers/splash_controller.dart';
+import 'package:package_info/package_info.dart';
 
 class SplashView extends StatelessWidget {
   final controller = Get.put(SplashController());
@@ -22,10 +23,18 @@ class SplashView extends StatelessWidget {
           ),
           Positioned(
             bottom: 16,
-            child: Text(
-              'Librebook v0.0.1-alpha',
-              style: TextStyle(color: Colors.grey[600]),
-            ),
+            child: FutureBuilder<PackageInfo>(
+              future: PackageInfo.fromPlatform(),
+              builder: (context, snapshot){
+                if(snapshot.hasData){
+                  return Text(
+                    'Librebook v' + snapshot.data.version,
+                    style: TextStyle(color: Colors.grey[600]),
+                  );
+                }
+                return Container();
+              },
+            )
           )
         ],
       ),
