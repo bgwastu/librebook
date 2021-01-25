@@ -34,5 +34,10 @@
   "something-went-wrong": "对不起，出了点小问题。",
   "internal-storage": "内部存储",
   "download-location-save": "在此路径保存书本",
-  "dark-mode": "暗模式"
+  "dark-mode": "暗模式",
+  "undefined-error": "Oops, something went wrong",
+  "no-internet-error-title": "Error",
+  "no-internet-error-description": "No internet access",
+  "not-found-error-title": "Not Found",
+  "not-found-error-description": "Please try with another query"
 }

@@ -164,8 +164,6 @@ class DownloadController extends GetxController {
     if (totalBytes != -1) {
       _progress.value =
           int.parse((receivedBytes / totalBytes * 100).toStringAsFixed(0));
-      // TODO: don't forget to delete it
-      print(_progress.value);
     }
   }
 }
