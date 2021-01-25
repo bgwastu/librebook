@@ -20,7 +20,7 @@ class SplashController extends GetxController {
     super.onReady();
     final isDarkMode = appdata.read('isDarkMode');
     setCurrentOverlay(isDarkMode);
-    Future.delayed(Duration(milliseconds: 5000))
+    Future.delayed(Duration(milliseconds: 1000))
         .then((value) => Get.off(HomeView()));
   }
 
