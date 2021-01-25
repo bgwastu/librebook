@@ -17,12 +17,6 @@ hideInput() => SystemChannels.textInput.invokeMethod('TextInput.hide');
 setCurrentOverlay(bool isDarkMode) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: isDarkMode ? Colors.grey[900] : Colors.white,
-    systemNavigationBarColor:
-    isDarkMode ? Colors.grey[900] : Colors.white,
-    systemNavigationBarIconBrightness:
-    isDarkMode ? Brightness.light : Brightness.dark,
-    statusBarIconBrightness:
-    isDarkMode ? Brightness.light : Brightness.dark,
     statusBarBrightness: isDarkMode ? Brightness.light : Brightness.dark,
   ));
 }
