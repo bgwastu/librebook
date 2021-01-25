@@ -39,5 +39,7 @@
   "no-internet-error-title": "Error",
   "no-internet-error-description": "No internet access",
   "not-found-error-title": "Not Found",
-  "not-found-error-description": "Please try with another query"
+  "not-found-error-description": "Please try with another query",
+  "no-books-title": "No Books",
+  "no-books-description": "The downloaded book will be listed in here."
 }

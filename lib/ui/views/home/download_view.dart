@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:librebook/app_localizations.dart';
 import 'package:librebook/controllers/home_controller.dart';
 import 'package:librebook/models/book_model.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
@@ -26,6 +27,18 @@ class DownloadView extends StatelessWidget {
           }
 
           if (snapshot.hasData) {
+            if (snapshot.data.isEmpty){
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.book, size: 64, color: Colors.grey[600],),
+                  verticalSpaceSmall,
+                  Text(AppLocalizations.of(context).translate('no-books-title'), style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.grey[800])),
+                  verticalSpaceSmall,
+                  Text(AppLocalizations.of(context).translate('no-books-description'), style: Theme.of(context).textTheme.bodyText2)
+                ],
+              );
+            }
             final listMeta = snapshot.data.reversed.toList();
             return ListView.builder(
               padding: EdgeInsets.only(top: 8),
@@ -53,8 +66,7 @@ class DownloadView extends StatelessWidget {
                 );
               },
             );
-          } else {
-            //TODO: create a no list ui
+          }else {
             return Container();
           }
         });
