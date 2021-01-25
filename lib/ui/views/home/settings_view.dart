@@ -10,6 +10,7 @@ import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/widgets/folder_picker/folder_picker.dart';
 import 'package:librebook/ui/widgets/folder_picker/picker_common.dart';
+import 'package:package_info/package_info.dart';
 
 class SettingView extends StatelessWidget {
   final _settingsController = Get.put(SettingsController());
@@ -116,13 +117,14 @@ class SettingView extends StatelessWidget {
             Icons.info_outline,
             size: 26,
           ),
-          onTap: () {
+          onTap: () async {
+            final packageInfo = await PackageInfo.fromPlatform();
             Get.dialog(AboutDialog(
               applicationIcon: Container(
                   width: 60,
                   height: 60,
                   child: Image.asset('assets/icon/icon.png')),
-              applicationVersion: 'v0.1-alpha',
+              applicationVersion: 'v' + packageInfo.version,
               applicationLegalese: '© 2021 Bagas Wastu',
               children: [
                 verticalSpaceMedium,
