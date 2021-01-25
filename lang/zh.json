@@ -33,5 +33,6 @@
   "general-books": "普通",
   "something-went-wrong": "对不起，出了点小问题。",
   "internal-storage": "内部存储",
-  "download-location-save": "在此路径保存书本"
+  "download-location-save": "在此路径保存书本",
+  "dark-mode": "暗模式"
 }
