@@ -34,5 +34,10 @@
   "something-went-wrong": "Oops, something went wrong.",
   "internal-storage": "Internal Storage",
   "download-location-save": "Save book to this location",
-  "dark-mode": "Dark mode"
+  "dark-mode": "Dark mode",
+  "undefined-error": "Oops, something went wrong",
+  "no-internet-error-title": "Error",
+  "no-internet-error-description": "No internet access",
+  "not-found-error-title": "Not Found",
+  "not-found-error-description": "Please try with another query"
 }

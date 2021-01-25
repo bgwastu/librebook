@@ -222,8 +222,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     }
 
     return Center(
-      // todo localization context
-      child: Text('Oops, something went wrong.'),
+      child: Text(AppLocalizations.of(Get.context).translate('undefined-error')),
     );
   }
 
@@ -238,8 +237,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
         ),
         verticalSpaceSmall,
         Text(
-          // todo localization context
-          'Not Found',
+          AppLocalizations.of(Get.context).translate('no-internet-error-title'),
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w600,
@@ -247,8 +245,7 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           ),
         ),
         Text(
-          // todo localization context
-          'No internet access',
+          AppLocalizations.of(Get.context).translate('no-internet-error-description'),
         )
       ],
     );
@@ -268,13 +265,11 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
         Icon(Icons.sentiment_dissatisfied, size: 50),
         verticalSpaceSmall,
         Text(
-          // todo localization context
-          'Not Found',
+          AppLocalizations.of(Get.context).translate('not-found-error-title'),
           style: Theme.of(Get.context).textTheme.headline6,
         ),
         Text(
-          // todo localization context
-          'Please try with another query',
+          AppLocalizations.of(Get.context).translate('not-found-error-description'),
           style: Theme.of(Get.context).textTheme.bodyText1,
         )
       ],
