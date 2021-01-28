@@ -16,8 +16,9 @@ Librebook is an open-source front-end application to help the users download the
 - [x] General book download
 - [x] Fantasy book download
 - [x] IPFS download mirror
+- [x] Change download location
+- [x] Dark mode
 - [ ] Syncronize scraper settings (on progress)
-- [ ] Change download location (on progress)
 - [ ] Search history (on progress)
 
 ## Screenshots
