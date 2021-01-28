@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:librebook/ui/widgets/folder_picker/picker_common.dart';
 import 'package:path/path.dart' as Path;
 
@@ -79,7 +80,7 @@ class FilesystemListTile extends StatelessWidget {
         key: Key(item.absolute.path),
         leading: _leading(context),
         trailing: _trailing(context),
-        title: Text(Path.basename(item.path), textScaleFactor: 1.2),
+        title: Text(Path.basename(item.path), style: Theme.of(Get.context).textTheme.subtitle1,),
         onTap: (item is Directory)
             ? () => onChange(item)
             : ((fsType == FilesystemType.file && fileTileSelectMode == FileTileSelectMode.wholeTile)
