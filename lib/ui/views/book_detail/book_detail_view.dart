@@ -238,12 +238,12 @@ class _BookDetailViewState extends State<BookDetailView> {
       actions: [
         MaterialButton(
           onPressed: () => Get.back(),
-          child: Text(AppLocalizations.of(context).translate('no'),
+          child: Text(AppLocalizations.of(context).translate('no').toUpperCase(),
               style: TextStyle(color: secondaryColor)),
         ),
         MaterialButton(
           onPressed: () => deleteBook(),
-          child: Text(AppLocalizations.of(context).translate('yes'),
+          child: Text(AppLocalizations.of(context).translate('yes').toUpperCase(),
               style: TextStyle(color: secondaryColor)),
         ),
       ],

@@ -81,7 +81,7 @@ class DownloadCompletedDialog extends StatelessWidget {
         actions: [
           MaterialButton(
             onPressed: () => Get.back(),
-            child: Text(AppLocalizations.of(context).translate('no'), style: TextStyle(color: secondaryColor)),
+            child: Text(AppLocalizations.of(context).translate('no').toUpperCase(), style: TextStyle(color: secondaryColor)),
           ),
           MaterialButton(
             onPressed: () async {
@@ -97,7 +97,7 @@ class DownloadCompletedDialog extends StatelessWidget {
               }
             },
             child: Text(
-              AppLocalizations.of(context).translate('yes'),
+              AppLocalizations.of(context).translate('yes').toUpperCase(),
               style: TextStyle(color: secondaryColor),
             ),
           ),
