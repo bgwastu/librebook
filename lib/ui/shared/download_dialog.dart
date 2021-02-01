@@ -25,7 +25,8 @@ class DownloadDialog extends StatelessWidget {
       title: progress == 0
           ? total == -1
               ? Text(AppLocalizations.of(context).translate('downloading'))
-              : Text(AppLocalizations.of(context).translate('waiting-for-server-reply'))
+              : Text(AppLocalizations.of(context)
+                  .translate('waiting-for-server-reply'))
           : Text(AppLocalizations.of(context).translate('downloading')),
       content: progress == 0
           ? total == -1
@@ -52,7 +53,10 @@ class DownloadDialog extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(progress.toString() + '%', style: Theme.of(Get.context).textTheme.subtitle2,),
+                    Text(
+                      progress.toString() + '%',
+                      style: Theme.of(Get.context).textTheme.subtitle2,
+                    ),
                     Text(
                       Constants.formatBytes(received, 1) +
                           ' ' +
@@ -72,21 +76,28 @@ class DownloadDialog extends StatelessWidget {
 class DownloadCompletedDialog extends StatelessWidget {
   final String fileDir;
 
-  const DownloadCompletedDialog({Key key, @required this.fileDir}) : super(key: key);
+  const DownloadCompletedDialog({Key key, @required this.fileDir})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: Text(AppLocalizations.of(context).translate('download-completed')),
-        content: Text(AppLocalizations.of(context).translate('do-you-want-to-open-the-book')),
+        title:
+            Text(AppLocalizations.of(context).translate('download-completed')),
+        content: Text(AppLocalizations.of(context)
+            .translate('do-you-want-to-open-the-book')),
         actions: [
           MaterialButton(
             onPressed: () => Get.back(),
-            child: Text(AppLocalizations.of(context).translate('no').toUpperCase(), style: TextStyle(color: secondaryColor)),
+            child: Text(
+                AppLocalizations.of(context).translate('no').toUpperCase(),
+                style: TextStyle(color: secondaryColor)),
           ),
           MaterialButton(
             onPressed: () async {
               Get.back();
-              final res = await OpenFile.open(fileDir, type: lookupMimeType(fileDir));
+              final res =
+                  await OpenFile.open(fileDir, type: lookupMimeType(fileDir));
               if (res.type != ResultType.done) {
                 Get.rawSnackbar(
                   message: res.message,
@@ -106,11 +117,35 @@ class DownloadCompletedDialog extends StatelessWidget {
 }
 
 class DownloadErrorDialog extends StatelessWidget {
+  final Exception currentException;
+
+  const DownloadErrorDialog({
+    Key key,
+    @required this.currentException,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(AppLocalizations.of(context).translate('error-occurred')),
-      content: Text(AppLocalizations.of(context).translate('check-internet-error')),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(AppLocalizations.of(context).translate('check-internet-error')),
+          verticalSpaceMedium,
+          Text(
+            'Message: ',
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+          Text(currentException.toString()),
+        ],
+      ),
+      actions: [
+        FlatButton(
+            onPressed: () => Get.back(),
+            child: Text(AppLocalizations.of(context).translate('back').toUpperCase()))
+      ],
     );
   }
 }
