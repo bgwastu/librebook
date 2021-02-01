@@ -41,5 +41,6 @@
   "not-found-error-title": "Not Found",
   "not-found-error-description": "Please try with another query",
   "no-books-title": "No Books",
-  "no-books-description": "The downloaded book will be listed in here."
+  "no-books-description": "The downloaded book will be listed in here.",
+  "back": "Back"
 }

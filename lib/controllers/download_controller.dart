@@ -20,7 +20,7 @@ class DownloadController extends GetxController {
   final _downloadDb = Get.put(DownloadDatabase());
   final _settingController = Get.put(SettingsController());
 
-
+  Rx<Exception> error = Exception().obs;
   RxInt _progress = 0.obs;
   Rx<DownloadStatus> downloadStatus = DownloadStatus.unInitialized.obs;
   RxBool isAlreadyDownloaded = false.obs;
@@ -87,7 +87,7 @@ class DownloadController extends GetxController {
         if (Get.isDialogOpen) {
           Get.back();
         }
-        Get.dialog(DownloadErrorDialog());
+        Get.dialog(DownloadErrorDialog(currentException: error.value,));
         downloadStatus.value = DownloadStatus.unInitialized;
       }
     });
@@ -150,6 +150,7 @@ class DownloadController extends GetxController {
         }
       } catch (e) {
         print('Error!: ' + e.toString());
+        error.value = e;
         downloadStatus?.value = DownloadStatus.error;
         throw e;
       }

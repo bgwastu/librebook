@@ -41,5 +41,6 @@
   "not-found-error-title": "Tidak ditemukan",
   "not-found-error-description": "Silakan cari dengan kata kunci lain",
   "no-books-title": "Tidak ada Buku",
-  "no-books-description": "Buku yang sudah di-download akan berada di sini."
+  "no-books-description": "Buku yang sudah di-download akan berada di sini.",
+  "back": "Kembali"
 }
