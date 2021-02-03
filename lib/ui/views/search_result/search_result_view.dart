@@ -146,7 +146,7 @@ class _SearchResultViewState extends State<SearchResultView> {
               style: Theme.of(Get.context)
                   .textTheme
                   .caption
-                  .copyWith(color: primaryColor, fontWeight: FontWeight.w600),
+                  .copyWith(color: getPrimaryColor, fontWeight: FontWeight.w600),
             ),
             color: Colors.white,
           ),
