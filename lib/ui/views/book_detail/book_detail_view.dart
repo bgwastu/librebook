@@ -95,8 +95,8 @@ class _BookDetailViewState extends State<BookDetailView> {
 
   Widget _actionButton() {
     return MaterialButton(
-        child: Text(AppLocalizations.of(context).translate("download")),
-        color: secondaryColor,
+        child: Text(AppLocalizations.of(context).translate("download"),),
+        color: getPrimaryColor,
         onPressed: () async {
           await _downloadController.download(widget.book);
         });
@@ -210,19 +210,19 @@ class _BookDetailViewState extends State<BookDetailView> {
       children: [
         OutlinedButton(
           style: OutlinedButton.styleFrom(
-            side: BorderSide(width: 2, color: secondaryColor),
+            side: BorderSide(width: 2, color: getPrimaryColor),
           ),
           onPressed: _deleteBookDialog,
           child: Text(
             AppLocalizations.of(context).translate('delete-book'),
-            style: TextStyle(color: secondaryColor),
+            style: TextStyle(color: getPrimaryColor),
           ),
         ),
         horizontalSpaceSmall,
         Expanded(
           child: MaterialButton(
-            child: Text(AppLocalizations.of(context).translate('open-book')),
-            color: secondaryColor,
+            child: Text(AppLocalizations.of(context).translate('open-book'),),
+            color: getPrimaryColor,
             onPressed: () => _downloadController.openFile(widget.book),
           ),
         ),
@@ -239,12 +239,12 @@ class _BookDetailViewState extends State<BookDetailView> {
         MaterialButton(
           onPressed: () => Get.back(),
           child: Text(AppLocalizations.of(context).translate('no').toUpperCase(),
-              style: TextStyle(color: secondaryColor)),
+              style: TextStyle(color: getPrimaryColor)),
         ),
         MaterialButton(
           onPressed: () => deleteBook(),
           child: Text(AppLocalizations.of(context).translate('yes').toUpperCase(),
-              style: TextStyle(color: secondaryColor)),
+              style: TextStyle(color: getPrimaryColor)),
         ),
       ],
     ));

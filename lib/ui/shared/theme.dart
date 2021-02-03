@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 final ThemeData kLightTheme = _buildLightTheme();
-const Color primaryColor = Colors.blue;
-const Color secondaryColor = Colors.blue;
+const Color primaryColor = Color(0xFF3F51B5);
+const Color secondaryColor = Color(0xFF3F51B5);
+
+const Color primaryColorDark = Color(0xFF7986cb);
+const Color secondaryColorDark = Color(0xFF7986cb);
+
+Color get getPrimaryColor => Get.isDarkMode ? primaryColorDark : primaryColor;
 
 ThemeData _buildLightTheme() {
   final ColorScheme colorScheme = const ColorScheme.light().copyWith(
@@ -61,14 +67,14 @@ final ThemeData kDarkTheme = _buildDarkMode();
 
 ThemeData _buildDarkMode() {
   final ColorScheme colorScheme = const ColorScheme.dark().copyWith(
-    primary: primaryColor,
-    secondary: secondaryColor,
+    primary: primaryColorDark,
+    secondary: secondaryColorDark,
   );
   final base = ThemeData(
       brightness: Brightness.dark,
       accentColorBrightness: Brightness.dark,
       colorScheme: colorScheme,
-      primaryColor: secondaryColor,
+      primaryColor: primaryColorDark,
       textTheme: TextTheme(
         bodyText1: TextStyle(),
         bodyText2: TextStyle(),
@@ -82,26 +88,26 @@ ThemeData _buildDarkMode() {
         iconTheme: IconThemeData(color: Colors.grey[400]),
       ),
       primaryIconTheme: IconThemeData(color: Colors.grey[400]),
-      buttonColor: primaryColor,
-      indicatorColor: secondaryColor,
-      tabBarTheme: TabBarTheme(labelColor: secondaryColor),
+      buttonColor: primaryColorDark,
+      indicatorColor: secondaryColorDark,
+      tabBarTheme: TabBarTheme(labelColor: secondaryColorDark),
       inputDecorationTheme: InputDecorationTheme(
-        hoverColor: secondaryColor,
+        hoverColor: secondaryColorDark,
       ),
       iconTheme: IconThemeData(color: Colors.white),
-      hoverColor: secondaryColor,
-      cursorColor: secondaryColor,
-      textSelectionHandleColor: secondaryColor,
-      textSelectionColor: secondaryColor.withOpacity(0.6),
+      hoverColor: secondaryColorDark,
+      cursorColor: secondaryColorDark,
+      textSelectionHandleColor: secondaryColorDark,
+      textSelectionColor: secondaryColorDark.withOpacity(0.6),
       splashFactory: InkRipple.splashFactory,
-      accentColor: secondaryColor,
+      accentColor: secondaryColorDark,
       errorColor: const Color(0xFFB00020),
       buttonTheme: ButtonThemeData(
         colorScheme: colorScheme,
         textTheme: ButtonTextTheme.primary,
       ),
       cupertinoOverrideTheme: CupertinoThemeData(
-        primaryColor: primaryColor,
+        primaryColor: primaryColorDark,
         brightness: Brightness.light,
       ));
   return base;

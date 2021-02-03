@@ -53,7 +53,7 @@ class SettingView extends StatelessWidget {
                     AppLocalizations.of(context).translate('internal-storage'),
                 pickText: AppLocalizations.of(context)
                     .translate('download-location-save'),
-                folderIconColor: primaryColor,
+                folderIconColor: getPrimaryColor,
               );
 
               print(newDirectory);
@@ -71,7 +71,7 @@ class SettingView extends StatelessWidget {
           () => SwitchListTile(
             title:
                 Text(AppLocalizations.of(context).translate('dark-mode'), style: Theme.of(context).textTheme.bodyText1),
-            activeColor: primaryColor,
+            activeColor: getPrimaryColor,
             secondary: Icon(Icons.brightness_4),
             value: _settingsController.isDarkMode.value,
             onChanged: (val) => _settingsController.setDarkMode(val),

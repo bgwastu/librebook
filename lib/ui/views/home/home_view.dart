@@ -55,7 +55,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                           indicatorSize: TabBarIndicatorSize.label,
                           indicator: MD2Indicator(
                             indicatorHeight: 3,
-                            indicatorColor: secondaryColor,
+                            indicatorColor: getPrimaryColor,
                             indicatorSize: MD2IndicatorSize.full,
                           ),
                           unselectedLabelColor: Colors.grey[600],
