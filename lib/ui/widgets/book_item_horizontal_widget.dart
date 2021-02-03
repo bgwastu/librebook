@@ -87,8 +87,8 @@ class BookItemHorizontalWidget extends StatelessWidget {
         child: CachedNetworkImage(
           imageUrl: book.cover,
           placeholder: (context, url) => Shimmer.fromColors(
-            baseColor: Colors.grey[300],
-            highlightColor: Colors.grey[100],
+            baseColor: Get.isDarkMode ? Colors.grey[700] : Colors.grey[300],
+            highlightColor: Get.isDarkMode ? Colors.grey[600] : Colors.grey[100],
             child: Container(
               width: double.infinity,
               color: Colors.white,
