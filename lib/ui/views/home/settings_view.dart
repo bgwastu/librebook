@@ -94,17 +94,19 @@ class SettingView extends StatelessWidget {
           ),
           onTap: () {
             //TODO; implement synchronize settings
-            Get.rawSnackbar(
-                title:
-                    AppLocalizations.of(context).translate('under-development'),
-                message: AppLocalizations.of(context)
-                    .translate('under-development-message'),
-                icon: Icon(
-                  Icons.warning,
-                  color: Colors.white,
-                ),
-                animationDuration: Duration(milliseconds: 500),
-                duration: Duration(milliseconds: 1500));
+            if(!Get.isSnackbarOpen){
+              Get.rawSnackbar(
+                  title:
+                  AppLocalizations.of(context).translate('under-development'),
+                  message: AppLocalizations.of(context)
+                      .translate('under-development-message'),
+                  icon: Icon(
+                    Icons.warning,
+                    color: Colors.white,
+                  ),
+                  animationDuration: Duration(milliseconds: 500),
+                  duration: Duration(milliseconds: 1500));
+            }
           },
         ),
         Divider(
