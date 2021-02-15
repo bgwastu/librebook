@@ -99,12 +99,15 @@ class DownloadCompletedDialog extends StatelessWidget {
               final res =
                   await OpenFile.open(fileDir, type: lookupMimeType(fileDir));
               if (res.type != ResultType.done) {
-                Get.rawSnackbar(
-                  message: res.message,
-                  duration: Duration(milliseconds: 1500),
-                  isDismissible: true,
-                  title: AppLocalizations.of(context).translate('error'),
-                );
+                if(!Get.isSnackbarOpen){
+                  Get.rawSnackbar(
+                    message: res.message,
+                    duration: Duration(milliseconds: 1500),
+                    isDismissible: true,
+                    title: AppLocalizations.of(context).translate('error'),
+                  );
+                }
+
               }
             },
             child: Text(

@@ -101,12 +101,14 @@ class DownloadController extends GetxController {
       type: lookupMimeType(path),
     );
     if (res.type != ResultType.done) {
-      Get.rawSnackbar(
-        message: res.message,
-        duration: Duration(milliseconds: 1500),
-        isDismissible: true,
-        title: 'Error',
-      );
+      if(!Get.isSnackbarOpen){
+        Get.rawSnackbar(
+          message: res.message,
+          duration: Duration(milliseconds: 1500),
+          isDismissible: true,
+          title: 'Error',
+        );
+      }
     }
   }
 
