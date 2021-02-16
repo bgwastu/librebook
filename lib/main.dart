@@ -33,6 +33,7 @@ class App extends StatelessWidget {
           Locale('fr', 'FR'),
           Locale('zh', 'CN'),
           Locale('id', 'ID'),
+          Locale('it', 'IT'),
         ],
         localizationsDelegates: [
           AppLocalizations.delegate,
