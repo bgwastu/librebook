@@ -29,9 +29,13 @@ Librebook is an open-source front-end application to help the users download the
     <td><img src="screenshots/3.png"/></td>
   </tr> 
 </table>
+## GIF
+
+<img src="screenshots/downloading.gif" height="40%" width="40%"/>
+
 
 ## Download
-You can download Librebook from [Codemagic](https://codemagic.io/apps/6003d2461b08f3ec61b49785/6003d2461b08f3ec61b49784/latest_build) by downloading **app-release.apk**. You also can download Librebook from [release page](https://github.com/bagaswastu/librebook/releases/) as well.
+If you want fastest release you can download the application from [Codemagic](https://codemagic.io/apps/6003d2461b08f3ec61b49785/6003d2461b08f3ec61b49784/latest_build) by downloading **app-release.apk**. You also can download Librebook from [release page](https://github.com/bagaswastu/librebook/releases/) as well.
 
 ## Contributing
 Any contributions you make are **greatly appreciated**. However, for major changes, please open an issue first to discuss what you would like to change.
