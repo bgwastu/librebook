@@ -48,7 +48,6 @@ class App extends StatelessWidget {
               return supportedLocale;
             }
           }
-
           return supportedLocales.first;
         },
       ),
