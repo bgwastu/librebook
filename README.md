@@ -29,8 +29,8 @@ Librebook is an open-source front-end application to help the users download the
     <td><img src="screenshots/3.png"/></td>
   </tr> 
 </table>
-## GIF
 
+## GIF
 <img src="screenshots/downloading.gif" height="40%" width="40%"/>
 
 
