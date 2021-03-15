@@ -145,7 +145,7 @@ class DownloadErrorDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        FlatButton(
+        MaterialButton(
             onPressed: () => Get.back(),
             child: Text(AppLocalizations.of(context).translate('back').toUpperCase()))
       ],
