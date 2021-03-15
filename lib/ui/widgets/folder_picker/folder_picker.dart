@@ -225,34 +225,32 @@ class _FilesystemPickerState extends State<FilesystemPicker> {
                 'Access to the storage was not granted.',
             textScaleFactor: 1.2),
       )),
-      bottomNavigationBar: (widget.fsType == FilesystemType.folder)
-          ? Container(
-        height: 50,
-        child: BottomAppBar(
-          color: Theme.of(context).primaryColor,
-          child: Center(
-            child: FlatButton.icon(
-              textColor:
-              AppBarTheme.of(context).textTheme?.bodyText1?.color ??
-                  Theme.of(context).primaryTextTheme?.bodyText1?.color,
-              disabledTextColor: (AppBarTheme.of(context)
-                  .textTheme
-                  ?.bodyText1
-                  ?.color ??
-                  Theme.of(context).primaryTextTheme?.bodyText1?.color)
-                  .withOpacity(0.5),
-              icon: Icon(Icons.check_circle),
-              label: (widget.pickText != null)
-                  ? Text(widget.pickText)
-                  : const SizedBox(),
-              onPressed: (!permissionRequesting && permissionAllowed)
-                  ? () => widget.onSelect(directory.absolute.path)
-                  : null,
-            ),
-          ),
-        ),
-      )
-          : null,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.save),
+        foregroundColor: Colors.white,
+        onPressed: (!permissionRequesting && permissionAllowed)
+            ? () => widget.onSelect(directory.absolute.path)
+            : null,
+      ),
+      // bottomNavigationBar: (widget.fsType == FilesystemType.folder)
+      //     ? Container(
+      //   height: 50,
+      //   child: BottomAppBar(
+      //     color: Theme.of(context).primaryColor,
+      //     child: Center(
+      //       child: TextButton.icon(
+      //         icon: Icon(Icons.check_circle),
+      //         label: (widget.pickText != null)
+      //             ? Text(widget.pickText)
+      //             : const SizedBox(),
+      //         onPressed: (!permissionRequesting && permissionAllowed)
+      //             ? () => widget.onSelect(directory.absolute.path)
+      //             : null,
+      //       ),
+      //     ),
+      //   ),
+      // )
+      //     : null,
     );
   }
 }
