@@ -33,13 +33,13 @@
   "general-books": "普通",
   "something-went-wrong": "对不起，出了点小问题。",
   "internal-storage": "内部存储",
-  "dark-mode": "暗模式",
-  "undefined-error": "Oops, something went wrong",
-  "no-internet-error-title": "Error",
-  "no-internet-error-description": "No internet access",
-  "not-found-error-title": "Not Found",
-  "not-found-error-description": "Please try with another query",
-  "no-books-title": "No Books",
-  "no-books-description": "The downloaded book will be listed in here.",
-  "back": "Back"
+  "dark-mode": "深色主题",
+  "undefined-error": "不好意思，出了点问题",
+  "no-internet-error-title": "错误",
+  "no-internet-error-description": "无法连接到网络",
+  "not-found-error-title": "未找到",
+  "not-found-error-description": "请换个搜索内容",
+  "no-books-title": "没有书籍",
+  "no-books-description": "已下载的书会列在这里",
+  "back": "返回"
 }
