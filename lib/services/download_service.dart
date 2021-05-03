@@ -17,7 +17,6 @@ class DownloadService {
   /// Get download url by just provide [mirror]
   Future<String> getDownloadUrl(List<DownloadMirror> listMirror) async {
     final fListDownloadUrl = listMirror.map((mirror) async {
-      print(mirror.url);
       if (mirror.name == 'first') {
         // first mirror
 
@@ -45,7 +44,10 @@ class DownloadService {
         }
         final document = parse(response.body);
         final mirrorUrl = document.querySelector('a').attributes['href'];
-        return mirrorUrl;
+
+        // get host name
+        final host = 'http://' + Uri.parse(mirror.url).host;
+        return host + mirrorUrl;
       }
     }).toList();
 
