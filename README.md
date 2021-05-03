@@ -23,23 +23,20 @@ Librebook is an open-source front-end application to help the users download the
 
 ## Screenshots
 <table>
-  <tr>
-    <td><img src="screenshots/1.png"/></td>
-    <td><img src="screenshots/2.png"/></td>
-    <td><img src="screenshots/3.png"/></td>
+  <tr align="center">
+    <td><img src="screenshots/1.png" width="441"/></td>
+    <td><img src="screenshots/3.png" width="441"/></td>
+    <td><img src="screenshots/downloading.gif" width="441" /></td>
   </tr> 
 </table>
 
-## GIF
-<img src="screenshots/downloading.gif" height="40%" width="40%"/>
-
-
 ## Download
-If you want fastest release you can download the application from [Codemagic](https://codemagic.io/apps/6003d2461b08f3ec61b49785/6003d2461b08f3ec61b49784/latest_build) by downloading **app-release.apk**. You also can download Librebook from [release page](https://github.com/bagaswastu/librebook/releases/) as well.
+You can download the application from [Codemagic](https://codemagic.io/apps/6003d2461b08f3ec61b49785/6003d2461b08f3ec61b49784/latest_build) by downloading **app-release.apk**.
 
 ## Contributing
 Any contributions you make are **greatly appreciated**. However, for major changes, please open an issue first to discuss what you would like to change.
 
+### Languages
 You can add localizations by creating a json file in `lang/[LANGUAGE_CODE].json` and adding the language to `supportedLocales` in [`lib/main.dart`](https://github.com/bagaswastu/librebook/blob/master/lib/main.dart#) and [`lib/app_localizations.dart`](https://github.com/bagaswastu/librebook/blob/master/lib/app_localizations.dart)
 
 ## License
