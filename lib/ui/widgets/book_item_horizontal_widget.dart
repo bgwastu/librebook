@@ -19,7 +19,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
       width: Get.height / 5,
       child: InkWell(
         onTap: () {
-          Get.to(BookDetailView(book: book));
+          Get.to(() => BookDetailView(book: book));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
