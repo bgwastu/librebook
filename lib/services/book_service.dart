@@ -137,6 +137,12 @@ class BookService {
     // Get cover url
     var cover = document.querySelector('div > img').attributes['src'];
 
+    // Check is valid URL
+    final isValidURL = Uri.parse(cover).isAbsolute;
+    if(!isValidURL){
+      cover = url + cover;
+    }
+
     // If default cover was not available
     if (cover == '/static/no_cover.png') {
       cover = url + '/static/no_cover.png';
