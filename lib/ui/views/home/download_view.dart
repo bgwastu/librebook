@@ -47,7 +47,7 @@ class DownloadView extends StatelessWidget {
                 Book book = listMeta[index]['book'];
                 return InkWell(
                   onTap: () {
-                    Get.to(BookDetailView(
+                    Get.to( () => BookDetailView(
                       book: book,
                     ));
                   },
