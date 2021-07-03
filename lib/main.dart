@@ -25,7 +25,6 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: kLightTheme,
         themeMode: ThemeMode.light,
-        enableLog: true,
         home: SplashView(),
         supportedLocales: [
           Locale('en', 'US'),
