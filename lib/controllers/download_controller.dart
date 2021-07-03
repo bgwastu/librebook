@@ -127,17 +127,14 @@ class DownloadController extends GetxController {
       //TODO: need internet connection handler
 
       try {
+        // Remove special character
+        final title = book.title.replaceAll(RegExp(r'[^0-9a-zA-Z\s]+'), '');
+        final author = book.authors[0].replaceAll(RegExp(r'[^0-9a-zA-Z\s]+'), '');
+
         final downloadUrl =
             await _downloadServices.getDownloadUrl(book.listMirror);
-        _fileDir = externalDir +
-            '/' +
-            book.title +
-            ' - ' +
-            book.authors[0] +
-            '.' +
-            book.format;
         _fileDir = path.join(externalDir,
-            book.title + ' - ' + book.authors[0] + '.' + book.format);
+            title + ' - ' + author + '.' + book.format);
         final response = await Dio().download(
           downloadUrl,
           _fileDir,
