@@ -13,6 +13,7 @@ import 'package:librebook/utils/download_status.dart';
 import 'package:mime/mime.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class DownloadController extends GetxController {
@@ -76,7 +77,6 @@ class DownloadController extends GetxController {
                 ));
           }),
           barrierDismissible: false,
-          useRootNavigator: true,
         );
       } else if (status == DownloadStatus.completed) {
         if (Get.isDialogOpen) {
@@ -133,7 +133,7 @@ class DownloadController extends GetxController {
 
         final downloadUrl =
             await _downloadServices.getDownloadUrl(book.listMirror);
-        _fileDir = path.join(externalDir,
+        _fileDir = path.join((await getApplicationDocumentsDirectory()).path,
             title + ' - ' + author + '.' + book.format);
         final response = await Dio().download(
           downloadUrl,
