@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:librebook/app_localizations.dart';
@@ -122,24 +121,32 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
             ),
           ),
           Expanded(
-            child: EnhancedFutureBuilder<BookSearchDetail>(
+            child: FutureBuilder<BookSearchDetail>(
               future: controller.searchFantasyBook(query),
-              whenWaiting: _shimmerLoading(context),
-              whenNotDone: _shimmerLoading(context),
-              whenError: _errorHandle,
-              rememberFutureResult: true,
-              whenDone: (bookSearchDetail) {
-                return ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  separatorBuilder: (context, _) => horizontalSpaceSmall,
-                  itemCount: bookSearchDetail.listBook.length,
-                  itemBuilder: (context, index) {
-                    return BookItemHorizontalWidget(
-                      book: bookSearchDetail.listBook[index],
-                    );
-                  },
-                );
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return _shimmerLoading(context);
+                }
+
+                if (snapshot.hasData) {
+                  return ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    separatorBuilder: (context, _) => horizontalSpaceSmall,
+                    itemCount: snapshot.data.listBook.length,
+                    itemBuilder: (context, index) {
+                      return BookItemHorizontalWidget(
+                        book: snapshot.data.listBook[index],
+                      );
+                    },
+                  );
+                }
+
+                if (snapshot.hasError) {
+                  return _errorHandle(snapshot.error);
+                }
+
+                return SizedBox();
               },
             ),
           ),
@@ -184,24 +191,31 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
             ),
           ),
           Expanded(
-            child: EnhancedFutureBuilder<BookSearchDetail>(
+            child: FutureBuilder<BookSearchDetail>(
               future: controller.searchGeneralBook(query),
-              whenWaiting: _shimmerLoading(context),
-              whenNotDone: _shimmerLoading(context),
-              rememberFutureResult: true,
-              whenError: _errorHandle,
-              whenDone: (bookSearchDetail) {
-                return ListView.separated(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  separatorBuilder: (context, _) => horizontalSpaceSmall,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: bookSearchDetail.listBook.length,
-                  itemBuilder: (context, index) {
-                    return BookItemHorizontalWidget(
-                      book: bookSearchDetail.listBook[index],
-                    );
-                  },
-                );
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return _shimmerLoading(context);
+                }
+
+                if (snapshot.hasData) {
+                  return ListView.separated(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    separatorBuilder: (context, _) => horizontalSpaceSmall,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data.listBook.length,
+                    itemBuilder: (context, index) {
+                      return BookItemHorizontalWidget(
+                        book: snapshot.data.listBook[index],
+                      );
+                    },
+                  );
+                }
+
+                if (snapshot.hasError) {
+                  return _errorHandle(snapshot.error);
+                }
+                return SizedBox();
               },
             ),
           ),
@@ -222,7 +236,8 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
     }
 
     return Center(
-      child: Text(AppLocalizations.of(Get.context).translate('undefined-error')),
+      child:
+          Text(AppLocalizations.of(Get.context).translate('undefined-error')),
     );
   }
 
@@ -245,7 +260,8 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           ),
         ),
         Text(
-          AppLocalizations.of(Get.context).translate('no-internet-error-description'),
+          AppLocalizations.of(Get.context)
+              .translate('no-internet-error-description'),
         )
       ],
     );
@@ -269,7 +285,8 @@ class BookSearch extends customSearch.SearchDelegate<Map<String, dynamic>> {
           style: Theme.of(Get.context).textTheme.headline6,
         ),
         Text(
-          AppLocalizations.of(Get.context).translate('not-found-error-description'),
+          AppLocalizations.of(Get.context)
+              .translate('not-found-error-description'),
           style: Theme.of(Get.context).textTheme.bodyText1,
         )
       ],

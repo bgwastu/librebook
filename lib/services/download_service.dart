@@ -20,7 +20,7 @@ class DownloadService {
       if (mirror.name == 'first') {
         // first mirror
 
-        final response = await _client.get(mirror.url);
+        final response = await _client.get(Uri.parse(mirror.url));
         if (response.statusCode != 200) {
           return null;
         }
@@ -38,7 +38,7 @@ class DownloadService {
 
       } else {
         // second mirror
-        final response = await _client.get(mirror.url);
+        final response = await _client.get(Uri.parse(mirror.url));
         if (response.statusCode != 200) {
           return null;
         }
@@ -79,7 +79,7 @@ class DownloadService {
 
   /// Check mirror url or random url if website was active
   Future<bool> checkMirror(String mirror) async {
-    final response = await _client.get(mirror);
+    final response = await _client.get(Uri.parse(mirror));
     return response.statusCode == 200 ? true : false;
   }
 }

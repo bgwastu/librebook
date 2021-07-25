@@ -18,7 +18,8 @@ class BookService {
   final _downloadService = DownloadService();
 
   Future<BookSearchDetail> findFiction(String query, int page) async {
-    final response = await _client.get(url + '/fiction/?q=$query&page=$page');
+    final uri = Uri.parse(url + '/fiction/?q=$query&page=$page');
+    final response = await _client.get(uri);
 
     // Future for detail book
     List<Future<Book>> fListBook = [];
@@ -77,7 +78,7 @@ class BookService {
   }
 
   Future<Book> _getDetailFictionBook(String path) async {
-    final response = await _client.get(url + path);
+    final response = await _client.get(Uri.parse(url + path));
 
     //TODO: error handling
 
@@ -139,7 +140,7 @@ class BookService {
 
     // Check is valid URL
     final isValidURL = Uri.parse(cover).isAbsolute;
-    if(!isValidURL){
+    if (!isValidURL) {
       cover = url + cover;
     }
 
@@ -148,7 +149,8 @@ class BookService {
       cover = url + '/static/no_cover.png';
     }
 
-    final listMirror = _downloadService.getListUrlMirror(md5, BookCategory.Fiction);
+    final listMirror =
+        _downloadService.getListUrlMirror(md5, BookCategory.Fiction);
     // Return
     final book = Book(
       id: id,
@@ -166,8 +168,8 @@ class BookService {
   }
 
   Future<BookSearchDetail> findGeneral(String query, int page) async {
-    final response =
-        await _client.get('$url/search.php?req=$query&page=$page&phrase=1');
+    final response = await _client
+        .get(Uri.parse('$url/search.php?req=$query&page=$page&phrase=1'));
     List<Book> listBook = [];
 
     // Server check
@@ -231,8 +233,8 @@ class BookService {
   }
 
   Future<List<Book>> _getGeneralDetailBook(List<String> ids) async {
-    final response = await _client.get(
-        '$url/json.php?ids=${ids.join(',')}&fields=id,title,descr,md5,coverurl,author,extension,language');
+    final response = await _client.get(Uri.parse(
+        '$url/json.php?ids=${ids.join(',')}&fields=id,title,descr,md5,coverurl,author,extension,language'));
 
     // Check server
     if (response.statusCode != 200) {
@@ -240,7 +242,7 @@ class BookService {
     }
 
     List<dynamic> body = json.decode(response.body);
-    final listBook = body.map((bookMap){
+    final listBook = body.map((bookMap) {
       // Check if cover was't available
       if (bookMap['coverurl'].toString().isEmpty) {
         bookMap['coverurl'] = url + '/img/blank.png';
@@ -248,7 +250,8 @@ class BookService {
         bookMap['coverurl'] = url + '/covers/' + bookMap['coverurl'];
       }
 
-      final listMirror = _downloadService.getListUrlMirror(bookMap['md5'], BookCategory.General);
+      final listMirror = _downloadService.getListUrlMirror(
+          bookMap['md5'], BookCategory.General);
       return Book(
         id: bookMap['id'],
         title: bookMap['title'] ?? '',

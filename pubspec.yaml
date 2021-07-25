@@ -8,41 +8,41 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  path: ^1.7.0
+  path: ^1.8.0
 
   # architecture
-  get:
-  get_storage:
+  get: ^4.2.5
+  get_storage: ^2.0.3
 
   # database
-  sembast:
+  sembast: ^3.1.0+2
 
   # api
-  http:
-  html:
+  http: ^0.13.3
+  html: ^0.15.0
 
   # misc
-  shimmer:
-  cached_network_image:
-  async:
-  enhanced_future_builder:
-  lazy_load_refresh_indicator:
-  flutter_statusbarcolor:
+  shimmer: ^2.0.0
+  cached_network_image: ^3.1.0
+  async: ^2.6.1
+  lazy_load_refresh_indicator: ^2.0.0
+  mime: ^1.0.0
+  package_info: ^2.0.2
   md2_tab_indicator:
-  mime:
-  package_info: ^0.4.0+16
+    git:
+      url: git://github.com/westdabestdb/md2_tab_indicator.git
+      ref: master
 
   # download
-  dio:
-  path_provider:
-  ext_storage: ^1.0.3
-  permission_handler: ^5.0.1+1
-  open_file: ^3.0.3
+  dio: ^4.0.0
+  path_provider: ^2.0.2
+  permission_handler: ^8.1.4+1
+  open_file: ^3.2.1
 
   # localization
   flutter_localizations:
     sdk: flutter
-  global_configuration: ^1.5.0
+  global_configuration: ^2.0.0-nullsafety.1
 
 dev_dependencies:
   flutter_test:
