@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:librebook/app_localizations.dart';
-import 'package:librebook/ui/shared/theme.dart';
 import 'package:librebook/ui/shared/ui_helper.dart';
 import 'package:librebook/ui/views/home/download_view.dart';
 import 'package:librebook/ui/views/home/settings_view.dart';
@@ -46,16 +46,18 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                         automaticallyImplyLeading: false,
                         pinned: true,
                         floating: true,
-                        elevation: 2,
+                        elevation: 1,
                         snap: true,
                         forceElevated: true,
+                        toolbarHeight: 60,
                         bottom: TabBar(
                           controller: _tabController,
                           indicatorWeight: 3,
                           indicatorSize: TabBarIndicatorSize.label,
+                          
                           indicator: MD2Indicator(
                             indicatorHeight: 3,
-                            indicatorColor: getPrimaryColor,
+                            indicatorColor: Theme.of(context).accentColor,
                             indicatorSize: MD2IndicatorSize.full,
                           ),
                           unselectedLabelColor: Colors.grey[600],
@@ -87,7 +89,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   Widget _searchBox() {
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        elevation: 5,
         child: InkWell(
           onTap: () {
             customSearch.showSearch(context: context, delegate: BookSearch());
