@@ -19,7 +19,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
       width: Get.height / 5,
       child: InkWell(
         onTap: () {
-          Get.to(() => BookDetailView(book: book));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => BookDetailView(book: book)));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +70,7 @@ class BookItemHorizontalWidget extends StatelessWidget {
             child: Text(
               book.format.toUpperCase(),
               style:
-              Theme.of(Get.context).textTheme.caption.copyWith(color: primaryColor, fontWeight: FontWeight.w600),
+              Theme.of(Get.context).textTheme.caption.copyWith(color: Get.theme.primaryColor, fontWeight: FontWeight.w600),
             ),
             color: Colors.white,
           ),
@@ -80,26 +80,23 @@ class BookItemHorizontalWidget extends StatelessWidget {
   }
 
   Widget _coverImage() {
-    return Card(
-      elevation: 3,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: CachedNetworkImage(
-          imageUrl: book.cover,
-          placeholder: (context, url) => Shimmer.fromColors(
-            baseColor: Get.isDarkMode ? Colors.grey[700] : Colors.grey[300],
-            highlightColor: Get.isDarkMode ? Colors.grey[600] : Colors.grey[100],
-            child: Container(
-              width: double.infinity,
-              color: Colors.white,
-            ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5),
+      child: CachedNetworkImage(
+        imageUrl: book.cover,
+        placeholder: (context, url) => Shimmer.fromColors(
+          baseColor: Get.isDarkMode ? Colors.grey[700] : Colors.grey[300],
+          highlightColor: Get.isDarkMode ? Colors.grey[600] : Colors.grey[100],
+          child: Container(
+            width: double.infinity,
+            color: Colors.white,
           ),
-          fit: BoxFit.fill,
-          errorWidget: (context, _, __) {
-            return ImageErrorWidget();
-          },
-          width: double.infinity,
         ),
+        fit: BoxFit.fill,
+        errorWidget: (context, _, __) {
+          return ImageErrorWidget();
+        },
+        width: double.infinity,
       ),
     );
   }

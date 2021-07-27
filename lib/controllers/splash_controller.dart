@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:librebook/ui/shared/theme.dart';
@@ -21,14 +22,14 @@ class SplashController extends GetxController {
     final isDarkMode = appdata.read('isDarkMode');
     setCurrentOverlay(isDarkMode);
     Future.delayed(Duration(milliseconds: 1000))
-        .then((value) => Get.off(HomeView()));
+        .then((value) => Navigator.pushReplacement(Get.context, MaterialPageRoute(builder: (context) => HomeView())));
   }
 
   setDarkMode(bool value) async {
     if (value) {
-      Get.changeTheme(kDarkTheme);
+      Get.changeThemeMode(ThemeMode.dark);
     } else {
-      Get.changeTheme(kLightTheme);
+      Get.changeThemeMode(ThemeMode.light);
     }
   }
 }

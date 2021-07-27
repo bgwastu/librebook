@@ -32,6 +32,7 @@ dependencies:
     git:
       url: git://github.com/westdabestdb/md2_tab_indicator.git
       ref: master
+  material_floating_search_bar: ^0.3.4
 
   # download
   dio: ^4.0.0

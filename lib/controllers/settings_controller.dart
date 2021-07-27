@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:librebook/database/settings_database.dart';
@@ -35,11 +36,11 @@ class SettingsController extends GetxController {
     appdata.write('isDarkMode', value);
     isDarkMode.value = value;
     if(value){
-      Get.changeTheme(kDarkTheme);
+      Get.changeThemeMode(ThemeMode.dark);
       await Future.delayed(Duration(milliseconds: 100));
       setCurrentOverlay(value);
     }else{
-      Get.changeTheme(kLightTheme);
+      Get.changeThemeMode(ThemeMode.light);
       await Future.delayed(Duration(milliseconds: 100));
       setCurrentOverlay(value);
     }

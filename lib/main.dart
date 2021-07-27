@@ -18,38 +18,36 @@ void main() async {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion(
-      value: SystemUiOverlayStyle.light,
-      child: GetMaterialApp(
-        title: 'Librebook',
-        debugShowCheckedModeBanner: false,
-        theme: kLightTheme,
-        themeMode: ThemeMode.light,
-        home: SplashView(),
-        supportedLocales: [
-          Locale('en', 'US'),
-          Locale('de', 'DE'),
-          Locale('fr', 'FR'),
-          Locale('zh', 'CN'),
-          Locale('id', 'ID'),
-          Locale('it', 'IT'),
-        ],
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          DefaultCupertinoLocalizations.delegate
-        ],
-        localeResolutionCallback: (locale, supportedLocales) {
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale == locale) {
-              return supportedLocale;
-            }
+    return GetMaterialApp(
+      title: 'Librebook',
+      debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.system,
+      darkTheme: darkTheme,
+      theme: lightTheme,
+      home: SplashView(),
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('de', 'DE'),
+        Locale('fr', 'FR'),
+        Locale('zh', 'CN'),
+        Locale('id', 'ID'),
+        Locale('it', 'IT'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale == locale) {
+            return supportedLocale;
           }
-          return supportedLocales.first;
-        },
-      ),
+        }
+        return supportedLocales.first;
+      },
     );
   }
 }

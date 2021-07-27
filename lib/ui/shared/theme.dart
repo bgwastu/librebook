@@ -1,108 +1,51 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-final ThemeData kLightTheme = _buildLightTheme();
-const Color primaryColor = Color(0xFF3F51B5);
-const Color secondaryColor = Color(0xFF3F51B5);
+final lightTheme = ThemeData(
+  primarySwatch: Colors.grey,
+  primaryColor: Colors.black,
+  accentColor: Colors.black,
+  textSelectionTheme: TextSelectionThemeData(
+      cursorColor: Colors.black,
+      selectionColor: Colors.black.withOpacity(0.4),
+      selectionHandleColor: Colors.black),
+  primaryTextTheme: Get.textTheme
+      .apply(bodyColor: Colors.grey[800], displayColor: Colors.grey[800]),
+  textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+          textStyle: MaterialStateProperty.all(
+              const TextStyle(fontWeight: FontWeight.bold)))),
+  inputDecorationTheme: const InputDecorationTheme(
+    border: OutlineInputBorder(),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black), foregroundColor: MaterialStateProperty.all(Colors.white))),
+  appBarTheme: AppBarTheme(brightness: Brightness.light, color: Colors.white, iconTheme: IconThemeData(color: Colors.black)),
+  pageTransitionsTheme: const PageTransitionsTheme(
+    builders: <TargetPlatform, PageTransitionsBuilder>{
+      TargetPlatform.android: ZoomPageTransitionsBuilder(),
+    },
+  ),
+);
 
-const Color primaryColorDark = Color(0xFF7986cb);
-const Color secondaryColorDark = Color(0xFF7986cb);
-
-Color get getPrimaryColor => Get.isDarkMode ? primaryColorDark : primaryColor;
-
-ThemeData _buildLightTheme() {
-  final ColorScheme colorScheme = const ColorScheme.light().copyWith(
-    primary: primaryColor,
-    secondary: secondaryColor,
-  );
-  final base = ThemeData(
-      brightness: Brightness.light,
-      accentColorBrightness: Brightness.dark,
-      colorScheme: colorScheme,
-      primaryColor: secondaryColor,
-      buttonColor: primaryColor,
-      indicatorColor: secondaryColor,
-      tabBarTheme: TabBarTheme(labelColor: secondaryColor),
-      appBarTheme: AppBarTheme(
-        color: Colors.white,
-        brightness: Brightness.light,
-        iconTheme: IconThemeData(color: Colors.grey[600]),
-      ),
-      cardColor: Colors.white,
-      splashColor: Colors.white24,
-      inputDecorationTheme: InputDecorationTheme(
-        hoverColor: secondaryColor,
-      ),
-      hoverColor: secondaryColor,
-      textTheme: TextTheme(
-        bodyText1: TextStyle(),
-        bodyText2: TextStyle(),
-      ).apply(
-        bodyColor: Colors.grey[800],
-        displayColor: Colors.grey[800],
-      ),
-      splashFactory: InkRipple.splashFactory,
-      accentColor: secondaryColor,
-      canvasColor: Colors.white,
-      scaffoldBackgroundColor: Colors.white,
-      backgroundColor: Colors.white,
-      errorColor: const Color(0xFFB00020),
-      buttonTheme: ButtonThemeData(
-        colorScheme: colorScheme,
-        textTheme: ButtonTextTheme.primary,
-      ),
-      cupertinoOverrideTheme: CupertinoThemeData(
-        primaryColor: primaryColor,
-        brightness: Brightness.light,
-      ));
-  return base;
-}
-
-final ThemeData kDarkTheme = _buildDarkMode();
-
-ThemeData _buildDarkMode() {
-  final ColorScheme colorScheme = const ColorScheme.dark().copyWith(
-    primary: primaryColorDark,
-    secondary: secondaryColorDark,
-  );
-  final base = ThemeData(
-      brightness: Brightness.dark,
-      accentColorBrightness: Brightness.dark,
-      colorScheme: colorScheme,
-      primaryColor: primaryColorDark,
-      textTheme: TextTheme(
-        bodyText1: TextStyle(),
-        bodyText2: TextStyle(),
-      ).apply(
-        bodyColor: Colors.grey[100],
-        displayColor: Colors.grey[100],
-      ),
-      appBarTheme: AppBarTheme(
-        color: Colors.grey[900],
-        brightness: Brightness.dark,
-        iconTheme: IconThemeData(color: Colors.grey[400]),
-      ),
-      primaryIconTheme: IconThemeData(color: Colors.grey[400]),
-      buttonColor: primaryColorDark,
-      indicatorColor: secondaryColorDark,
-      tabBarTheme: TabBarTheme(labelColor: secondaryColorDark),
-      inputDecorationTheme: InputDecorationTheme(
-        hoverColor: secondaryColorDark,
-      ),
-      iconTheme: IconThemeData(color: Colors.white),
-      hoverColor: secondaryColorDark,
-      splashFactory: InkRipple.splashFactory,
-      accentColor: secondaryColorDark,
-      errorColor: const Color(0xFFB00020),
-      buttonTheme: ButtonThemeData(
-        colorScheme: colorScheme,
-        textTheme: ButtonTextTheme.primary,
-      ),
-      cupertinoOverrideTheme: CupertinoThemeData(
-        primaryColor: primaryColorDark,
-        brightness: Brightness.light,
-      ));
-  return base;
-}
+final darkTheme = ThemeData(
+  primarySwatch: Colors.grey,
+  appBarTheme: AppBarTheme(
+    color: Colors.black,
+    iconTheme: IconThemeData(color: Colors.grey[200])
+  ),
+  accentColor: Colors.grey[200],
+  elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.grey[200]), foregroundColor: MaterialStateProperty.all(Colors.black))),
+  primaryTextTheme: Get.textTheme
+      .apply(bodyColor: Colors.grey[200], displayColor: Colors.grey[200]),
+  primaryColor: Colors.grey[200],
+  colorScheme: ColorScheme.dark(primary: Colors.grey),
+  textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+          textStyle: MaterialStateProperty.all(
+              const TextStyle(fontWeight: FontWeight.bold)))),
+  errorColor: Colors.red.shade400,
+  inputDecorationTheme: const InputDecorationTheme(
+    border: OutlineInputBorder(),
+  ),
+);

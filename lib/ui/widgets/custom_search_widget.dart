@@ -349,10 +349,7 @@ class _SearchPageRoute<T> extends PageRoute<T> {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    return FadeTransition(
-      opacity: animation,
-      child: child,
-    );
+    return child;
   }
 
   @override
@@ -506,6 +503,7 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
           backgroundColor: theme.primaryColor,
           iconTheme: theme.primaryIconTheme,
           textTheme: theme.primaryTextTheme,
+          elevation: 1,
           brightness: Get.isDarkMode ? Brightness.dark : Brightness.light,
           leading: widget.delegate.buildLeading(context),
           title: TextField(

@@ -35,7 +35,7 @@ class _BookDetailViewState extends State<BookDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        elevation: 1,
       ),
       body: ListView(
         padding: EdgeInsets.all(16),
@@ -94,9 +94,8 @@ class _BookDetailViewState extends State<BookDetailView> {
   }
 
   Widget _actionButton() {
-    return MaterialButton(
+    return ElevatedButton(
         child: Text(AppLocalizations.of(context).translate("download"),),
-        color: getPrimaryColor,
         onPressed: () async {
           await _downloadController.download(widget.book);
         });
@@ -178,28 +177,25 @@ class _BookDetailViewState extends State<BookDetailView> {
   }
 
   Widget _coverImage() {
-    return Card(
-      elevation: 3,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Container(
-          height: Get.height / 6,
-          width: Get.height / 8,
-          child: CachedNetworkImage(
-            imageUrl: widget.book.cover,
-            placeholder: (context, url) => Shimmer.fromColors(
-              baseColor: Colors.grey[300],
-              highlightColor: Colors.grey[100],
-              child: Container(
-                width: double.infinity,
-                color: Colors.white,
-              ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        height: Get.height / 6,
+        width: Get.height / 9,
+        child: CachedNetworkImage(
+          imageUrl: widget.book.cover,
+          placeholder: (context, url) => Shimmer.fromColors(
+            baseColor: Colors.grey[300],
+            highlightColor: Colors.grey[100],
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
             ),
-            fit: BoxFit.fill,
-            errorWidget: (context, _, __) {
-              return ImageErrorWidget();
-            },
           ),
+          fit: BoxFit.fill,
+          errorWidget: (context, _, __) {
+            return ImageErrorWidget();
+          },
         ),
       ),
     );
@@ -210,19 +206,18 @@ class _BookDetailViewState extends State<BookDetailView> {
       children: [
         OutlinedButton(
           style: OutlinedButton.styleFrom(
-            side: BorderSide(width: 2, color: getPrimaryColor),
+            side: BorderSide(width: 2, color: Get.theme.primaryColor),
           ),
           onPressed: _deleteBookDialog,
           child: Text(
             AppLocalizations.of(context).translate('delete-book'),
-            style: TextStyle(color: getPrimaryColor),
+            style: TextStyle(color: Get.theme.primaryColor),
           ),
         ),
         horizontalSpaceSmall,
         Expanded(
-          child: MaterialButton(
+          child: ElevatedButton(
             child: Text(AppLocalizations.of(context).translate('open-book'),),
-            color: getPrimaryColor,
             onPressed: () => _downloadController.openFile(widget.book),
           ),
         ),
@@ -239,12 +234,12 @@ class _BookDetailViewState extends State<BookDetailView> {
         MaterialButton(
           onPressed: () => Get.back(),
           child: Text(AppLocalizations.of(context).translate('no').toUpperCase(),
-              style: TextStyle(color: getPrimaryColor)),
+              style: TextStyle(color: Get.theme.primaryColor)),
         ),
         MaterialButton(
           onPressed: () => deleteBook(),
           child: Text(AppLocalizations.of(context).translate('yes').toUpperCase(),
-              style: TextStyle(color: getPrimaryColor)),
+              style: TextStyle(color: Get.theme.primaryColor)),
         ),
       ],
     ));

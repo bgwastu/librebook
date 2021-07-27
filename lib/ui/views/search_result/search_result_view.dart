@@ -73,9 +73,9 @@ class _SearchResultViewState extends State<SearchResultView> {
                 padding: EdgeInsets.only(left: 8, right: 8, top: 8),
                 child: InkWell(
                   onTap: () {
-                    Get.to(() => BookDetailView(
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => BookDetailView(
                       book: book,
-                    ));
+                    )));
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +146,7 @@ class _SearchResultViewState extends State<SearchResultView> {
               style: Theme.of(Get.context)
                   .textTheme
                   .caption
-                  .copyWith(color: getPrimaryColor, fontWeight: FontWeight.w600),
+                  .copyWith(color: Get.theme.primaryColor, fontWeight: FontWeight.w600),
             ),
             color: Colors.white,
           ),
@@ -158,29 +158,26 @@ class _SearchResultViewState extends State<SearchResultView> {
   Container _coverImage(Book book) {
     return Container(
       height: Get.height / 6,
-      width: Get.height / 8,
+      width: Get.height / 9,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Card(
-            elevation: 3,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: CachedNetworkImage(
-                imageUrl: book.cover,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
-                  highlightColor: Colors.grey[100],
-                  child: Container(
-                    width: double.infinity,
-                    color: Colors.white,
-                  ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: CachedNetworkImage(
+              imageUrl: book.cover,
+              placeholder: (context, url) => Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.grey[100],
+                child: Container(
+                  width: double.infinity,
+                  color: Colors.white,
                 ),
-                fit: BoxFit.fill,
-                errorWidget: (context, _, __) {
-                  return ImageErrorWidget();
-                },
               ),
+              fit: BoxFit.fill,
+              errorWidget: (context, _, __) {
+                return ImageErrorWidget();
+              },
             ),
           ),
           _formatBook(book),

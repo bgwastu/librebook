@@ -41,21 +41,20 @@ class DownloadView extends StatelessWidget {
             }
             final listMeta = snapshot.data.reversed.toList();
             return ListView.builder(
-              padding: EdgeInsets.only(top: 8),
+              padding: EdgeInsets.zero,
               itemCount: listMeta.length,
               itemBuilder: (context, index) {
                 Book book = listMeta[index]['book'];
                 return InkWell(
                   onTap: () {
-                    Get.to( () => BookDetailView(
-                      book: book,
-                    ));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => BookDetailView(book: book)));
+                   
                   },
                   child: Padding(
                     padding:
                         EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         _coverImage(book),
                         horizontalSpaceSmall,
@@ -106,28 +105,25 @@ class DownloadView extends StatelessWidget {
   }
 
   Widget _coverImage(Book book) {
-    return Card(
-      elevation: 3,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Container(
-          height: Get.height / 10,
-          width: Get.height / 15,
-          child: CachedNetworkImage(
-            imageUrl: book.cover,
-            placeholder: (context, url) => Shimmer.fromColors(
-              baseColor: Colors.grey[300],
-              highlightColor: Colors.grey[100],
-              child: Container(
-                width: double.infinity,
-                color: Colors.white,
-              ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        height: Get.height / 10,
+        width: Get.height / 15,
+        child: CachedNetworkImage(
+          imageUrl: book.cover,
+          placeholder: (context, url) => Shimmer.fromColors(
+            baseColor: Colors.grey[300],
+            highlightColor: Colors.grey[100],
+            child: Container(
+              width: double.infinity,
+              color: Colors.white,
             ),
-            fit: BoxFit.fill,
-            errorWidget: (context, _, __) {
-              return ImageErrorWidget();
-            },
           ),
+          fit: BoxFit.fill,
+          errorWidget: (context, _, __) {
+            return ImageErrorWidget();
+          },
         ),
       ),
     );
