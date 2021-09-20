@@ -1,3 +1,4 @@
+
 <p align="center"><img width=12.5% src="screenshots/app_icon.png"></p>
 <h1 align="center">Librebook</h1>
 <h4 align="center">A minimal front-end library genesis client, built by Flutter</h4>
@@ -8,6 +9,8 @@
   <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/bagaswastu/librebook?include_prereleases">
   <img alt="GitHub" src="https://img.shields.io/github/license/bagaswastu/librebook">
 </p>
+
+Note: This project is now archived. See: https://github.com/atticdev/librebook/issues/12#issuecomment-922854960
 
 ## Description
 Librebook is an open-source front-end application to help the users download the book easily from library genesis.
