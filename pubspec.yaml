@@ -35,7 +35,7 @@ dependencies:
   material_floating_search_bar: ^0.3.4
 
   # download
-  dio: ^4.0.0
+  dio: ">=4.0.0 <6.0.0"
   path_provider: ^2.0.2
   permission_handler: ^8.1.4+1
   open_file: ^3.2.1
